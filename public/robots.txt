@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://solvus.com/sitemap-index.xml

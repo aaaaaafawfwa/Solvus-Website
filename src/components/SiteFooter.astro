@@ -1,0 +1,145 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a href="/" class="site-footer__logo" aria-label="Solvus home">
+          <svg width="96" height="20" viewBox="0 0 96 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <text x="0" y="15" font-family="Inter, sans-serif" font-size="16" font-weight="600" letter-spacing="-0.03em" fill="currentColor">Solvus</text>
+            <circle cx="88" cy="10" r="3" fill="#E8553D" />
+          </svg>
+        </a>
+        <p class="site-footer__tagline">Websites for US realtors.</p>
+      </div>
+
+      <nav class="site-footer__nav" aria-label="Footer">
+        <h3 class="site-footer__heading">Site</h3>
+        <ul>
+          <li><a href="/work">Work</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/book">Book a call</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__contact">
+        <h3 class="site-footer__heading">Contact</h3>
+        <ul>
+          <li><a href="mailto:hello@solvus.com">hello@solvus.com</a></li>
+          <li class="t-muted">Košice, Slovakia</li>
+          <li class="t-muted">Serving realtors across the US</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="t-mono site-footer__meta">
+        <span>© {year} Solvus</span>
+        <span class="site-footer__dot" aria-hidden="true">·</span>
+        <span>Fair Housing compliant</span>
+        <span class="site-footer__dot" aria-hidden="true">·</span>
+        <span>WCAG AA</span>
+      </p>
+      <p class="t-mono t-muted site-footer__built">Built by Solvus</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-bg);
+    color: var(--color-text-on-dark);
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-8);
+    margin-top: var(--space-32);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    padding-bottom: var(--space-16);
+  }
+
+  @media (min-width: 768px) {
+    .site-footer__grid {
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--space-16);
+    }
+  }
+
+  .site-footer__logo {
+    color: var(--color-text-on-dark);
+    display: inline-block;
+  }
+
+  .site-footer__tagline {
+    margin-top: var(--space-4);
+    color: var(--color-text-muted-dark);
+    font-size: var(--text-small);
+    max-width: 28ch;
+  }
+
+  .site-footer__heading {
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted-dark);
+    font-weight: var(--weight-regular);
+    margin-bottom: var(--space-4);
+  }
+
+  .site-footer ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .site-footer a {
+    font-size: var(--text-small);
+    color: var(--color-text-on-dark);
+    transition: color var(--duration-fast);
+  }
+
+  .site-footer a:hover {
+    color: var(--color-accent);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border-dark);
+    font-size: var(--text-micro);
+  }
+
+  @media (min-width: 768px) {
+    .site-footer__bottom {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .site-footer__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--color-text-muted-dark);
+  }
+
+  .site-footer__dot {
+    color: var(--color-border-dark);
+  }
+
+  .site-footer__built {
+    color: var(--color-text-muted-dark);
+  }
+</style>

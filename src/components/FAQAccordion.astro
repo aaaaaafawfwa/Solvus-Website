@@ -1,0 +1,100 @@
+---
+export interface FAQItem {
+  q: string;
+  a: string;
+}
+
+export interface Props {
+  items: FAQItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq">
+  {items.map((item, i) => (
+    <details class="faq__item" name="faq-group">
+      <summary class="faq__summary">
+        <span class="faq__question">{item.q}</span>
+        <span class="faq__icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </summary>
+      <div class="faq__answer">
+        <p>{item.a}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .faq {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .faq__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    padding: var(--space-6) 0;
+    cursor: pointer;
+    list-style: none;
+    font-size: var(--text-h3);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text-primary);
+    transition: color var(--duration-fast);
+  }
+
+  .faq__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__summary:hover {
+    color: var(--color-accent);
+  }
+
+  .faq__question {
+    flex: 1;
+  }
+
+  .faq__icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    transition: transform var(--duration-base) var(--ease-out),
+                border-color var(--duration-fast),
+                color var(--duration-fast);
+  }
+
+  .faq__item[open] .faq__icon {
+    transform: rotate(45deg);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .faq__answer {
+    padding-bottom: var(--space-6);
+    max-width: var(--container-text);
+    color: var(--color-text-secondary);
+    font-size: var(--text-body);
+    line-height: var(--lh-body);
+  }
+
+  @media (max-width: 640px) {
+    .faq__summary { font-size: 1.125rem; }
+  }
+</style>
