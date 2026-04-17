@@ -1,1104 +1,611 @@
----
-// src/pages/index.astro
-// No frontmatter needed for now — Astro will handle the layout
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solvus | Built for US Real Estate Agents</title>
-<meta name="description" content="Solvus builds custom websites for US real estate agents. Fast, owned, SEO-ready. Book a 20-minute call.">
-<meta property="og:title" content="Solvus | Built for US Real Estate Agents">
-<meta property="og:description" content="Custom-built. Fast. Yours to keep. Built specifically for US real estate agents who are done renting templates.">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#03060C">
+<title>Solvus | Engineered Real Estate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400&family=Space+Mono&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
 <style>
-/* ============================================================
-   TOKENS
-   ============================================================ */
-:root {
-    --nav-h: 72px;
-    --c-bg:        #03060C;
-    --c-bg-light:  #0A111E;
-    --c-white:     #F8FAFC;
-    --c-cyan:      #00E5FF;
-    --c-muted:     #4A5D7E;
-    --c-light-bg:  #F8FAFC;
-    --c-light-text:#03060C;
-    --font-sans:  'Outfit', sans-serif;
-    --font-mono:  'Space Mono', monospace;
-    --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
-    /* spacing scale */
-    --s1: 0.5rem; --s2: 1rem; --s3: 1.5rem; --s4: 2rem;
-    --s6: 3rem;   --s8: 4rem; --s12: 6rem;  --s16: 8rem;
-}
-
-/* ============================================================
-   RESET + BASE
-   ============================================================ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-@media (prefers-reduced-motion: no-preference) {
-    html { scroll-behavior: smooth; }
-}
-
-body {
-    font-family: var(--font-sans);
-    background: var(--c-bg);
-    color: var(--c-white);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    body { cursor: none; }
-    .cursor-dot, .cursor-ring { display: block; }
-}
-@media (hover: none), (pointer: coarse) {
-    .cursor-dot, .cursor-ring { display: none !important; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-    .cursor-dot, .cursor-ring { display: none !important; }
-    #webgl-canvas { display: none !important; }
-    body { cursor: auto !important; }
-}
-
-/* ============================================================
-   CURSOR
-   ============================================================ */
-.cursor-dot {
-    position: fixed; top: 0; left: 0;
-    width: 6px; height: 6px;
-    background: var(--c-cyan); border-radius: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none; z-index: 9999;
-    will-change: transform;
-}
-.cursor-ring {
-    position: fixed; top: 0; left: 0;
-    width: 40px; height: 40px;
-    border: 1px solid rgba(0,229,255,0.5); border-radius: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none; z-index: 9998;
-    will-change: transform;
-    transition: width 0.3s var(--ease-out),
-                height 0.3s var(--ease-out),
-                background-color 0.3s;
-}
-
-/* ============================================================
-   PROGRESS BAR
-   ============================================================ */
-.progress-bar {
-    position: fixed; top: 0; left: 0;
-    height: 2px; background: var(--c-cyan);
-    width: 0%; z-index: 200;
-    transform-origin: left;
-    transition: width 0.1s linear;
-}
-
-/* ============================================================
-   WEBGL CANVAS
-   ============================================================ */
-#webgl-canvas {
-    position: fixed; top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    z-index: 0; pointer-events: none;
-}
-
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
-nav {
-    position: fixed; top: 0; width: 100%;
-    height: var(--nav-h);
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 5vw;
-    z-index: 100;
-    background: rgba(3, 6, 12, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-.nav-brand {
-    font-weight: 200; letter-spacing: 4px;
-    text-transform: uppercase; font-size: 1.1rem;
-    color: var(--c-white); text-decoration: none;
-}
-.nav-links {
-    display: flex; gap: 3vw;
-    font-family: var(--font-mono); font-size: 0.7rem;
-    letter-spacing: 2px; text-transform: uppercase;
-}
-.nav-links a {
-    color: var(--c-white); text-decoration: none;
-    opacity: 0.7; transition: opacity 0.2s;
-}
-.nav-links a:hover, .nav-links a:focus-visible { opacity: 1; }
-
-.nav-hamburger {
-    display: none;
-    flex-direction: column; gap: 5px;
-    background: none; border: none;
-    cursor: pointer; padding: 8px;
-    color: var(--c-white);
-}
-.nav-hamburger span {
-    display: block; width: 24px; height: 1px;
-    background: currentColor;
-    transition: transform 0.3s var(--ease-out), opacity 0.3s;
-}
-.nav-hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.nav-hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-.nav-hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-.nav-mobile-menu {
-    display: none;
-    position: fixed; top: var(--nav-h); left: 0;
-    width: 100%; height: calc(100vh - var(--nav-h));
-    background: rgba(3,6,12,0.97);
-    backdrop-filter: blur(20px);
-    flex-direction: column; align-items: center; justify-content: center;
-    gap: 3rem; z-index: 99;
-}
-.nav-mobile-menu.is-open { display: flex; }
-.nav-mobile-menu a {
-    font-family: var(--font-mono); font-size: 1.1rem;
-    letter-spacing: 4px; text-transform: uppercase;
-    color: var(--c-white); text-decoration: none; opacity: 0.7;
-}
-.nav-mobile-menu a:hover { opacity: 1; }
-
-@media (max-width: 768px) {
-    .nav-links { display: none; }
-    .nav-hamburger { display: flex; }
-}
-
-/* ============================================================
-   FOCUS STYLES (accessibility)
-   ============================================================ */
-:focus-visible {
-    outline: 2px solid var(--c-cyan);
-    outline-offset: 3px;
-    border-radius: 2px;
-}
-
-/* ============================================================
-   MAIN + SECTIONS
-   ============================================================ */
-main { position: relative; z-index: 10; }
-
-section {
-    width: 100%;
-    padding: calc(var(--nav-h) + 6vw) 5vw 8vw;
-    position: relative;
-    overflow: hidden;
-}
-section.hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding-top: var(--nav-h);
-}
-
-/* ============================================================
-   TYPOGRAPHY
-   ============================================================ */
-h1 {
-    font-size: clamp(3.2rem, 9vw, 11rem);
-    font-weight: 100; letter-spacing: -0.05em;
-    line-height: 0.85; margin: 0 0 var(--s4);
-}
-h2 {
-    font-size: clamp(2.2rem, 5.5vw, 6.5rem);
-    font-weight: 100; letter-spacing: -0.03em;
-    line-height: 0.95; margin: 0 0 var(--s4);
-}
-h3 {
-    font-weight: 200;
-    font-size: clamp(1.3rem, 2.5vw, 2.2rem);
-    letter-spacing: -0.02em; margin: 0 0 var(--s2);
-}
-p {
-    font-size: clamp(0.95rem, 1.1vw, 1.2rem);
-    line-height: 1.65; max-width: 620px;
-    font-weight: 200; opacity: 0.8;
-    margin: 0 0 var(--s3);
-}
-
-.outline-text {
-    color: transparent;
-    -webkit-text-stroke: 1px var(--c-muted);
-}
-
-.mono-label {
-    font-family: var(--font-mono); font-size: 0.7rem;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    margin-bottom: var(--s4); display: inline-block;
-    padding: 5px 11px; border: 1px solid currentColor;
-    border-radius: 4px;
-}
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-.btn {
-    display: inline-flex; align-items: center; gap: var(--s2);
-    padding: 1.1rem 2.2rem;
-    border: 1px solid currentColor;
-    background: transparent; color: inherit;
-    cursor: pointer;
-    font-family: var(--font-mono); font-size: 0.7rem;
-    text-transform: uppercase; letter-spacing: 2px;
-    text-decoration: none; border-radius: 40px;
-    position: relative; overflow: hidden;
-    transition: color 0.4s var(--ease-out);
-}
-.btn::before {
-    content: '';
-    position: absolute; top: 100%; left: 0;
-    width: 100%; height: 100%;
-    background: currentColor;
-    transition: transform 0.4s var(--ease-out);
-    z-index: -1;
-}
-.btn:hover::before, .btn:focus-visible::before { transform: translateY(-100%); }
-.btn:hover, .btn:focus-visible { color: var(--c-bg) !important; }
-
-.btn-solid {
-    background: var(--c-white); color: var(--c-bg);
-}
-.btn-solid::before { background: var(--c-bg); }
-.btn-solid:hover, .btn-solid:focus-visible { color: var(--c-white) !important; }
-
-.btn-cyan {
-    border-color: var(--c-cyan); color: var(--c-cyan);
-}
-.btn-cyan::before { background: var(--c-cyan); }
-
-.btn-group { display: flex; gap: var(--s2); margin-top: var(--s4); flex-wrap: wrap; }
-
-/* ============================================================
-   HERO SECTION
-   ============================================================ */
-.hero-inner { max-width: 1200px; }
-
-.trust-strip {
-    font-family: var(--font-mono); font-size: 0.6rem;
-    letter-spacing: 2px; color: var(--c-cyan);
-    margin-top: var(--s12); display: flex;
-    gap: 2.5rem; opacity: 0.6; flex-wrap: wrap;
-}
-
-/* ============================================================
-   SECTION THEMES
-   ============================================================ */
-.dark-sec { color: var(--c-white); background: transparent; }
-.light-sec {
-    color: var(--c-light-text);
-    background: var(--c-light-bg);
-}
-.light-sec p { color: var(--c-light-text); }
-.light-sec .btn:hover,
-.light-sec .btn:focus-visible { color: var(--c-white) !important; }
-.light-sec .btn-solid { color: var(--c-white); background: var(--c-bg); border-color: var(--c-bg); }
-.light-sec .btn-solid::before { background: var(--c-white); }
-.light-sec .btn-solid:hover { color: var(--c-bg) !important; }
-
-/* ============================================================
-   BIG BG TEXT (parallax atmosphere)
-   ============================================================ */
-.bg-giant-text {
-    position: absolute; top: 5%; left: -3%;
-    font-size: 22vw; font-weight: 100;
-    line-height: 0.8; color: transparent;
-    -webkit-text-stroke: 1px rgba(255,255,255,0.025);
-    pointer-events: none; z-index: 0;
-    white-space: nowrap; user-select: none;
-}
-.light-sec .bg-giant-text {
-    -webkit-text-stroke: 1px rgba(3,6,12,0.04);
-}
-
-/* ============================================================
-   SECTION 2 — PROBLEM (split grid)
-   ============================================================ */
-.split-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8vw; align-items: center;
-    position: relative; z-index: 1;
-}
-.split-card {
-    background: var(--c-light-bg);
-    padding: var(--s8);
-    border: 1px solid rgba(3,6,12,0.08);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.06);
-}
-.split-card p { max-width: none; }
-.split-card h3 { margin-top: var(--s6); font-weight: 300; }
-
-@media (max-width: 900px) {
-    .split-grid { grid-template-columns: 1fr; gap: var(--s8); }
-}
-
-/* ============================================================
-   SECTION 3 — OUTCOMES (centered cards)
-   ============================================================ */
-.outcomes-section {
-    display: flex; flex-direction: column;
-    align-items: center; text-align: center;
-}
-.outcomes-header { position: relative; z-index: 1; }
-
-.symmetrical-outcomes {
-    width: 100%; max-width: 900px;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 5rem;
-    position: relative; margin: 0 auto;
-    padding-top: 2rem;
-}
-.outcomes-divider {
-    position: absolute; top: 0; left: 50%;
-    width: 1px; height: 100%;
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(0,229,255,0.25),
-        transparent
-    );
-    transform: translateX(-50%); z-index: 0;
-    pointer-events: none;
-}
-.outcome-card {
-    width: 100%;
-    background: rgba(2,6,13,0.7);
-    border: 1px solid rgba(255,255,255,0.05);
-    padding: 4rem;
-    border-radius: 4px;
-    display: flex; flex-direction: column;
-    align-items: center; text-align: center;
-    transition: transform 0.5s var(--ease-out),
-                border-color 0.5s,
-                background 0.5s;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    position: relative; z-index: 2;
-}
-.outcome-card:hover {
-    transform: scale(1.02) translateY(-8px);
-    border-color: rgba(0,229,255,0.35);
-    background: rgba(0,229,255,0.03);
-}
-.outcome-card p { opacity: 0.55; transition: opacity 0.4s; margin: 0 auto; max-width: 600px; }
-.outcome-card:hover p { opacity: 1; }
-.outcome-card h3 {
-    font-size: clamp(1.6rem, 3vw, 3rem);
-    margin-bottom: var(--s3);
-}
-
-@media (max-width: 600px) {
-    .outcome-card { padding: 2.5rem 1.5rem; }
-    .symmetrical-outcomes { gap: 3rem; }
-}
-
-/* ============================================================
-   SECTION 4 — CONCEPT WORK
-   ============================================================ */
-.s4-header {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 8vw; align-items: end; margin-bottom: var(--s8);
-}
-.s4-header p { margin-bottom: 0; }
-
-.concepts-wrapper {
-    display: flex; gap: 2vw; flex-wrap: wrap;
-}
-.concept-card {
-    flex: 1; min-width: 280px; height: 480px;
-    padding: var(--s6);
-    display: flex; flex-direction: column;
-    justify-content: space-between;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    border: 1px solid rgba(255,255,255,0.05);
-    overflow: hidden;
-}
-.concept-inner {
-    width: 100%; height: 100%;
-    display: flex; flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.4s var(--ease-out);
-}
-.concept-card:hover .concept-inner { transform: translateZ(25px); }
-.concept-title {
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
-    font-weight: 100; line-height: 1; margin: 0;
-}
-.concept-meta h4 {
-    font-weight: 300; font-size: 1.3rem;
-    margin: 0 0 0.4rem;
-}
-
-@media (max-width: 900px) {
-    .s4-header { grid-template-columns: 1fr; gap: var(--s6); }
-    .concept-card { min-width: 260px; height: 400px; }
-}
-@media (max-width: 600px) {
-    .concepts-wrapper { flex-direction: column; }
-    .concept-card { min-width: unset; width: 100%; height: 360px; }
-}
-
-/* ============================================================
-   SECTION 5 — PROCESS
-   ============================================================ */
-.process-header { max-width: 700px; margin-bottom: var(--s4); }
-
-.process-timeline {
-    position: relative;
-    margin-top: var(--s8);
-    padding-left: var(--s4);
-    border-left: 1px solid rgba(3,6,12,0.15);
-    max-width: 750px;
-}
-.timeline-progress {
-    position: absolute; left: -1px; top: 0;
-    width: 2px; height: 0%;
-    background: var(--c-cyan);
-    transition: height 0.1s linear;
-}
-.process-step {
-    margin-bottom: var(--s12);
-    position: relative; padding-left: var(--s6);
-}
-.process-step:last-child { margin-bottom: 0; }
-.step-dot {
-    position: absolute; left: calc(-1 * var(--s4));
-    top: 1rem; width: 14px; height: 14px;
-    background: var(--c-light-bg);
-    border: 2px solid var(--c-cyan); border-radius: 50%;
-    transform: translateX(-50%);
-    transition: transform 0.3s, background 0.3s;
-}
-.process-step:hover .step-dot {
-    transform: translateX(-50%) scale(1.5);
-    background: var(--c-cyan);
-}
-.step-meta {
-    font-family: var(--font-mono); font-size: 0.75rem;
-    color: var(--c-cyan); margin-bottom: var(--s2);
-    letter-spacing: 1px;
-}
-
-/* ============================================================
-   SECTION 6 — FIT
-   ============================================================ */
-.fit-header { margin-bottom: var(--s8); }
-
-.fit-box-wrapper {
-    display: flex; gap: 3vw; flex-wrap: wrap;
-}
-.fit-box {
-    flex: 1; min-width: 300px;
-    padding: var(--s8);
-    border-radius: 6px;
-    border: 1px solid rgba(3,6,12,0.1);
-}
-.fit-box.dark {
-    background: var(--c-bg);
-    color: var(--c-white);
-    border-color: rgba(255,255,255,0.08);
-}
-.fit-box.light {
-    background: transparent;
-    border-color: rgba(3,6,12,0.08);
-}
-.fit-box-title {
-    font-size: clamp(2rem, 3vw, 2.8rem);
-    font-weight: 100; margin-bottom: var(--s6);
-}
-.fit-item {
-    margin-bottom: var(--s4);
-    font-size: clamp(0.95rem, 1.1vw, 1.1rem);
-    font-weight: 200;
-    display: flex; align-items: flex-start; gap: var(--s2);
-}
-.fit-icon {
-    font-family: var(--font-mono); font-size: 0.75rem;
-    margin-top: 4px; flex-shrink: 0;
-}
-
-@media (max-width: 768px) {
-    .fit-box-wrapper { flex-direction: column; }
-    .fit-box { min-width: unset; }
-}
-
-/* ============================================================
-   SECTION 7 — CTA
-   ============================================================ */
-.cta-section {
-    text-align: center;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    min-height: 80vh;
-}
-.cta-inner { max-width: 1000px; z-index: 2; position: relative; }
-.cta-inner h2 {
-    font-size: clamp(2.5rem, 7vw, 9rem);
-    margin-bottom: var(--s4);
-}
-.cta-inner p {
-    margin: 0 auto var(--s6);
-    font-size: clamp(1rem, 1.3vw, 1.4rem);
-    max-width: 550px;
-}
-
-/* ============================================================
-   ANIMATION SETUP (motion allowed)
-   ============================================================ */
-@media (prefers-reduced-motion: no-preference) {
-    .reveal-clip span { display: block; overflow: hidden; }
-    .reveal-clip span > span {
-        display: block;
-        transform: translateY(110%);
-        will-change: transform;
-    }
-    .fade-up {
-        opacity: 0;
-        transform: translateY(28px);
-        will-change: opacity, transform;
-    }
-    .is-visible .reveal-clip span > span {
-        animation: slideUp 1.1s var(--ease-out) forwards;
-    }
-    .is-visible.fade-up {
-        animation: fadeUp 0.9s var(--ease-out) forwards;
+    :root {
+        --nav-height: 80px;
+        --c-navy: #03060C;
+        --c-navy-light: #0A111E;
+        --c-white: #F8FAFC;
+        --c-cyan: #00E5FF;
+        --c-muted: #4A5D7E;
+        --font-sans: 'Outfit', sans-serif;
+        --font-mono: 'Space Mono', monospace;
     }
 
-    @keyframes slideUp {
-        to { transform: translateY(0); }
-    }
-    @keyframes fadeUp {
-        to { opacity: 1; transform: translateY(0); }
+    * { box-sizing: border-box; }
+    
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+    body, html {
+        margin: 0; padding: 0;
+        font-family: var(--font-sans);
+        background-color: var(--c-navy);
+        color: var(--c-white);
+        cursor: none;
+        overflow-x: hidden;
     }
 
-    /* stagger siblings */
-    .reveal-clip span:nth-child(1) > span { animation-delay: 0s; }
-    .reveal-clip span:nth-child(2) > span { animation-delay: 0.08s; }
-    .reveal-clip span:nth-child(3) > span { animation-delay: 0.16s; }
+    .cursor-dot {
+        position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+        background: var(--c-cyan); border-radius: 50%;
+        transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
+    }
+    .cursor-ring {
+        position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+        border: 1px solid rgba(0, 229, 255, 0.5); border-radius: 50%;
+        transform: translate(-50%, -50%); pointer-events: none; z-index: 9998;
+        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+    }
 
-    .fade-up:nth-child(1) { animation-delay: 0s; }
-    .fade-up:nth-child(2) { animation-delay: 0.1s; }
-    .fade-up:nth-child(3) { animation-delay: 0.2s; }
-}
+    #webgl-canvas {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        z-index: 0; pointer-events: none;
+    }
+
+    nav {
+        position: fixed; top: 0; width: 100%; height: var(--nav-height);
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 0 4vw; z-index: 50; mix-blend-mode: difference; color: #fff;
+    }
+    .brand { font-weight: 200; letter-spacing: 4px; text-transform: uppercase; font-size: 1.2rem; }
+    .nav-links { display: flex; gap: 3vw; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
+
+    main { position: relative; z-index: 10; }
+
+    section {
+        min-height: 100vh; width: 100vw;
+        padding: calc(var(--nav-height) + 4vw) 5vw 8vw 5vw;
+        position: relative;
+    }
+
+    h1 {
+        font-size: clamp(4rem, 10vw, 11rem); font-weight: 100;
+        letter-spacing: -0.05em; line-height: 0.85; margin: 0 0 2rem 0;
+    }
+    h2 {
+        font-size: clamp(2.5rem, 6vw, 6.5rem); font-weight: 100;
+        letter-spacing: -0.03em; line-height: 0.95; margin: 0 0 2rem 0;
+    }
+    h3 { font-weight: 200; font-size: clamp(1.5rem, 3vw, 2.5rem); margin: 0 0 1rem 0; letter-spacing: -0.02em; }
+    
+    .mono-label {
+        font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em;
+        text-transform: uppercase; margin-bottom: 2rem; display: inline-block;
+        padding: 6px 12px; border: 1px solid currentColor; border-radius: 4px;
+    }
+
+    p {
+        font-size: clamp(1rem, 1.2vw, 1.3rem); line-height: 1.6;
+        max-width: 650px; margin: 0 0 1.5rem 0; font-weight: 200; opacity: 0.8;
+    }
+
+    .btn {
+        display: inline-flex; align-items: center; gap: 1rem;
+        padding: 1.2rem 2.5rem; border: 1px solid currentColor;
+        background: transparent; color: inherit; cursor: none;
+        font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        text-decoration: none; letter-spacing: 2px; border-radius: 40px;
+        position: relative; overflow: hidden;
+    }
+    .btn::before {
+        content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
+        background: currentColor; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: -1;
+    }
+    .btn:hover::before { transform: translateY(-100%); }
+    .btn:hover { color: var(--c-navy) !important; }
+    
+    .btn-solid { background: currentColor; color: var(--c-navy); }
+    .btn-solid::before { background: var(--c-navy); }
+    .btn-solid:hover { color: var(--c-white) !important; }
+    .btn-group { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+
+    .trust-strip {
+        font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 2px;
+        color: var(--c-cyan); margin-top: 4rem; display: flex; gap: 2.5rem; opacity: 0.7;
+    }
+
+    .dark-sec { color: var(--c-white); background-color: transparent; }
+    .light-sec { color: var(--c-navy); background-color: var(--c-white); }
+    .light-sec .btn:hover { color: var(--c-white) !important; }
+    .light-sec .btn-solid { color: var(--c-white); }
+    .light-sec .btn-solid:hover { color: var(--c-navy) !important; }
+
+    .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
+    
+    /* SYMMETRICAL SECTION 3 (UPDATED) */
+    .symmetrical-outcomes {
+        width: 100%; max-width: 1000px;
+        display: flex; flex-direction: column; align-items: center;
+        gap: 120px; position: relative; margin: 0 auto;
+    }
+    .outcomes-divider {
+        position: absolute; top: 0; left: 50%; width: 1px; height: 100%;
+        background: linear-gradient(to bottom, transparent, rgba(0, 229, 255, 0.3), transparent);
+        transform: translateX(-50%); z-index: -1;
+    }
+    .outcome-card {
+        width: 100%; max-width: 800px; background: rgba(2, 6, 13, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.05); padding: 5rem 4rem; border-radius: 4px;
+        display: flex; flex-direction: column; align-items: center; text-align: center;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease, background 0.6s ease;
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: relative; z-index: 2;
+    }
+    .outcome-card:hover {
+        transform: scale(1.02) translateY(-10px); border-color: rgba(0, 229, 255, 0.4); background: rgba(0, 229, 255, 0.03);
+    }
+    .outcome-card p { opacity: 0.6; transition: opacity 0.4s ease; margin: 0 auto; }
+    .outcome-card:hover p { opacity: 1; }
+
+    .concepts-wrapper { display: flex; gap: 4vw; margin-top: 5rem; flex-wrap: wrap;}
+    .concept-card {
+        flex: 1; min-width: 350px; height: 500px; background: var(--c-navy-light); border: 1px solid rgba(255,255,255,0.05);
+        padding: 3rem; display: flex; flex-direction: column; justify-content: space-between;
+        transform-style: preserve-3d; perspective: 1000px;
+    }
+    .concept-inner {
+        width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .concept-card:hover .concept-inner { transform: translateZ(30px); }
+    .concept-title { font-size: 3.5rem; font-weight: 100; line-height: 1; margin: 0; }
+
+    .process-timeline { position: relative; margin-top: 6rem; padding-left: 2rem; border-left: 1px solid rgba(2,6,13,0.1); }
+    .timeline-progress { position: absolute; left: -1px; top: 0; width: 3px; height: 0%; background: var(--c-cyan); }
+    .process-step { margin-bottom: 6rem; position: relative; padding-left: 3rem; }
+    .step-dot {
+        position: absolute; left: -2rem; top: 1rem; width: 15px; height: 15px;
+        background: var(--c-white); border: 2px solid var(--c-cyan); border-radius: 50%;
+        transform: translateX(-50%); transition: transform 0.3s, background 0.3s;
+    }
+    .process-step:hover .step-dot { transform: translateX(-50%) scale(1.5); background: var(--c-cyan); }
+    .step-meta { font-family: var(--font-mono); font-size: 0.8rem; color: var(--c-cyan); margin-bottom: 1rem; }
+
+    .fit-box-wrapper { display: flex; margin-top: 4rem; gap: 2vw; flex-wrap: wrap;}
+    .fit-box { flex: 1; min-width: 400px; padding: 4rem; border-radius: 8px; border: 1px solid rgba(2,6,13,0.1); }
+    .fit-box.dark { background: var(--c-navy); color: var(--c-white); border-color: rgba(255,255,255,0.1); }
+    .fit-item { margin-bottom: 2rem; font-size: 1.25rem; font-weight: 200; display: flex; align-items: flex-start; gap: 1rem;}
+    .fit-icon { font-family: var(--font-mono); font-size: 0.8rem; margin-top: 6px; }
+
+    .stagger-text { overflow: hidden; }
+    .stagger-text span { display: block; }
+    .outline-text { color: transparent; -webkit-text-stroke: 1px var(--c-muted); }
+    
+    .bg-giant-text {
+        position: absolute; top: 10%; left: -5%; font-size: 25vw; font-weight: 100;
+        line-height: 0.8; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.02);
+        pointer-events: none; z-index: -1; white-space: nowrap;
+    }
+    .light-sec .bg-giant-text { -webkit-text-stroke: 1px rgba(2,6,13,0.03); }
+
+    .progress-bar {
+        position: fixed; top: 0; left: 0; height: 2px; background: var(--c-cyan);
+        width: 0%; z-index: 100; transform-origin: left;
+    }
 </style>
 </head>
 <body>
 
-<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
-<div class="progress-bar" id="progressBar" role="progressbar" aria-hidden="true"></div>
-<canvas id="webgl-canvas" aria-hidden="true"></canvas>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="progress-bar" id="progressBar"></div>
 
-<nav role="navigation" aria-label="Main navigation">
-    <a href="/" class="nav-brand" aria-label="Solvus home">Solvus</a>
-    <div class="nav-links" aria-label="Desktop navigation">
-        <a href="#s4">Work</a>
-        <a href="#s5">Process</a>
-        <a href="#s7">Contact</a>
+<nav>
+    <div class="brand">Solvus</div>
+    <div class="nav-links">
+        <span class="hover-target">Work</span>
+        <span class="hover-target">Services</span>
+        <span class="hover-target">About</span>
     </div>
-    <button class="nav-hamburger" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open navigation menu">
-        <span></span><span></span><span></span>
-    </button>
 </nav>
 
-<div class="nav-mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation" aria-modal="true">
-    <a href="#s4" id="mobileWork">Work</a>
-    <a href="#s5" id="mobileProcess">Process</a>
-    <a href="#s7" id="mobileContact">Contact</a>
-</div>
+<canvas id="webgl-canvas"></canvas>
 
 <main>
-
-<section id="s1" class="hero dark-sec">
-    <div class="hero-inner">
-        <div class="mono-label fade-up" style="color: var(--c-cyan); border-color: var(--c-cyan);">Solvus · Est. 2026</div>
-        <h1 class="reveal-clip">
-            <span><span>Top 1% in</span></span>
-            <span><span class="outline-text">their market.</span></span>
-        </h1>
-        <p class="fade-up">Custom-built. Fast. Yours to keep. Built specifically for US real estate agents who are done renting templates.</p>
-        <div class="btn-group fade-up">
-            <a href="#s7" class="btn btn-solid hover-target">Book a 20-minute call ↗</a>
-            <a href="#s4" class="btn btn-cyan hover-target">See the work</a>
+    <section id="s1" class="dark-sec" style="display: flex; flex-direction: column; justify-content: center; height: 100vh;">
+        <div style="max-width: 1200px;">
+            <div class="mono-label fade-up" style="color: var(--c-cyan); border-color: var(--c-cyan);">SOLVUS · EST. 2026</div>
+            <h1 class="stagger-wrap">
+                <span class="stagger-text"><span>Top 1% in</span></span>
+                <span class="stagger-text"><span class="outline-text">their market.</span></span>
+            </h1>
+            <p class="fade-up">Custom-built. Fast. Yours to keep. Built specifically for US real estate agents who are done renting templates.</p>
+            <div class="btn-group fade-up">
+                <a href="#book" class="btn btn-solid hover-target">Book a 20-minute call ↗</a>
+                <a href="#work" class="btn hover-target">See the work</a>
+            </div>
+            <div class="trust-strip fade-up">
+                <span>BUILT FOR NAR COMPLIANCE</span>
+                <span>MLS / IDX READY</span>
+                <span>FAIR HOUSING COMPLIANT</span>
+            </div>
         </div>
-        <div class="trust-strip fade-up">
-            <span>NAR Compliant</span>
-            <span>MLS / IDX Ready</span>
-            <span>Fair Housing Compliant</span>
-        </div>
-    </div>
-</section>
+    </section>
 
-<section id="s2" class="light-sec">
-    <div class="bg-giant-text para-text" aria-hidden="true">FAILURE</div>
-    <div class="split-grid">
-        <div style="padding-right: 2vw; position: relative; z-index: 1;">
-            <div class="mono-label fade-up">01 / The Problem</div>
-            <h2 class="reveal-clip">
-                <span><span>Most realtor websites</span></span>
-                <span><span>are built to sell to</span></span>
-                <span><span>realtors, not buyers.</span></span>
+    <section id="s2" class="light-sec">
+        <div class="bg-giant-text para-text">FAILURE</div>
+        <div class="split-grid">
+            <div style="padding-right: 4vw;">
+                <div class="mono-label">01 / The Problem</div>
+                <h2>Most realtor websites are built to sell to realtors, not to buyers.</h2>
+                <p>Every Wix template, every Fiverr mockup, every "broker-provided" site is designed to look good in a sales pitch to an agent. It uses stock photos of happy couples holding keys. It has a "Featured Listings" grid that no buyer will ever scroll through. It takes six seconds to load.</p>
+            </div>
+            <div class="float-y" style="background: var(--c-white); padding: 4rem; border: 1px solid rgba(2,6,13,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.05);">
+                <p>Your buyers are not doing a tour of realtor websites. They are on their phone, on Zillow, with their partner in the passenger seat, trying to decide whether you are worth a phone call in the next twenty minutes.</p>
+                <h3 style="margin-top: 3rem; font-weight: 300;">That is a different product.<br>That is what we build.</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="s3" class="dark-sec" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <div class="mono-label">02 / What You Get</div>
+        <h2 style="margin-bottom: 6rem;">Four outcomes.<br><span class="outline-text">Every site. Every market.</span></h2>
+        
+        <div class="symmetrical-outcomes">
+            <div class="outcomes-divider"></div>
+
+            <div class="outcome-card hover-target float-y" data-speed="1.05">
+                <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">01 / LOCAL SERP #1</div>
+                <h3 style="font-size: clamp(2rem, 3.5vw, 3.5rem); margin-bottom: 1.5rem;">You show up when someone Googles "realtor in [your city]."</h3>
+                <p>Every Solvus site is built for local search from day one. Google Business Profile setup, city and neighborhood pages, schema markup, real reviews. You stop being invisible.</p>
+            </div>
+
+            <div class="outcome-card hover-target float-y" data-speed="1.1">
+                <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">02 / LOAD TIME 0.6s</div>
+                <h3 style="font-size: clamp(2rem, 3.5vw, 3.5rem); margin-bottom: 1.5rem;">Your listings load in under a second. On any phone.</h3>
+                <p>Most realtor sites take 4 to 6 seconds to load. Buyers leave at 3. We build with Astro and ship less than 100KB of JavaScript. Your site is faster than Zillow.</p>
+            </div>
+
+            <div class="outcome-card hover-target float-y" data-speed="1.15">
+                <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">03 / CONTACT RATE +340%</div>
+                <h3 style="font-size: clamp(2rem, 3.5vw, 3.5rem); margin-bottom: 1.5rem;">Buyers call you because the site tells them to.</h3>
+                <p>Click-to-call on every page. Contact forms that route to your email and CRM. Lead capture that works on mobile, where 75% of your traffic lives.</p>
+            </div>
+
+            <div class="outcome-card hover-target float-y" data-speed="1.2">
+                <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">04 / TRANSFER DAY ONE</div>
+                <h3 style="font-size: clamp(2rem, 3.5vw, 3.5rem); margin-bottom: 1.5rem;">You own it. No subscriptions. No lock-in.</h3>
+                <p>On launch day, all files, hosting credentials, and the domain transfer to you. No monthly platform fees. No ransom if you stop paying. It is yours.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="s4" class="dark-sec" style="background-color: var(--c-navy-light);">
+        <div class="split-grid" style="align-items: end;">
+            <div>
+                <div class="mono-label">03 / Concept Work</div>
+                <h2>Three sites. Built to show what Solvus delivers.</h2>
+            </div>
+            <p style="margin-bottom: 2rem;">Solvus is pre-launch. The sites below are fully designed and coded concepts for fictional realtors, built to demonstrate our standard. Your site will be designed from scratch for your market.</p>
+        </div>
+        
+        <div class="concepts-wrapper">
+            <div class="concept-card hover-target" style="background: linear-gradient(135deg, #1A1C23, #0A0C11);">
+                <div class="concept-inner">
+                    <h3 class="concept-title" style="color: #F8FAFC;">Finding<br>home,<br>precisely.</h3>
+                    <div>
+                        <h4 style="font-weight: 300; font-size: 1.5rem; margin: 0 0 0.5rem 0;">Chen Real Estate</h4>
+                        <div class="mono-label" style="border:none; padding:0; margin:0; color: var(--c-cyan);">LUXURY · AUSTIN · SOLO AGENT</div>
+                    </div>
+                </div>
+            </div>
+            <div class="concept-card hover-target" style="background: #E8DCCB; color: #1A1A1A;">
+                <div class="concept-inner">
+                    <h3 class="concept-title" style="color: #1A1A1A; font-family: Georgia, serif; font-style: italic;">The home<br>you grow<br>into.</h3>
+                    <div>
+                        <h4 style="font-weight: 300; font-size: 1.5rem; margin: 0 0 0.5rem 0;">Rivera Homes</h4>
+                        <div class="mono-label" style="border:none; padding:0; margin:0; color: #666;">FAMILY REALTOR · TAMPA · WARM BRAND</div>
+                    </div>
+                </div>
+            </div>
+            <div class="concept-card hover-target" style="background: #000; border-color: #222;">
+                <div class="concept-inner">
+                    <h3 class="concept-title" style="color: #FFF; letter-spacing: 0.1em; text-transform: uppercase; font-size: 3rem;">Mountain<br>West<br>Realty</h3>
+                    <div>
+                        <h4 style="font-weight: 300; font-size: 1.5rem; margin: 0 0 0.5rem 0; color: #FFF;">Mountain West Realty</h4>
+                        <div class="mono-label" style="border:none; padding:0; margin:0; color: var(--c-muted);">TEAM BROKERAGE · DENVER · EDITORIAL</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="s5" class="light-sec">
+        <div class="bg-giant-text para-text">TIMELINE</div>
+        <div style="max-width: 800px;">
+            <div class="mono-label">04 / Process</div>
+            <h2>Four weeks from call to launch. No surprises.</h2>
+        </div>
+
+        <div class="process-timeline">
+            <div class="timeline-progress" id="tlProgress"></div>
+            
+            <div class="process-step hover-target">
+                <div class="step-dot"></div>
+                <div class="step-meta">01 // 20 MINUTES</div>
+                <h3>Discovery call</h3>
+                <p>We learn your market, deals, and what you have tried. You get a real quote and timeline. No pitch deck.</p>
+            </div>
+            <div class="process-step hover-target">
+                <div class="step-dot"></div>
+                <div class="step-meta">02 // WEEK 1</div>
+                <h3>Design concepts</h3>
+                <p>Two design directions, built in the browser, not Figma mockups. You click through real pages. You pick one.</p>
+            </div>
+            <div class="process-step hover-target">
+                <div class="step-dot"></div>
+                <div class="step-meta">03 // WEEKS 2-3</div>
+                <h3>Build and content</h3>
+                <p>We build, wire up MLS, write SEO copy for your farm area, and set up Google Business. You review weekly.</p>
+            </div>
+            <div class="process-step hover-target">
+                <div class="step-dot"></div>
+                <div class="step-meta">04 // WEEK 4</div>
+                <h3>Launch and training</h3>
+                <p>Site goes live. We hand over credentials, train you on the CMS in 30 minutes, and stand by for 30 days post-launch.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="s6" class="light-sec" style="padding-top: 5vw;">
+        <h2>Solvus is not for every realtor.<br><span style="color: var(--c-muted);">That is the point.</span></h2>
+        
+        <div class="fit-box-wrapper">
+            <div class="fit-box dark float-y" data-speed="1.05">
+                <h3 style="margin-bottom: 3rem; font-weight: 100; font-size: 3rem;">Built for you if...</h3>
+                <div class="fit-item">
+                    <div class="fit-icon" style="color: var(--c-cyan);">[+]</div>
+                    <div>You close <strong>10 or more deals a year</strong> and are serious about your business.</div>
+                </div>
+                <div class="fit-item">
+                    <div class="fit-icon" style="color: var(--c-cyan);">[+]</div>
+                    <div>You have a <strong>real niche or farm area</strong> — a neighborhood, a price band, a buyer type.</div>
+                </div>
+                <div class="fit-item">
+                    <div class="fit-icon" style="color: var(--c-cyan);">[+]</div>
+                    <div>You are tired of looking like <strong>every other agent</strong> on your MLS.</div>
+                </div>
+            </div>
+            
+            <div class="fit-box float-y" data-speed="0.95" style="background: transparent; border: none; padding-top: 6rem;">
+                <h3 style="margin-bottom: 3rem; font-weight: 100; font-size: 3rem;">Not for you if...</h3>
+                <div class="fit-item">
+                    <div class="fit-icon">[-]</div>
+                    <div>You want the <strong>cheapest option</strong>. Fiverr exists and we will happily point you there.</div>
+                </div>
+                <div class="fit-item">
+                    <div class="fit-icon">[-]</div>
+                    <div>You want to <strong>edit everything daily</strong> yourself. Use Squarespace.</div>
+                </div>
+                <div class="fit-item">
+                    <div class="fit-icon">[-]</div>
+                    <div>You think a website is a <strong>commodity</strong>. We cannot help you see otherwise in a sales call.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="s7" class="dark-sec" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div style="max-width: 1000px; z-index: 2;">
+            <h2 class="stagger-wrap" style="font-size: clamp(3rem, 8vw, 9rem); margin-bottom: 2rem;">
+                <span class="stagger-text"><span>Twenty minutes.</span></span>
+                <span class="stagger-text"><span class="outline-text">No pitch. We tell</span></span>
+                <span class="stagger-text"><span>you if we are a fit.</span></span>
             </h2>
-            <p class="fade-up">Every Wix template, every Fiverr mockup, every broker-provided site is designed to look good in a sales pitch to an agent. Stock photos of happy couples. A Featured Listings grid no buyer will scroll. Six seconds to load.</p>
-        </div>
-        <div class="split-card fade-up">
-            <p>Your buyers are not doing a tour of realtor websites. They are on their phone, on Zillow, with their partner in the passenger seat, trying to decide whether you are worth a phone call in the next twenty minutes.</p>
-            <h3>That is a different product.<br>That is what we build.</h3>
-        </div>
-    </div>
-</section>
-
-<section id="s3" class="dark-sec outcomes-section">
-    <div class="outcomes-header">
-        <div class="mono-label fade-up" style="color: var(--c-cyan); border-color: var(--c-cyan);">02 / What You Get</div>
-        <h2 class="reveal-clip" style="margin-bottom: var(--s12);">
-            <span><span>Four outcomes.</span></span>
-            <span><span class="outline-text">Every site. Every market.</span></span>
-        </h2>
-    </div>
-
-    <div class="symmetrical-outcomes">
-        <div class="outcomes-divider" aria-hidden="true"></div>
-
-        <article class="outcome-card hover-target fade-up">
-            <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">01 / Local SERP #1</div>
-            <h3>You show up when someone Googles "realtor in [your city]."</h3>
-            <p>Every Solvus site is built for local search from day one. Google Business Profile setup, city and neighborhood pages, schema markup, real reviews. You stop being invisible.</p>
-        </article>
-
-        <article class="outcome-card hover-target fade-up">
-            <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">02 / Load Time 0.6s</div>
-            <h3>Your listings load in under a second. On any phone.</h3>
-            <p>Most realtor sites take 4 to 6 seconds to load. Buyers leave at 3. We build with Astro and ship less than 100KB of JavaScript. Your site is faster than Zillow.</p>
-        </article>
-
-        <article class="outcome-card hover-target fade-up">
-            <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">03 / Contact Rate +340%</div>
-            <h3>Buyers call you because the site tells them to.</h3>
-            <p>Click-to-call on every page. Contact forms that route to your email and CRM. Lead capture that works on mobile, where 75% of your traffic lives.</p>
-        </article>
-
-        <article class="outcome-card hover-target fade-up">
-            <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">04 / Transfer Day One</div>
-            <h3>You own it. No subscriptions. No lock-in.</h3>
-            <p>On launch day, all files, hosting credentials, and the domain transfer to you. No monthly platform fees. No ransom if you stop paying. It is yours.</p>
-        </article>
-    </div>
-</section>
-
-<section id="s4" class="dark-sec" style="background-color: var(--c-bg-light);">
-    <div class="s4-header">
-        <div>
-            <div class="mono-label fade-up">03 / Concept Work</div>
-            <h2 class="reveal-clip">
-                <span><span>Three sites. Built to show</span></span>
-                <span><span>what Solvus delivers.</span></span>
-            </h2>
-        </div>
-        <p class="fade-up">Solvus is pre-launch. The sites below are fully designed and coded concepts for fictional realtors, built to demonstrate our standard. Your site will be designed from scratch for your market.</p>
-    </div>
-
-    <div class="concepts-wrapper">
-        <article class="concept-card hover-target" style="background: linear-gradient(135deg, #1A1C23, #0A0C11);">
-            <div class="concept-inner">
-                <h3 class="concept-title" style="color: #F8FAFC;">Finding<br>home,<br>precisely.</h3>
-                <div class="concept-meta">
-                    <h4 style="color: #F8FAFC;">Chen Real Estate</h4>
-                    <div class="mono-label" style="border: none; padding: 0; margin: 0; color: var(--c-cyan); font-size: 0.65rem;">Luxury · Austin · Solo Agent</div>
-                </div>
-            </div>
-        </article>
-
-        <article class="concept-card hover-target" style="background: #E8DCCB; color: #1A1A1A;">
-            <div class="concept-inner">
-                <h3 class="concept-title" style="color: #1A1A1A; font-family: Georgia, serif; font-style: italic;">The home<br>you grow<br>into.</h3>
-                <div class="concept-meta">
-                    <h4 style="color: #1A1A1A;">Rivera Homes</h4>
-                    <div class="mono-label" style="border: none; padding: 0; margin: 0; color: #888; font-size: 0.65rem;">Family Realtor · Tampa · Warm Brand</div>
-                </div>
-            </div>
-        </article>
-
-        <article class="concept-card hover-target" style="background: #000; border-color: #1a1a1a;">
-            <div class="concept-inner">
-                <h3 class="concept-title" style="color: #FFF; letter-spacing: 0.08em; text-transform: uppercase; font-size: clamp(2rem, 3.5vw, 3rem);">Mountain<br>West<br>Realty</h3>
-                <div class="concept-meta">
-                    <h4 style="color: #FFF;">Mountain West Realty</h4>
-                    <div class="mono-label" style="border: none; padding: 0; margin: 0; color: var(--c-muted); font-size: 0.65rem;">Team Brokerage · Denver · Editorial</div>
-                </div>
-            </div>
-        </article>
-    </div>
-</section>
-
-<section id="s5" class="light-sec">
-    <div class="bg-giant-text para-text" aria-hidden="true">TIMELINE</div>
-    <div class="process-header">
-        <div class="mono-label fade-up">04 / Process</div>
-        <h2 class="reveal-clip">
-            <span><span>Four weeks from call</span></span>
-            <span><span>to launch. No surprises.</span></span>
-        </h2>
-    </div>
-
-    <div class="process-timeline" id="processTimeline">
-        <div class="timeline-progress" id="tlProgress" aria-hidden="true"></div>
-
-        <div class="process-step hover-target fade-up">
-            <div class="step-dot" aria-hidden="true"></div>
-            <div class="step-meta">01 // 20 Minutes</div>
-            <h3>Discovery call</h3>
-            <p>We learn your market, deals, and what you have tried. You get a real quote and timeline. No pitch deck.</p>
-        </div>
-
-        <div class="process-step hover-target fade-up">
-            <div class="step-dot" aria-hidden="true"></div>
-            <div class="step-meta">02 // Week 1</div>
-            <h3>Design concepts</h3>
-            <p>Two design directions, built in the browser, not Figma mockups. You click through real pages. You pick one.</p>
-        </div>
-
-        <div class="process-step hover-target fade-up">
-            <div class="step-dot" aria-hidden="true"></div>
-            <div class="step-meta">03 // Weeks 2–3</div>
-            <h3>Build and content</h3>
-            <p>We build, wire up MLS, write SEO copy for your farm area, and set up Google Business. You review weekly.</p>
-        </div>
-
-        <div class="process-step hover-target fade-up">
-            <div class="step-dot" aria-hidden="true"></div>
-            <div class="step-meta">04 // Week 4</div>
-            <h3>Launch and training</h3>
-            <p>Site goes live. We hand over credentials, train you on the CMS in 30 minutes, and stand by for 30 days post-launch.</p>
-        </div>
-    </div>
-</section>
-
-<section id="s6" class="light-sec" style="padding-top: 4vw;">
-    <div class="fit-header">
-        <h2 class="reveal-clip">
-            <span><span>Solvus is not for every realtor.</span></span>
-            <span><span style="color: var(--c-muted);">That is the point.</span></span>
-        </h2>
-    </div>
-
-    <div class="fit-box-wrapper">
-        <div class="fit-box dark fade-up">
-            <div class="fit-box-title">Built for you if…</div>
-            <div class="fit-item">
-                <div class="fit-icon" style="color: var(--c-cyan);">[+]</div>
-                <div>You close <strong>10 or more deals a year</strong> and are serious about your business.</div>
-            </div>
-            <div class="fit-item">
-                <div class="fit-icon" style="color: var(--c-cyan);">[+]</div>
-                <div>You have a <strong>real niche or farm area</strong> — a neighborhood, a price band, a buyer type.</div>
-            </div>
-            <div class="fit-item">
-                <div class="fit-icon" style="color: var(--c-cyan);">[+]</div>
-                <div>You are tired of looking like <strong>every other agent</strong> on your MLS.</div>
+            <p class="fade-up" style="margin: 0 auto 3rem auto; font-size: 1.5rem;">Or email hello@solvus.com if you prefer. We read every message.</p>
+            <div class="btn-group fade-up" style="justify-content: center;">
+                <a href="#book" class="btn btn-solid hover-target">Book the call ↗</a>
             </div>
         </div>
-
-        <div class="fit-box light fade-up">
-            <div class="fit-box-title" style="color: var(--c-light-text);">Not for you if…</div>
-            <div class="fit-item">
-                <div class="fit-icon">[-]</div>
-                <div>You want the <strong>cheapest option</strong>. Fiverr exists and we will happily point you there.</div>
-            </div>
-            <div class="fit-item">
-                <div class="fit-icon">[-]</div>
-                <div>You want to <strong>edit everything daily</strong> yourself. Use Squarespace.</div>
-            </div>
-            <div class="fit-item">
-                <div class="fit-icon">[-]</div>
-                <div>You think a website is a <strong>commodity</strong>. We cannot help you see otherwise in a sales call.</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="s7" class="dark-sec cta-section">
-    <div class="cta-inner">
-        <h2 class="reveal-clip">
-            <span><span>Twenty minutes.</span></span>
-            <span><span class="outline-text">No pitch. We tell</span></span>
-            <span><span>you if we are a fit.</span></span>
-        </h2>
-        <p class="fade-up">Or email <a href="mailto:hello@solvus.com" style="color: var(--c-cyan); text-decoration: none;">hello@solvus.com</a> if you prefer. We read every message.</p>
-        <div class="btn-group fade-up" style="justify-content: center;">
-            <a href="mailto:hello@solvus.com" class="btn btn-solid hover-target">Book the call ↗</a>
-        </div>
-    </div>
-</section>
-
+    </section>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 <script>
-(function () {
-    'use strict';
+    gsap.registerPlugin(ScrollTrigger);
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isTouch = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-    const navToggle = document.getElementById('navToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    navToggle.addEventListener('click', () => {
-        const open = navToggle.getAttribute('aria-expanded') === 'true';
-        navToggle.setAttribute('aria-expanded', String(!open));
-        mobileMenu.classList.toggle('is-open', !open);
-        document.body.style.overflow = open ? '' : 'hidden';
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
     });
 
-    mobileMenu.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-            navToggle.setAttribute('aria-expanded', 'false');
-            mobileMenu.classList.remove('is-open');
-            document.body.style.overflow = '';
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorRing = document.getElementById('cursorRing');
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        gsap.to(cursorDot, { x: mouseX, y: mouseY, duration: 0 });
+    });
+
+    gsap.ticker.add(() => {
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+        gsap.set(cursorRing, { x: ringX, y: ringY });
+    });
+
+    document.querySelectorAll('.hover-target').forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            gsap.to(cursorRing, { width: 60, height: 60, backgroundColor: 'rgba(0, 229, 255, 0.1)', duration: 0.3 });
+            gsap.to(cursorDot, { scale: 0, duration: 0.2 });
+        });
+        link.addEventListener('mouseleave', () => {
+            gsap.to(cursorRing, { width: 40, height: 40, backgroundColor: 'transparent', duration: 0.3 });
+            gsap.to(cursorDot, { scale: 1, duration: 0.2 });
         });
     });
 
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) {
-            navToggle.setAttribute('aria-expanded', 'false');
-            mobileMenu.classList.remove('is-open');
-            document.body.style.overflow = '';
-            navToggle.focus();
-        }
+    document.querySelectorAll('.concept-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -10;
+            const rotateY = ((x - centerX) / centerX) * 10;
+            
+            gsap.to(card, { rotationX: rotateX, rotationY: rotateY, transformPerspective: 1000, duration: 0.5, ease: "power2.out" });
+        });
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, { rotationX: 0, rotationY: 0, duration: 0.8, ease: "power2.out" });
+        });
     });
 
-    const progressBar = document.getElementById('progressBar');
-    function updateProgress() {
-        const scrolled = window.scrollY;
-        const total = document.documentElement.scrollHeight - window.innerHeight;
-        progressBar.style.width = (total > 0 ? scrolled / total * 100 : 0) + '%';
-    }
-    window.addEventListener('scroll', updateProgress, { passive: true });
+    gsap.to("#progressBar", {
+        scaleX: 1, ease: "none",
+        scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 0.3 }
+    });
 
-    if (!reducedMotion) {
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-
-        document.querySelectorAll('.reveal-clip, .fade-up').forEach(el => observer.observe(el));
-    } else {
-        document.querySelectorAll('.reveal-clip, .fade-up').forEach(el => {
-            el.style.opacity = '1';
-            el.style.transform = 'none';
-            el.querySelectorAll('span > span').forEach(s => {
-                s.style.transform = 'none';
-            });
-        });
-    }
-
-    if (!reducedMotion) {
-        const paraTexts = document.querySelectorAll('.para-text');
-        window.addEventListener('scroll', () => {
-            const y = window.scrollY;
-            paraTexts.forEach(t => {
-                const rect = t.parentElement.getBoundingClientRect();
-                const progress = -rect.top / (rect.height + window.innerHeight);
-                t.style.transform = `translateX(${progress * -15}%)`;
-            });
-        }, { passive: true });
-    }
-
-    if (!reducedMotion) {
-        const tlProgress = document.getElementById('tlProgress');
-        const timeline = document.getElementById('processTimeline');
-        if (tlProgress && timeline) {
-            window.addEventListener('scroll', () => {
-                const rect = timeline.getBoundingClientRect();
-                const viewH = window.innerHeight;
-                const progress = Math.min(1, Math.max(0,
-                    (-rect.top + viewH * 0.5) / (rect.height - viewH * 0.5)
-                ));
-                tlProgress.style.height = (progress * 100) + '%';
-            }, { passive: true });
-        }
-    }
-
-    if (!isTouch && !reducedMotion) {
-        const dot = document.getElementById('cursorDot');
-        const ring = document.getElementById('cursorRing');
-        let mx = window.innerWidth / 2;
-        let my = window.innerHeight / 2;
-        let rx = mx, ry = my;
-
-        window.addEventListener('mousemove', e => {
-            mx = e.clientX; my = e.clientY;
-            dot.style.transform = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
-        });
-
-        function animateRing() {
-            rx += (mx - rx) * 0.14;
-            ry += (my - ry) * 0.14;
-            ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
-            requestAnimationFrame(animateRing);
-        }
-        animateRing();
-
-        document.querySelectorAll('.hover-target').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                ring.style.width = '60px';
-                ring.style.height = '60px';
-                ring.style.backgroundColor = 'rgba(0,229,255,0.08)';
-                dot.style.transform += ' scale(0)';
-            });
-            el.addEventListener('mouseleave', () => {
-                ring.style.width = '40px';
-                ring.style.height = '40px';
-                ring.style.backgroundColor = 'transparent';
-            });
-        });
-    }
-
-    if (!isTouch && !reducedMotion) {
-        document.querySelectorAll('.concept-card').forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const r = card.getBoundingClientRect();
-                const x = (e.clientX - r.left) / r.width - 0.5;
-                const y = (e.clientY - r.top) / r.height - 0.5;
-                card.style.transform = `perspective(1000px) rotateX(${y * -12}deg) rotateY(${x * 12}deg)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-                card.style.transition = 'transform 0.7s cubic-bezier(0.16,1,0.3,1)';
-                setTimeout(() => card.style.transition = '', 700);
-            });
-        });
-    }
-
-    if (!reducedMotion && typeof THREE !== 'undefined') {
-        const canvas = document.getElementById('webgl-canvas');
-        const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x03060C, 0.002);
-
-        const camera = new THREE.PerspectiveCamera(
-            60, window.innerWidth / window.innerHeight, 0.1, 1000
+    document.querySelectorAll('.stagger-wrap').forEach(wrap => {
+        gsap.fromTo(wrap.querySelectorAll('.stagger-text span'), 
+            { y: "110%" },
+            { y: "0%", duration: 1.2, stagger: 0.1, ease: "power4.out", scrollTrigger: { trigger: wrap, start: "top 85%" } }
         );
-        camera.position.z = 60;
+    });
 
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    document.querySelectorAll('.fade-up').forEach(elem => {
+        gsap.fromTo(elem, 
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 90%" } }
+        );
+    });
 
-        const pGeo = new THREE.BufferGeometry();
-        const pCount = isTouch ? 1000 : 2500;
-        const pArr = new Float32Array(pCount * 3);
-        for (let i = 0; i < pCount * 3; i++) pArr[i] = (Math.random() - 0.5) * 200;
-        pGeo.setAttribute('position', new THREE.BufferAttribute(pArr, 3));
-
-        const cCyan  = new THREE.Color(0x00E5FF);
-        const cNavy  = new THREE.Color(0x03060C);
-        const cWhite = new THREE.Color(0xF8FAFC);
-
-        const pMat = new THREE.PointsMaterial({
-            size: 0.15, color: cCyan,
-            transparent: true, opacity: 0.25
+    document.querySelectorAll('.para-text').forEach(text => {
+        gsap.to(text, {
+            xPercent: -20, ease: "none",
+            scrollTrigger: { trigger: text.parentElement, start: "top bottom", end: "bottom top", scrub: true }
         });
-        scene.add(new THREE.Points(pGeo, pMat));
+    });
 
-        const gGroup = new THREE.Group();
-        scene.add(gGroup);
-        const wMat = new THREE.LineBasicMaterial({ color: cCyan, transparent: true, opacity: 0.08 });
-
-        for (let i = 0; i < 5; i++) {
-            const geo = i % 2 === 0
-                ? new THREE.IcosahedronGeometry(20, 1)
-                : new THREE.OctahedronGeometry(25, 2);
-            const mesh = new THREE.LineSegments(new THREE.EdgesGeometry(geo), wMat);
-            mesh.position.set(
-                (Math.random() - 0.5) * 40,
-                (Math.random() - 0.5) * 40,
-                -i * 50
-            );
-            mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-            gGroup.add(mesh);
-        }
-
-        let scrollProgress = 0;
-        window.addEventListener('scroll', () => {
-            const total = document.documentElement.scrollHeight - window.innerHeight;
-            scrollProgress = total > 0 ? window.scrollY / total : 0;
-        }, { passive: true });
-
-        let isVisible = true;
-        document.addEventListener('visibilitychange', () => {
-            isVisible = !document.hidden;
+    document.querySelectorAll('.float-y').forEach(elem => {
+        const speed = elem.getAttribute('data-speed') || 1;
+        gsap.to(elem, {
+            y: -100 * speed, ease: "none",
+            scrollTrigger: { trigger: elem.parentElement, start: "top bottom", end: "bottom top", scrub: true }
         });
+    });
 
-        const clock = new THREE.Clock();
-        function animate() {
-            requestAnimationFrame(animate);
-            if (!isVisible) return;
+    gsap.to("#tlProgress", {
+        height: "100%", ease: "none",
+        scrollTrigger: { trigger: ".process-timeline", start: "top center", end: "bottom center", scrub: 1 }
+    });
 
-            const t = clock.getElapsedTime();
+    const canvas = document.getElementById('webgl-canvas');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x03060C, 0.002);
 
-            camera.position.z = 60 - scrollProgress * 200;
-            camera.rotation.z = scrollProgress * 0.4;
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 60;
 
-            const lightSection = scrollProgress > 0.14 && scrollProgress < 0.28
-                || scrollProgress > 0.6 && scrollProgress < 0.85;
-            const targetColor = lightSection ? cNavy : cCyan;
-            pMat.color.lerp(targetColor, 0.05);
-            wMat.color.lerp(targetColor, 0.05);
-            scene.fog.color.lerp(lightSection ? cWhite : cNavy, 0.05);
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            gGroup.rotation.x = Math.sin(t * 0.08) * 0.15;
-            gGroup.rotation.y += 0.0008;
-            gGroup.children.forEach((child, i) => {
-                child.rotation.x += 0.0015 * (i % 2 === 0 ? 1 : -1);
-                child.rotation.y += 0.002;
-            });
+    const particleGeo = new THREE.BufferGeometry();
+    const pCount = 3000;
+    const pArray = new Float32Array(pCount * 3);
+    for(let i=0; i<pCount*3; i++) {
+        pArray[i] = (Math.random() - 0.5) * 200;
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(pArray, 3));
+    
+    const colorCyan = new THREE.Color(0x00E5FF);
+    const colorNavy = new THREE.Color(0x03060C);
+    
+    const particleMat = new THREE.PointsMaterial({ size: 0.15, color: colorCyan, transparent: true, opacity: 0.3 });
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
 
-            pGeo.attributes.position.array;
-            scene.children[0].position.y = Math.sin(t * 0.15) * 4;
-            scene.children[0].rotation.y = t * 0.015;
+    const geoGroup = new THREE.Group();
+    scene.add(geoGroup);
 
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+    const matWire = new THREE.LineBasicMaterial({ color: colorCyan, transparent: true, opacity: 0.1 });
+    
+    for(let i=0; i<5; i++) {
+        const geo = i % 2 === 0 ? new THREE.IcosahedronGeometry(20, 1) : new THREE.OctahedronGeometry(25, 2);
+        const mesh = new THREE.LineSegments(new THREE.EdgesGeometry(geo), matWire);
+        mesh.position.set((Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40, -i * 50);
+        mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+        geoGroup.add(mesh);
     }
 
-})();
+    ScrollTrigger.create({
+        trigger: "body", start: "top top", end: "bottom bottom", scrub: 1,
+        onUpdate: (self) => {
+            camera.position.z = 60 - (self.progress * 250);
+            camera.rotation.z = self.progress * 0.5;
+
+            const currentSection = Math.floor(self.progress * 7);
+            if (currentSection === 1 || currentSection === 4 || currentSection === 5) {
+                particleMat.color.lerp(colorNavy, 0.1);
+                matWire.color.lerp(colorNavy, 0.1);
+                scene.fog.color.lerp(new THREE.Color(0xF8FAFC), 0.1);
+            } else {
+                particleMat.color.lerp(colorCyan, 0.1);
+                matWire.color.lerp(colorCyan, 0.1);
+                scene.fog.color.lerp(colorNavy, 0.1);
+            }
+        }
+    });
+
+    const clock = new THREE.Clock();
+    function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+        
+        geoGroup.rotation.x = Math.sin(t * 0.1) * 0.2;
+        geoGroup.rotation.y += 0.001;
+        
+        particles.position.y = Math.sin(t * 0.2) * 5;
+        particles.rotation.y = t * 0.02;
+
+        geoGroup.children.forEach((child, index) => {
+            child.rotation.x += 0.002 * (index % 2 === 0 ? 1 : -1);
+            child.rotation.y += 0.003;
+        });
+
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 </script>
 </body>
-</html>
