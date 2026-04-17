@@ -28,9 +28,9 @@
   --color-error: #C4372C;
 
   /* Type — Families */
-  --font-display: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-body: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-display: 'Playfair Display', Georgia, serif;
+--font-body: 'DM Sans', system-ui, sans-serif;
+--font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Type — Fluid scale using clamp(min, preferred, max) */
   --text-display: clamp(2.75rem, 5.5vw + 1rem, 4.5rem);
