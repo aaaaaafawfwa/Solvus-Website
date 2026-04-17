@@ -49,6 +49,7 @@ const {
     <slot name="structured-data" />
   </head>
   <body>
+    <div class="solvus-cursor" id="solvusCursor"></div>
     <a href="#main" class="skip-link">Skip to content</a>
 
     <SiteHeader />
@@ -58,6 +59,19 @@ const {
     </main>
 
     <SiteFooter />
+
+    <script>
+      if (window.matchMedia('(hover: hover)').matches) {
+        const dot = document.getElementById('solvusCursor');
+        if (dot) {
+          window.addEventListener('mousemove', (e) => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top  = e.clientY + 'px';
+            dot.style.opacity = '1';
+          }, { passive: true });
+        }
+      }
+    </script>
 
     <script>
       const header = document.querySelector('[data-site-header]');

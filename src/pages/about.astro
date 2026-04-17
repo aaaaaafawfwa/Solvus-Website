@@ -22,7 +22,7 @@
     }
 
     * { box-sizing: border-box; }
-    
+
     html.lenis { height: auto; }
     .lenis.lenis-smooth { scroll-behavior: auto; }
     .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
@@ -33,21 +33,17 @@
         font-family: var(--font-sans);
         background-color: var(--c-navy);
         color: var(--c-white);
-        cursor: none;
         overflow-x: hidden;
     }
 
-    /* Custom Cursor */
-    .cursor-dot {
-        position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+    @media (hover: hover) { * { cursor: none !important; } }
+
+    .solvus-cursor {
+        position: fixed; width: 8px; height: 8px;
         background: var(--c-cyan); border-radius: 50%;
-        transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
-    }
-    .cursor-ring {
-        position: fixed; top: 0; left: 0; width: 40px; height: 40px;
-        border: 1px solid rgba(0, 229, 255, 0.5); border-radius: 50%;
-        transform: translate(-50%, -50%); pointer-events: none; z-index: 9998;
-        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+        pointer-events: none; z-index: 99999;
+        opacity: 0; margin-left: -4px; margin-top: -4px;
+        transition: opacity 0.15s; will-change: left, top;
     }
 
     #webgl-canvas {
@@ -58,11 +54,17 @@
     nav {
         position: fixed; top: 0; width: 100%; height: var(--nav-height);
         display: flex; justify-content: space-between; align-items: center;
-        padding: 0 4vw; z-index: 50; mix-blend-mode: difference; color: #fff;
+        padding: 0 4vw; z-index: 50;
+        background: rgba(3, 6, 12, 0.85);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        color: var(--c-white);
     }
-    .brand { font-weight: 200; letter-spacing: 4px; text-transform: uppercase; font-size: 1.2rem; text-decoration: none; color: inherit;}
+    .brand { font-weight: 200; letter-spacing: 4px; text-transform: uppercase; font-size: 1.2rem; text-decoration: none; color: inherit; }
     .nav-links { display: flex; gap: 3vw; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
-    .nav-links a { color: inherit; text-decoration: none; }
+    .nav-links a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--c-white); }
+    .nav-active { color: var(--c-cyan) !important; }
 
     main { position: relative; z-index: 10; }
 
@@ -72,11 +74,10 @@
         position: relative;
     }
 
-    /* Typography */
     h1 { font-size: clamp(3.5rem, 8vw, 9rem); font-weight: 100; letter-spacing: -0.05em; line-height: 0.85; margin: 0 0 2rem 0; }
     h2 { font-size: clamp(2.5rem, 5vw, 6rem); font-weight: 100; letter-spacing: -0.03em; line-height: 0.95; margin: 0 0 2rem 0; }
     h3 { font-weight: 200; font-size: clamp(1.5rem, 3vw, 2.5rem); margin: 0 0 1rem 0; letter-spacing: -0.02em; }
-    
+
     .mono-label {
         font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em;
         text-transform: uppercase; margin-bottom: 2rem; display: inline-block;
@@ -85,33 +86,69 @@
 
     p { font-size: clamp(1rem, 1.2vw, 1.3rem); line-height: 1.6; max-width: 650px; margin: 0 0 1.5rem 0; font-weight: 200; opacity: 0.8; }
 
-    /* Buttons */
     .btn {
-        display: inline-flex; align-items: center; gap: 1rem; padding: 1.2rem 2.5rem; border: 1px solid currentColor;
-        background: transparent; color: inherit; cursor: none; font-family: var(--font-mono); font-size: 0.75rem; 
-        text-transform: uppercase; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-decoration: none; 
-        letter-spacing: 2px; border-radius: 40px; position: relative; overflow: hidden;
+        display: inline-flex; align-items: center; gap: 1rem;
+        padding: 1.2rem 2.5rem; border: 1px solid var(--c-white);
+        background: transparent; color: var(--c-white);
+        font-family: var(--font-mono); font-size: 0.75rem;
+        text-transform: uppercase; text-decoration: none; letter-spacing: 2px;
+        border-radius: 40px;
+        transition: background 0.35s cubic-bezier(0.16,1,0.3,1), color 0.35s, border-color 0.35s;
     }
-    .btn::before {
-        content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
-        background: currentColor; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: -1;
-    }
-    .btn:hover::before { transform: translateY(-100%); }
-    .btn:hover { color: var(--c-navy) !important; }
-    .btn-solid { background: currentColor; color: var(--c-navy); }
-    .btn-solid::before { background: var(--c-navy); }
-    .btn-solid:hover { color: var(--c-white) !important; }
+    .btn:hover { background: var(--c-cyan); color: var(--c-navy) !important; border-color: var(--c-cyan); }
+    .btn-solid { background: var(--c-white); color: var(--c-navy); border-color: var(--c-white); }
+    .btn-solid:hover { background: var(--c-cyan); border-color: var(--c-cyan); color: var(--c-navy) !important; }
 
-    /* Section Themes */
     .dark-sec { color: var(--c-white); background-color: transparent; }
     .light-sec { color: var(--c-navy); background-color: var(--c-white); }
-    .light-sec .btn:hover { color: var(--c-white) !important; }
-    .light-sec .btn-solid { color: var(--c-white); }
-    .light-sec .btn-solid:hover { color: var(--c-navy) !important; }
+    .light-sec .btn { border-color: var(--c-navy); color: var(--c-navy); }
+    .light-sec .btn:hover { background: var(--c-cyan); color: var(--c-navy) !important; border-color: var(--c-cyan); }
+    .light-sec .btn-solid { background: var(--c-navy); color: var(--c-white); border-color: var(--c-navy); }
+    .light-sec .btn-solid:hover { background: var(--c-cyan); border-color: var(--c-cyan); color: var(--c-navy) !important; }
 
     .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
 
-    /* Founder Portrait Box (S2) */
+    /* ── Studio Profile Card ─────────────────────────────── */
+    .studio-card {
+        background: rgba(2, 6, 13, 0.65); border: 1px solid rgba(0,229,255,0.15);
+        border-radius: 12px; overflow: hidden; backdrop-filter: blur(20px);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+        font-family: var(--font-mono);
+    }
+    .studio-card-header {
+        display: flex; align-items: center; gap: 0.75rem;
+        padding: 1rem 1.5rem; background: rgba(0,229,255,0.04);
+        border-bottom: 1px solid rgba(0,229,255,0.1);
+    }
+    .status-dot {
+        width: 8px; height: 8px; border-radius: 50%; background: #0CCE6B; flex-shrink: 0;
+        box-shadow: 0 0 8px rgba(12,206,107,0.6);
+        animation: statusPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes statusPulse { 0%,100% { box-shadow: 0 0 8px rgba(12,206,107,0.5); } 50% { box-shadow: 0 0 16px rgba(12,206,107,0.9); } }
+    .studio-card-header span { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .studio-card-header .card-title { color: rgba(255,255,255,0.4); }
+    .studio-card-header .card-status { color: #0CCE6B; margin-left: auto; }
+
+    .studio-stats { padding: 0; }
+    .stat-row {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 0.95rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.04);
+        transition: background 0.2s ease;
+    }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-row:hover { background: rgba(0,229,255,0.04); }
+    .stat-key { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+    .stat-val { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-white); }
+    .stat-row.highlight .stat-val { color: var(--c-cyan); }
+
+    .studio-card-footer {
+        padding: 1rem 1.5rem; background: rgba(0,229,255,0.03);
+        border-top: 1px solid rgba(0,229,255,0.08);
+        font-size: 0.58rem; color: rgba(255,255,255,0.2); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* ── Founder Portrait ────────────────────────────────── */
     .portrait-box {
         position: relative; width: 100%; aspect-ratio: 4/5;
         border: 1px solid rgba(2,6,13,0.1); background: rgba(2,6,13,0.02);
@@ -120,14 +157,14 @@
     }
     .portrait-grid-bg {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background-image: 
+        background-image:
             linear-gradient(to right, rgba(0, 229, 255, 0.05) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
         background-size: 32px 32px; z-index: 1;
     }
     .portrait-img {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: #e2e8f0; /* Placeholder for B&W photo */
+        background-color: #e2e8f0;
         filter: grayscale(100%); opacity: 0.8; z-index: 0;
     }
     .crop-mark { position: absolute; width: 15px; height: 15px; border-color: var(--c-cyan); border-style: solid; z-index: 3; }
@@ -135,7 +172,7 @@
     .crop-tr { top: 1rem; right: 1rem; border-width: 1px 1px 0 0; }
     .crop-bl { bottom: 1rem; left: 1rem; border-width: 0 0 1px 1px; }
     .crop-br { bottom: 1rem; right: 1rem; border-width: 0 1px 1px 0; }
-    
+
     .portrait-meta {
         position: relative; z-index: 3; background: rgba(255,255,255,0.9);
         padding: 1rem; backdrop-filter: blur(5px); border: 1px solid var(--c-cyan);
@@ -143,7 +180,7 @@
     }
     .meta-row { display: flex; justify-content: space-between; }
 
-    /* Principles List (S3) */
+    /* ── Principles ──────────────────────────────────────── */
     .principles-list { width: 100%; display: flex; flex-direction: column; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 4rem; }
     .principle-item {
         display: flex; gap: 3rem; align-items: baseline;
@@ -154,7 +191,7 @@
     .p-index { font-family: var(--font-mono); font-size: 1rem; color: var(--c-cyan); width: 60px; }
     .p-text { font-size: clamp(1.5rem, 2vw, 2.5rem); font-weight: 300; margin: 0; line-height: 1.2; }
 
-    /* Org Chart Diagram (S4) */
+    /* ── Org Chart ───────────────────────────────────────── */
     .org-chart-wrapper {
         display: flex; gap: 4vw; background: rgba(2,6,13,0.02);
         border: 1px solid rgba(2,6,13,0.1); padding: 4rem; border-radius: 4px;
@@ -167,9 +204,7 @@
         transition: transform 0.3s, border-color 0.3s;
     }
     .org-node:hover { transform: scale(1.05); border-color: var(--c-cyan); }
-    .org-line {
-        width: 1px; height: 30px; background: rgba(2,6,13,0.2);
-    }
+    .org-line { width: 1px; height: 30px; background: rgba(2,6,13,0.2); }
     .friction-node { border-color: #FF3366; background: rgba(255,51,102,0.05); }
     .friction-flag {
         position: absolute; right: -120px; top: 50%; transform: translateY(-50%);
@@ -177,33 +212,40 @@
     }
     .solvus-node { background: var(--c-navy); color: var(--c-white); border-color: var(--c-navy); }
 
-    /* Utilities */
     .stagger-text { overflow: hidden; display: block; }
     .stagger-text span { display: block; }
-    .outline-text { color: transparent; -webkit-text-stroke: 1px var(--c-muted); }
+    .outline-text { color: var(--c-cyan); }
     .bg-giant-text { position: absolute; top: 10%; left: -5%; font-size: 25vw; font-weight: 100; line-height: 0.8; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.02); pointer-events: none; z-index: -1; white-space: nowrap; }
     .light-sec .bg-giant-text { -webkit-text-stroke: 1px rgba(2,6,13,0.03); }
     .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--c-cyan); width: 0%; z-index: 100; transform-origin: left; }
+
+    @media (max-width: 768px) {
+        * { cursor: auto !important; }
+        .split-grid { grid-template-columns: 1fr; gap: 3rem; }
+        .nav-links { display: none; }
+        .org-chart-wrapper { flex-direction: column; }
+        .friction-flag { display: none; }
+    }
 </style>
 </head>
 <body>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div class="solvus-cursor" id="solvusCursor"></div>
 <div class="progress-bar" id="progressBar"></div>
 
 <nav>
-    <a href="/" class="brand hover-target">Solvus</a>
+    <a href="/" class="brand">Solvus</a>
     <div class="nav-links">
-        <a href="/process" class="hover-target">Process</a>
-        <a href="/services" class="hover-target">Services</a>
-        <span style="color: var(--c-cyan);">About</span>
+        <a href="/process">Process</a>
+        <a href="/services">Services</a>
+        <span class="nav-active">About</span>
     </div>
 </nav>
 
 <canvas id="webgl-canvas"></canvas>
 
 <main>
+    <!-- S1: HERO + Studio Profile Card -->
     <section id="s1" class="dark-sec">
         <div class="split-grid" style="height: 80vh;">
             <div>
@@ -215,15 +257,47 @@
                 </h1>
                 <p class="fade-up">That's the point. No account managers. No junior hand-offs. You talk to the person building your site.</p>
             </div>
-            <div class="float-y" data-speed="0.95" style="display: flex; justify-content: center;">
-                <div style="width: 300px; height: 300px; border: 1px solid rgba(0,229,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
-                    <div style="width: 150px; height: 150px; border: 1px solid rgba(0,229,255,0.5); border-radius: 50%;"></div>
-                    <div style="position: absolute; font-family: var(--font-mono); font-size: 0.65rem; color: var(--c-cyan); top: -20px;">SYSTEM ARCHITECT</div>
+
+            <div class="float-y fade-up" data-speed="0.95" style="display: flex; justify-content: center;">
+                <div class="studio-card" style="width: 100%; max-width: 380px;">
+                    <div class="studio-card-header">
+                        <div class="status-dot"></div>
+                        <span class="card-title">Solvus / Studio</span>
+                        <span class="card-status">Available</span>
+                    </div>
+                    <div class="studio-stats">
+                        <div class="stat-row">
+                            <span class="stat-key">Discipline</span>
+                            <span class="stat-val">UI/UX + Frontend Dev</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-key">Experience</span>
+                            <span class="stat-val">4 yrs UI/UX</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-key">Specialty</span>
+                            <span class="stat-val">Real Estate Web</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-key">Stack</span>
+                            <span class="stat-val">Astro / GSAP / Three.js</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-key">Response time</span>
+                            <span class="stat-val">Within moments</span>
+                        </div>
+                        <div class="stat-row highlight">
+                            <span class="stat-key">Status</span>
+                            <span class="stat-val">Taking new clients</span>
+                        </div>
+                    </div>
+                    <div class="studio-card-footer">Est. 2026 &nbsp;·&nbsp; Solo studio &nbsp;·&nbsp; solvus@aisolvus.com</div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- S2: FOUNDER PROFILE -->
     <section id="s2" class="light-sec">
         <div class="bg-giant-text para-text">OPERATOR</div>
         <div class="split-grid">
@@ -234,51 +308,52 @@
                 <div class="crop-mark crop-tr"></div>
                 <div class="crop-mark crop-bl"></div>
                 <div class="crop-mark crop-br"></div>
-                
-                <div class="portrait-meta hover-target">
+
+                <div class="portrait-meta">
                     <div class="meta-row"><span>OPERATOR</span><span>[YOUR NAME]</span></div>
-                    <div class="meta-row"><span>AGE</span><span>19</span></div>
-                    <div class="meta-row"><span>LOCATION</span><span>KOŠICE, SK</span></div>
+                    <div class="meta-row"><span>UI/UX EXP</span><span>4 YEARS</span></div>
                     <div class="meta-row"><span>DISCIPLINE</span><span>DESIGN + ENG</span></div>
                     <div class="meta-row" style="color: var(--c-cyan);"><span>EST</span><span>2026</span></div>
                 </div>
             </div>
-            
+
             <div style="padding-left: 4vw;">
                 <div class="mono-label">PROFILE / FOUNDER</div>
                 <h2 style="margin-bottom: 3rem;">I design and build websites for US real estate agents.</h2>
-                <p>I'm [Name], 19, based in Košice, Slovakia. I picked real estate because the industry is full of bad websites and agents who deserve better. Most realtor sites look the same because they're built the same — templated, slow, rented. I'm building the alternative.</p>
-                <p>Working remotely and running lean means I can deliver agency-quality work without agency overhead. Every site is built by me. When you email, I'm the one who answers.</p>
+                <p>I'm [Name], and I picked real estate because the industry is full of bad websites and agents who deserve better. Most realtor sites look the same because they're built the same: templated, slow, rented. I'm building the alternative.</p>
+                <p>Running lean means I can deliver agency-quality work without agency overhead. Every site is built by me. When you email, I'm the one who answers.</p>
             </div>
         </div>
     </section>
 
+    <!-- S3: OPERATING PRINCIPLES -->
     <section id="s3" class="dark-sec" style="display: flex; flex-direction: column; justify-content: center;">
         <div style="max-width: 800px;">
             <div class="mono-label">OPERATING PRINCIPLES</div>
             <h2>Standard operating procedure.</h2>
         </div>
-        
+
         <div class="principles-list float-y" data-speed="0.95">
-            <div class="principle-item hover-target">
+            <div class="principle-item">
                 <div class="p-index">P.01</div>
-                <h3 class="p-text">I answer emails within 24 hours on weekdays.</h3>
+                <h3 class="p-text">I answer emails within moments.</h3>
             </div>
-            <div class="principle-item hover-target">
+            <div class="principle-item">
                 <div class="p-index">P.02</div>
                 <h3 class="p-text">I show work early and often. No four-week silence.</h3>
             </div>
-            <div class="principle-item hover-target">
+            <div class="principle-item">
                 <div class="p-index">P.03</div>
                 <h3 class="p-text">I write real code, not drag-and-drop output.</h3>
             </div>
-            <div class="principle-item hover-target">
+            <div class="principle-item">
                 <div class="p-index">P.04</div>
                 <h3 class="p-text">If your idea is bad, I'll tell you. I won't sell you something you don't need.</h3>
             </div>
         </div>
     </section>
 
+    <!-- S4: SOLO STUDIO RATIONALE -->
     <section id="s4" class="light-sec">
         <div class="split-grid" style="align-items: start;">
             <div>
@@ -286,33 +361,34 @@
                 <h2 style="font-size: 4rem;">A solo operator,<br>by choice.</h2>
                 <p>A solo structure delivers better work for realtors than a 15-person agency. It means lower overhead leading to better pricing, no account-management layer playing telephone with your ideas, direct communication, and one uncompromising set of standards instead of a team compromise.</p>
             </div>
-            
+
             <div class="org-chart-wrapper float-y" data-speed="1.1">
                 <div class="org-col">
                     <div class="mono-label" style="border:none; padding:0; color: var(--c-muted);">TRADITIONAL AGENCY</div>
-                    <div class="org-node hover-target">CLIENT</div>
+                    <div class="org-node">CLIENT</div>
                     <div class="org-line"></div>
-                    <div class="org-node friction-node hover-target">ACCOUNT MGR <span class="friction-flag">FRICTION POINT</span></div>
+                    <div class="org-node friction-node">ACCOUNT MGR <span class="friction-flag">FRICTION POINT</span></div>
                     <div class="org-line"></div>
-                    <div class="org-node hover-target">STRATEGIST</div>
+                    <div class="org-node">STRATEGIST</div>
                     <div class="org-line"></div>
-                    <div class="org-node friction-node hover-target">JR. DESIGNER <span class="friction-flag">COST OVERHEAD</span></div>
+                    <div class="org-node friction-node">JR. DESIGNER <span class="friction-flag">COST OVERHEAD</span></div>
                     <div class="org-line"></div>
-                    <div class="org-node hover-target">SR. DEV</div>
+                    <div class="org-node">SR. DEV</div>
                     <div class="org-line" style="border-left: 1px dashed rgba(2,6,13,0.2); background: transparent;"></div>
-                    <div class="org-node hover-target" style="opacity: 0.5;">CLIENT (LOOPS)</div>
+                    <div class="org-node" style="opacity: 0.5;">CLIENT (LOOPS)</div>
                 </div>
-                
+
                 <div class="org-col">
                     <div class="mono-label" style="border:none; padding:0; color: var(--c-cyan);">SOLVUS</div>
-                    <div class="org-node hover-target">CLIENT</div>
+                    <div class="org-node">CLIENT</div>
                     <div class="org-line" style="background: var(--c-cyan); width: 2px;"></div>
-                    <div class="org-node solvus-node hover-target">SOLVUS</div>
+                    <div class="org-node solvus-node">SOLVUS</div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- S5: CTA -->
     <section id="s5" class="dark-sec" style="background-color: var(--c-navy); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh;">
         <div style="max-width: 900px; z-index: 2;">
             <div class="mono-label" style="color: var(--c-cyan); border-color: var(--c-cyan);">END SHEET 04 / BOOK CALL</div>
@@ -322,8 +398,9 @@
                 <span class="stagger-text"><span>you if we are a fit.</span></span>
             </h2>
             <div class="btn-group fade-up" style="justify-content: center;">
-                <a href="#book" class="btn btn-solid hover-target">Book the call ↗</a>
+                <a href="mailto:solvus@aisolvus.com" class="btn btn-solid">Book the call ↗</a>
             </div>
+            <div class="mono-label fade-up" style="border:none; color: var(--c-muted); margin-top: 1.5rem;">OR EMAIL SOLVUS@AISOLVUS.COM</div>
         </div>
     </section>
 </main>
@@ -335,47 +412,33 @@
 <script is:inline>
     gsap.registerPlugin(ScrollTrigger);
 
-    // Lenis Smooth Scroll
+    // Cursor
+    if (window.matchMedia('(hover: hover)').matches) {
+        const dot = document.getElementById('solvusCursor');
+        if (dot) {
+            window.addEventListener('mousemove', (e) => {
+                dot.style.left    = e.clientX + 'px';
+                dot.style.top     = e.clientY + 'px';
+                dot.style.opacity = '1';
+            }, { passive: true });
+        }
+    }
+
+    // Lenis
     const lenis = new Lenis({
-        duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical',
-        gestureDirection: 'vertical', smooth: true, mouseMultiplier: 1, smoothTouch: false,
-        touchMultiplier: 2, infinite: false,
+        duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical', smooth: true, mouseMultiplier: 1,
+        smoothTouch: false, touchMultiplier: 2, infinite: false,
     });
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
 
-    // Custom Cursor
-    const cursorDot = document.getElementById('cursorDot');
-    const cursorRing = document.getElementById('cursorRing');
-    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    let ringX = mouseX, ringY = mouseY;
-
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX; mouseY = e.clientY;
-        gsap.to(cursorDot, { x: mouseX, y: mouseY, duration: 0 });
-    });
-    gsap.ticker.add(() => {
-        ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15;
-        gsap.set(cursorRing, { x: ringX, y: ringY });
-    });
-
-    document.querySelectorAll('.hover-target').forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            gsap.to(cursorRing, { width: 60, height: 60, backgroundColor: 'rgba(0, 229, 255, 0.1)', duration: 0.3 });
-            gsap.to(cursorDot, { scale: 0, duration: 0.2 });
-        });
-        link.addEventListener('mouseleave', () => {
-            gsap.to(cursorRing, { width: 40, height: 40, backgroundColor: 'transparent', duration: 0.3 });
-            gsap.to(cursorDot, { scale: 1, duration: 0.2 });
-        });
-    });
-
-    // Scroll Progress
+    // Scroll progress
     gsap.to("#progressBar", { scaleX: 1, ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 0.3 } });
 
-    // Typography Animations
+    // Typography animations
     document.querySelectorAll('.stagger-wrap').forEach(wrap => {
-        gsap.fromTo(wrap.querySelectorAll('.stagger-text span'), 
+        gsap.fromTo(wrap.querySelectorAll('.stagger-text span'),
             { y: "110%" }, { y: "0%", duration: 1.2, stagger: 0.1, ease: "power4.out", scrollTrigger: { trigger: wrap, start: "top 85%" } }
         );
     });
@@ -390,10 +453,10 @@
         gsap.to(elem, { y: -100 * speed, ease: "none", scrollTrigger: { trigger: elem.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
     });
 
-    // --- THREE.JS BACKGROUND ---
+    // Three.js background
     const canvas = document.getElementById('webgl-canvas');
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x03060C, 0.002);
+    const scene  = new THREE.Scene();
+    scene.fog    = new THREE.FogExp2(0x03060C, 0.002);
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 60;
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
@@ -403,32 +466,30 @@
     const particleGeo = new THREE.BufferGeometry();
     const pCount = 3000;
     const pArray = new Float32Array(pCount * 3);
-    for(let i=0; i<pCount*3; i++) pArray[i] = (Math.random() - 0.5) * 200;
+    for (let i = 0; i < pCount * 3; i++) pArray[i] = (Math.random() - 0.5) * 200;
     particleGeo.setAttribute('position', new THREE.BufferAttribute(pArray, 3));
-    
+
     const colorCyan = new THREE.Color(0x00E5FF);
     const colorNavy = new THREE.Color(0x03060C);
-    
     const particleMat = new THREE.PointsMaterial({ size: 0.15, color: colorCyan, transparent: true, opacity: 0.3 });
-    const particles = new THREE.Points(particleGeo, particleMat);
+    const particles   = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
     const geoGroup = new THREE.Group();
     scene.add(geoGroup);
     const matWire = new THREE.LineBasicMaterial({ color: colorCyan, transparent: true, opacity: 0.1 });
-    
-    for(let i=0; i<5; i++) {
-        const geo = i % 2 === 0 ? new THREE.IcosahedronGeometry(20, 1) : new THREE.OctahedronGeometry(25, 2);
+    for (let i = 0; i < 5; i++) {
+        const geo  = i % 2 === 0 ? new THREE.IcosahedronGeometry(20, 1) : new THREE.OctahedronGeometry(25, 2);
         const mesh = new THREE.LineSegments(new THREE.EdgesGeometry(geo), matWire);
         mesh.position.set((Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40, -i * 50);
         mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
         geoGroup.add(mesh);
     }
 
-    let targetRotationX = 0, targetRotationY = 0;
+    let targetRotX = 0, targetRotY = 0;
     window.addEventListener('mousemove', (e) => {
-        targetRotationY = ((e.clientX / window.innerWidth) - 0.5) * 0.5;
-        targetRotationX = ((e.clientY / window.innerHeight) - 0.5) * 0.5;
+        targetRotY = ((e.clientX / window.innerWidth)  - 0.5) * 0.5;
+        targetRotX = ((e.clientY / window.innerHeight) - 0.5) * 0.5;
     });
 
     ScrollTrigger.create({
@@ -436,10 +497,8 @@
         onUpdate: (self) => {
             camera.position.z = 60 - (self.progress * 250);
             camera.rotation.z = self.progress * 0.5;
-            
-            // 5 Sections: S1(Dark) -> S2(Light) -> S3(Dark) -> S4(Light) -> S5(Dark)
-            const currentSection = Math.floor(self.progress * 5);
-            if (currentSection === 1 || currentSection === 3) {
+            const sec = Math.floor(self.progress * 5);
+            if (sec === 1 || sec === 3) {
                 particleMat.color.lerp(colorNavy, 0.1);
                 matWire.color.lerp(colorNavy, 0.1);
                 scene.fog.color.lerp(new THREE.Color(0xF8FAFC), 0.1);
@@ -455,12 +514,12 @@
     function animate() {
         requestAnimationFrame(animate);
         const t = clock.getElapsedTime();
-        geoGroup.rotation.x += 0.05 * (targetRotationX + (Math.sin(t*0.5)*0.1) - geoGroup.rotation.x);
-        geoGroup.rotation.y += 0.05 * (targetRotationY + (t*0.1) - geoGroup.rotation.y);
-        particles.position.y = Math.sin(t * 0.2) * 5;
-        particles.rotation.y = t * 0.02;
-        geoGroup.children.forEach((child, index) => {
-            child.rotation.x += 0.002 * (index % 2 === 0 ? 1 : -1);
+        geoGroup.rotation.x += 0.05 * (targetRotX + Math.sin(t * 0.5) * 0.1 - geoGroup.rotation.x);
+        geoGroup.rotation.y += 0.05 * (targetRotY + t * 0.1 - geoGroup.rotation.y);
+        particles.position.y  = Math.sin(t * 0.2) * 5;
+        particles.rotation.y  = t * 0.02;
+        geoGroup.children.forEach((child, i) => {
+            child.rotation.x += 0.002 * (i % 2 === 0 ? 1 : -1);
             child.rotation.y += 0.003;
         });
         renderer.render(scene, camera);

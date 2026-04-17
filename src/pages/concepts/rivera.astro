@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rivera Homes | Tampa Bay Family Real Estate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F0E6;
+    --cream-dark: #EEE4D4;
+    --sand: #E2D0B3;
+    --terra: #C4622D;
+    --terra-dark: #A34E22;
+    --terra-light: #D9845C;
+    --bark: #2B2118;
+    --bark-light: #4A3728;
+    --warm-gray: #9A8C7E;
+    --white: #FDFAF6;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--bark);
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--sand);
+    padding: 0 5vw;
+    display: flex; justify-content: space-between; align-items: center;
+    height: 72px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 400;
+    color: var(--bark); text-decoration: none; letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--terra); }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.8rem; font-weight: 400; letter-spacing: 0.06em;
+    color: var(--bark-light); text-decoration: none;
+    transition: color 0.25s;
+  }
+  .nav-links a:hover { color: var(--terra); }
+  .nav-cta {
+    background: var(--terra); color: #fff;
+    padding: 0.7rem 1.5rem; font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.06em; text-decoration: none;
+    border-radius: 40px; transition: background 0.25s, transform 0.25s;
+  }
+  .nav-cta:hover { background: var(--terra-dark); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+  .hero-left {
+    background: var(--bark); display: flex; flex-direction: column;
+    justify-content: center; padding: 8vw 5vw 8vw 5vw;
+    position: relative; overflow: hidden;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute; top: -20%; right: -20%; width: 70%; aspect-ratio: 1;
+    background: radial-gradient(circle, rgba(196,98,45,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--terra-light); margin-bottom: 2rem;
+  }
+  .hero-tag::before {
+    content: ''; display: block; width: 24px; height: 2px;
+    background: var(--terra-light);
+  }
+  .hero-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; line-height: 1.15;
+    color: var(--cream); margin-bottom: 1.8rem;
+  }
+  .hero-left h1 em { font-style: italic; color: var(--terra-light); }
+  .hero-left p {
+    font-size: 1rem; line-height: 1.75; color: rgba(247,240,230,0.6);
+    max-width: 420px; margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-fill {
+    padding: 0.9rem 2rem; background: var(--terra); color: #fff;
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em;
+    text-decoration: none; border-radius: 40px;
+    transition: background 0.25s, transform 0.25s;
+  }
+  .btn-fill:hover { background: var(--terra-light); transform: translateY(-2px); }
+  .btn-outline-light {
+    padding: 0.9rem 2rem; border: 1px solid rgba(247,240,230,0.3); color: var(--cream);
+    font-size: 0.8rem; font-weight: 400; letter-spacing: 0.06em;
+    text-decoration: none; border-radius: 40px;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .btn-outline-light:hover { border-color: var(--terra-light); transform: translateY(-2px); }
+
+  .hero-right {
+    background: var(--cream-dark);
+    display: grid; grid-template-rows: 1fr 1fr;
+    gap: 3px;
+  }
+  .hero-img-top {
+    background: linear-gradient(135deg, #c4a07a 0%, #a07850 50%, #7a5830 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero-img-top::after {
+    content: 'Tampa Bay Area';
+    position: absolute; bottom: 1.5rem; left: 1.5rem;
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 1.1rem; color: rgba(247,240,230,0.7);
+  }
+  .hero-img-bottom {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+  }
+  .hero-img-sm {
+    background: linear-gradient(135deg, #b89070 0%, #8a6040 100%);
+    position: relative;
+  }
+  .hero-img-sm:nth-child(2) {
+    background: linear-gradient(135deg, #d4b080 0%, #b08050 100%);
+  }
+  .hero-stat-overlay {
+    position: absolute; bottom: 1rem; left: 1rem; right: 1rem;
+    background: rgba(43,33,24,0.8); backdrop-filter: blur(10px);
+    padding: 0.8rem 1rem; border-radius: 6px;
+  }
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 500;
+    color: var(--cream); line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--warm-gray); margin-top: 0.2rem;
+  }
+
+  /* TRUST BADGES */
+  .trust-bar {
+    background: var(--white); border-bottom: 1px solid var(--sand);
+    display: flex; justify-content: center; gap: 5vw;
+    padding: 1.8rem 5vw; flex-wrap: wrap;
+  }
+  .trust-item {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--warm-gray); display: flex; align-items: center; gap: 0.6rem;
+  }
+  .trust-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--terra); }
+
+  /* NEIGHBORHOODS */
+  .neighborhoods { padding: 7vw 5vw; }
+  .sec-label {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--terra); margin-bottom: 0.8rem;
+  }
+  .sec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; line-height: 1.2;
+    margin-bottom: 1rem; max-width: 500px;
+  }
+  .sec-title em { font-style: italic; }
+  .sec-sub {
+    font-size: 0.95rem; line-height: 1.7; color: var(--bark-light);
+    max-width: 500px; margin-bottom: 4rem;
+  }
+  .neighborhoods-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .neighborhood-card {
+    border-radius: 12px; overflow: hidden; cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+  }
+  .neighborhood-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(43,33,24,0.15);
+  }
+  .neighborhood-img {
+    height: 220px; position: relative;
+    background: linear-gradient(145deg, #c4a07a, #8a5030);
+  }
+  .neighborhood-card:nth-child(2) .neighborhood-img {
+    background: linear-gradient(145deg, #b8905a, #7a4830);
+  }
+  .neighborhood-card:nth-child(3) .neighborhood-img {
+    background: linear-gradient(145deg, #d4b888, #9a7040);
+  }
+  .neighborhood-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(43,33,24,0.7) 0%, transparent 60%);
+  }
+  .neighborhood-name {
+    position: absolute; bottom: 1rem; left: 1.2rem;
+    font-family: 'Playfair Display', serif; font-size: 1.3rem; font-style: italic;
+    color: var(--cream);
+  }
+  .neighborhood-body {
+    background: var(--white); padding: 1.3rem 1.2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .neighborhood-avg {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem;
+    color: var(--bark);
+  }
+  .neighborhood-count {
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--warm-gray);
+  }
+
+  /* PROMISE */
+  .promise-section {
+    background: var(--bark); padding: 7vw 5vw;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6vw; align-items: center;
+  }
+  .promise-left .sec-label { color: var(--terra-light); }
+  .promise-left .sec-title { color: var(--cream); max-width: none; }
+  .promise-left .sec-sub { color: rgba(247,240,230,0.6); max-width: none; margin-bottom: 0; }
+  .promise-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+  }
+  .promise-item { }
+  .promise-icon {
+    width: 40px; height: 40px; border: 1px solid var(--terra);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; margin-bottom: 1rem; color: var(--terra);
+  }
+  .promise-item-title {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 500;
+    color: var(--cream); margin-bottom: 0.5rem;
+  }
+  .promise-item-text {
+    font-size: 0.85rem; line-height: 1.65; color: rgba(247,240,230,0.5);
+  }
+
+  /* TESTIMONIALS */
+  .testimonials { padding: 7vw 5vw; background: var(--white); }
+  .testimonials-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 4rem;
+  }
+  .testimonial-card {
+    background: var(--cream); border-radius: 12px; padding: 2.5rem;
+    border: 1px solid var(--sand);
+  }
+  .stars {
+    color: var(--terra); font-size: 0.9rem; letter-spacing: 0.1em;
+    margin-bottom: 1.2rem;
+  }
+  .testimonial-quote {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 1.05rem; line-height: 1.65; color: var(--bark);
+    margin-bottom: 1.5rem;
+  }
+  .testimonial-name {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--bark-light);
+  }
+  .testimonial-detail {
+    font-size: 0.75rem; color: var(--warm-gray); margin-top: 0.2rem;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--terra); padding: 7vw 5vw;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+  }
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 4rem); font-weight: 400;
+    color: #fff; line-height: 1.15; margin-bottom: 1.5rem;
+  }
+  .cta-section h2 em { font-style: italic; }
+  .cta-section p {
+    font-size: 1rem; color: rgba(255,255,255,0.75);
+    max-width: 500px; line-height: 1.7; margin-bottom: 2.5rem;
+  }
+  .btn-white {
+    padding: 1rem 2.5rem; background: #fff; color: var(--terra);
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em;
+    text-decoration: none; border-radius: 40px;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .btn-white:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+
+  /* FOOTER */
+  footer {
+    background: var(--bark); padding: 3rem 5vw;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 3px solid var(--terra);
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif; font-size: 1.2rem;
+    color: var(--cream); font-style: italic;
+  }
+  .footer-copy {
+    font-size: 0.7rem; letter-spacing: 0.08em; color: var(--warm-gray);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Rivera <span>Homes</span></a>
+  <ul class="nav-links">
+    <li><a href="#neighborhoods">Neighborhoods</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Talk</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Tampa Bay Area · Since 2011</div>
+    <h1>Your family's<br>next chapter<br>starts <em>here.</em></h1>
+    <p>300+ Tampa Bay families helped. Bilingual service. A process built around your life, not our commission schedule.</p>
+    <div class="hero-btns">
+      <a href="#neighborhoods" class="btn-fill">Explore Neighborhoods</a>
+      <a href="#contact" class="btn-outline-light">Free Consultation</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-top"></div>
+    <div class="hero-img-bottom">
+      <div class="hero-img-sm">
+        <div class="hero-stat-overlay">
+          <div class="hero-stat-num">312</div>
+          <div class="hero-stat-label">Families Helped</div>
+        </div>
+      </div>
+      <div class="hero-img-sm">
+        <div class="hero-stat-overlay">
+          <div class="hero-stat-num">98%</div>
+          <div class="hero-stat-label">List-to-Sale Rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-item"><div class="trust-dot"></div>Tampa Bay Area Expert</div>
+  <div class="trust-item"><div class="trust-dot"></div>300+ Families Served</div>
+  <div class="trust-item"><div class="trust-dot"></div>Bilingual: English & Spanish</div>
+  <div class="trust-item"><div class="trust-dot"></div>5★ Google Reviews</div>
+  <div class="trust-item"><div class="trust-dot"></div>Top Producer 2020–2024</div>
+</div>
+
+<section id="neighborhoods" class="neighborhoods">
+  <div class="sec-label">Where We Work</div>
+  <h2 class="sec-title">Every neighborhood<br>has its <em>own story.</em></h2>
+  <p class="sec-sub">From South Tampa's walkable streets to the waterfront calm of Carrollwood — we know every pocket of this market the way a neighbor does.</p>
+
+  <div class="neighborhoods-grid">
+    <div class="neighborhood-card">
+      <div class="neighborhood-img">
+        <div class="neighborhood-overlay"></div>
+        <div class="neighborhood-name">South Tampa</div>
+      </div>
+      <div class="neighborhood-body">
+        <div class="neighborhood-avg">Avg. $685,000</div>
+        <div class="neighborhood-count">42 Active Listings</div>
+      </div>
+    </div>
+    <div class="neighborhood-card">
+      <div class="neighborhood-img">
+        <div class="neighborhood-overlay"></div>
+        <div class="neighborhood-name">Carrollwood</div>
+      </div>
+      <div class="neighborhood-body">
+        <div class="neighborhood-avg">Avg. $490,000</div>
+        <div class="neighborhood-count">28 Active Listings</div>
+      </div>
+    </div>
+    <div class="neighborhood-card">
+      <div class="neighborhood-img">
+        <div class="neighborhood-overlay"></div>
+        <div class="neighborhood-name">New Tampa</div>
+      </div>
+      <div class="neighborhood-body">
+        <div class="neighborhood-avg">Avg. $415,000</div>
+        <div class="neighborhood-count">35 Active Listings</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="promise-section">
+  <div class="promise-left">
+    <div class="sec-label">Our Promise</div>
+    <h2 class="sec-title" style="margin-bottom:1.5rem;">The Rivera<br><em>Difference.</em></h2>
+    <p class="sec-sub">Real estate is a transaction for most agents. For us, it's where your family's story takes a new turn. That changes how we do everything.</p>
+  </div>
+  <div class="promise-grid">
+    <div class="promise-item">
+      <div class="promise-icon">⌂</div>
+      <div class="promise-item-title">No-Pressure Process</div>
+      <p class="promise-item-text">We move at your pace. No artificial deadlines, no manufactured urgency.</p>
+    </div>
+    <div class="promise-item">
+      <div class="promise-icon">◎</div>
+      <div class="promise-item-title">Bilingual Service</div>
+      <p class="promise-item-text">Full service in English and Spanish from first call to closing day.</p>
+    </div>
+    <div class="promise-item">
+      <div class="promise-icon">◈</div>
+      <div class="promise-item-title">School District Focus</div>
+      <p class="promise-item-text">We map every search around the schools that matter to your family.</p>
+    </div>
+    <div class="promise-item">
+      <div class="promise-icon">◇</div>
+      <div class="promise-item-title">After-Sale Support</div>
+      <p class="promise-item-text">Our relationship doesn't end at closing. Call us anytime.</p>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="sec-label">What Families Say</div>
+  <h2 class="sec-title">Stories from<br><em>our clients.</em></h2>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-quote">"Maria helped us find our home in New Tampa while we were still living in Puerto Rico. She video-toured six houses, answered our calls at 10pm, and kept our kids' school needs front and center the entire time. We could not have done this without her."</p>
+      <div class="testimonial-name">The Medina Family</div>
+      <div class="testimonial-detail">New Tampa · Closed April 2024</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-quote">"We listed with Rivera Homes after a bad experience with another agent. Maria sold our South Tampa home in nine days at $22,000 over asking. Her marketing was on a completely different level. We wish we had called her first."</p>
+      <div class="testimonial-name">James & Sara Kowalski</div>
+      <div class="testimonial-detail">South Tampa · Sold August 2023</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="cta-section">
+  <h2>Ready to find<br>your <em>next home?</em></h2>
+  <p>A 20-minute call is all it takes to get started. No commitment, no pressure — just a conversation about what you're looking for.</p>
+  <a href="tel:+18138240012" class="btn-white">Call (813) 824-0012</a>
+</section>
+
+<footer>
+  <div class="footer-logo">Rivera Homes</div>
+  <div class="footer-copy">© 2024 Rivera Homes. Tampa Bay, Florida. Equal Housing Opportunity.</div>
+</footer>
+
+</body>
+</html>

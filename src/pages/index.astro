@@ -34,20 +34,18 @@
         font-family: var(--font-sans);
         background-color: var(--c-navy);
         color: var(--c-white);
-        cursor: none;
         overflow-x: hidden;
     }
 
-    .cursor-dot {
-        position: fixed; top: 0; left: 0; width: 6px; height: 6px;
-        background: var(--c-cyan); border-radius: 50%;
-        transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
+    @media (hover: hover) {
+        * { cursor: none !important; }
     }
-    .cursor-ring {
-        position: fixed; top: 0; left: 0; width: 40px; height: 40px;
-        border: 1px solid rgba(0, 229, 255, 0.5); border-radius: 50%;
-        transform: translate(-50%, -50%); pointer-events: none; z-index: 9998;
-        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+    .solvus-cursor {
+        position: fixed; width: 8px; height: 8px;
+        background: var(--c-cyan); border-radius: 50%;
+        pointer-events: none; z-index: 99999;
+        opacity: 0; margin-left: -4px; margin-top: -4px;
+        transition: opacity 0.15s; will-change: left, top;
     }
 
     #webgl-canvas {
@@ -95,22 +93,17 @@
     .btn {
         display: inline-flex; align-items: center; gap: 1rem;
         padding: 1.2rem 2.5rem; border: 1px solid currentColor;
-        background: transparent; color: inherit; cursor: none;
+        background: transparent; color: var(--c-white);
         font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: background 0.35s cubic-bezier(0.16,1,0.3,1),
+                    color 0.35s cubic-bezier(0.16,1,0.3,1),
+                    border-color 0.35s;
         text-decoration: none; letter-spacing: 2px; border-radius: 40px;
-        position: relative; overflow: hidden;
     }
-    .btn::before {
-        content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
-        background: currentColor; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: -1;
-    }
-    .btn:hover::before { transform: translateY(-100%); }
-    .btn:hover { color: var(--c-navy) !important; }
-    
-    .btn-solid { background: currentColor; color: var(--c-navy); }
-    .btn-solid::before { background: var(--c-navy); }
-    .btn-solid:hover { color: var(--c-white) !important; }
+    .btn:hover { background: var(--c-cyan); color: var(--c-navy) !important; border-color: var(--c-cyan); }
+
+    .btn-solid { background: var(--c-white); color: var(--c-navy); border-color: var(--c-white); }
+    .btn-solid:hover { background: var(--c-cyan); color: var(--c-navy) !important; border-color: var(--c-cyan); }
     .btn-group { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
 
     .trust-strip {
@@ -120,47 +113,107 @@
 
     .dark-sec { color: var(--c-white); background-color: transparent; }
     .light-sec { color: var(--c-navy); background-color: var(--c-white); }
-    .light-sec .btn:hover { color: var(--c-white) !important; }
-    .light-sec .btn-solid { color: var(--c-white); }
-    .light-sec .btn-solid:hover { color: var(--c-navy) !important; }
+    .light-sec .btn { color: var(--c-navy); border-color: var(--c-navy); }
+    .light-sec .btn:hover { background: var(--c-navy); color: var(--c-white) !important; border-color: var(--c-navy); }
+    .light-sec .btn-solid { background: var(--c-navy); color: var(--c-white); border-color: var(--c-navy); }
+    .light-sec .btn-solid:hover { background: var(--c-cyan); color: var(--c-navy) !important; border-color: var(--c-cyan); }
 
     .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
     
     .symmetrical-outcomes {
-        width: 100%; max-width: 1000px;
-        display: flex; flex-direction: column; align-items: center;
-        gap: 120px; position: relative; margin: 0 auto;
-    }
-    .outcomes-divider {
-        position: absolute; top: 0; left: 50%; width: 1px; height: 100%;
-        background: linear-gradient(to bottom, transparent, rgba(0, 229, 255, 0.3), transparent);
-        transform: translateX(-50%); z-index: -1;
+        width: 100%; max-width: 1400px;
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 2rem; margin: 0 auto;
     }
     .outcome-card {
-        width: 100%; max-width: 800px; background: rgba(2, 6, 13, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.05); padding: 5rem 4rem; border-radius: 4px;
+        background: rgba(2, 6, 13, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.05); padding: 4rem 3rem; border-radius: 4px;
         display: flex; flex-direction: column; align-items: center; text-align: center;
         transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease, background 0.6s ease;
-        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: relative; z-index: 2;
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     }
     .outcome-card:hover {
-        transform: scale(1.02) translateY(-10px); border-color: rgba(0, 229, 255, 0.4); background: rgba(0, 229, 255, 0.03);
+        transform: scale(1.02) translateY(-6px); border-color: rgba(0, 229, 255, 0.4); background: rgba(0, 229, 255, 0.03);
     }
     .outcome-card p { opacity: 0.6; transition: opacity 0.4s ease; margin: 0 auto; }
     .outcome-card:hover p { opacity: 1; }
 
-    .concepts-wrapper { display: flex; gap: 4vw; margin-top: 5rem; flex-wrap: wrap;}
-    .concept-card {
-        flex: 1; min-width: 350px; height: 500px; background: var(--c-navy-light); border: 1px solid rgba(255,255,255,0.05);
-        padding: 3rem; display: flex; flex-direction: column; justify-content: space-between;
-        transform-style: preserve-3d; perspective: 1000px;
+    .carousel-wrap { margin-top: 5rem; position: relative; }
+    .carousel-stage {
+        border-radius: 12px; overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.5);
     }
-    .concept-inner {
-        width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    .browser-chrome {
+        display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.4rem;
+        background: #1a1f2e; border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .concept-card:hover .concept-inner { transform: translateZ(30px); }
-    .concept-title { font-size: 3.5rem; font-weight: 100; line-height: 1; margin: 0; }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dots span { width: 12px; height: 12px; border-radius: 50%; display: block; }
+    .browser-url-bar {
+        flex: 1; background: rgba(255,255,255,0.06); border-radius: 20px;
+        padding: 5px 14px; font-family: var(--font-mono); font-size: 0.7rem;
+        color: rgba(255,255,255,0.4); letter-spacing: 0.05em;
+        transition: color 0.4s;
+    }
+    .carousel-frames {
+        position: relative; overflow: hidden;
+        /* height set dynamically by scaleCarousel() */
+    }
+    .carousel-frame {
+        position: absolute; inset: 0;
+        opacity: 0; transition: opacity 0.5s ease;
+        pointer-events: none;
+    }
+    .carousel-frame.active {
+        opacity: 1; pointer-events: auto;
+    }
+    .carousel-frame iframe {
+        width: 1440px; height: 900px;
+        border: none; display: block;
+        transform-origin: top left;
+        /* transform: scale(x) injected by scaleCarousel() */
+    }
+    .carousel-arrow {
+        position: absolute; top: 50%; transform: translateY(-50%);
+        width: 52px; height: 52px; border-radius: 50%;
+        background: rgba(10,17,30,0.85); border: 1px solid rgba(255,255,255,0.15);
+        color: var(--c-white); font-size: 1.1rem; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: background 0.3s, border-color 0.3s, transform 0.3s;
+        z-index: 20; backdrop-filter: blur(8px);
+    }
+    .carousel-arrow:hover {
+        background: var(--c-cyan); border-color: var(--c-cyan);
+        color: var(--c-navy); transform: translateY(-50%) scale(1.1);
+    }
+    .carousel-arrow.prev { left: -26px; }
+    .carousel-arrow.next { right: -26px; }
+    .carousel-footer {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-top: 2rem; padding: 0 0.5rem;
+    }
+    .carousel-site-info { }
+    .carousel-site-name {
+        font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em;
+        text-transform: uppercase; color: var(--c-cyan); margin-bottom: 0.4rem;
+    }
+    .carousel-site-desc {
+        font-size: 1.1rem; font-weight: 200; color: var(--c-white); opacity: 0.7;
+    }
+    .carousel-dots { display: flex; gap: 0.6rem; align-items: center; }
+    .carousel-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: rgba(255,255,255,0.2); border: none; cursor: pointer;
+        transition: background 0.3s, transform 0.3s; padding: 0;
+    }
+    .carousel-dot.active {
+        background: var(--c-cyan); transform: scale(1.3);
+    }
+    .carousel-counter {
+        font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em;
+        color: rgba(255,255,255,0.3);
+    }
 
     .process-timeline { position: relative; margin-top: 6rem; padding-left: 2rem; border-left: 1px solid rgba(2,6,13,0.1); }
     .timeline-progress { position: absolute; left: -1px; top: 0; width: 3px; height: 0%; background: var(--c-cyan); }
@@ -173,15 +226,51 @@
     .process-step:hover .step-dot { transform: translateX(-50%) scale(1.5); background: var(--c-cyan); }
     .step-meta { font-family: var(--font-mono); font-size: 0.8rem; color: var(--c-cyan); margin-bottom: 1rem; }
 
-    .fit-box-wrapper { display: flex; margin-top: 4rem; gap: 2vw; flex-wrap: wrap;}
-    .fit-box { flex: 1; min-width: 400px; padding: 4rem; border-radius: 8px; border: 1px solid rgba(2,6,13,0.1); }
-    .fit-box.dark { background: var(--c-navy); color: var(--c-white); border-color: rgba(255,255,255,0.1); }
-    .fit-item { margin-bottom: 2rem; font-size: 1.25rem; font-weight: 200; display: flex; align-items: flex-start; gap: 1rem;}
-    .fit-icon { font-family: var(--font-mono); font-size: 0.8rem; margin-top: 6px; }
+    .fit-grid {
+        display: grid; grid-template-columns: 1fr 1px 1fr;
+        gap: 0; margin-top: 5rem; align-items: start;
+    }
+    .fit-divider {
+        background: rgba(255,255,255,0.08); width: 1px; align-self: stretch;
+    }
+    .fit-col { padding: 0 4vw; }
+    .fit-col:first-child { padding-left: 0; }
+    .fit-col:last-child { padding-right: 0; }
+    .fit-col-header {
+        display: flex; align-items: center; gap: 1.5rem;
+        margin-bottom: 3.5rem; padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .fit-col-tag {
+        font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em;
+        text-transform: uppercase; padding: 5px 12px; border-radius: 40px;
+    }
+    .fit-col-tag.yes { background: rgba(0,229,255,0.12); color: var(--c-cyan); border: 1px solid rgba(0,229,255,0.25); }
+    .fit-col-tag.no  { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); }
+    .fit-col-heading {
+        font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em;
+        text-transform: uppercase; opacity: 0.4;
+    }
+    .fit-row {
+        display: flex; gap: 1.5rem; align-items: flex-start;
+        margin-bottom: 2.8rem;
+    }
+    .fit-num {
+        font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em;
+        min-width: 24px; margin-top: 4px; opacity: 0.35;
+    }
+    .fit-col.yes-col .fit-num { color: var(--c-cyan); opacity: 0.6; }
+    .fit-text {
+        font-size: clamp(1rem, 1.4vw, 1.2rem); font-weight: 200; line-height: 1.55;
+        color: rgba(248,250,252,0.85);
+    }
+    .fit-text strong { font-weight: 400; color: var(--c-white); }
+    .fit-col.no-col .fit-text { color: rgba(248,250,252,0.45); }
+    .fit-col.no-col .fit-text strong { color: rgba(248,250,252,0.65); }
 
     .stagger-text { overflow: hidden; }
     .stagger-text span { display: block; }
-    .outline-text { color: transparent; -webkit-text-stroke: 1px var(--c-muted); }
+    .outline-text { color: var(--c-cyan); }
     
     .bg-giant-text {
         position: absolute; top: 10%; left: -5%; font-size: 25vw; font-weight: 100;
@@ -194,16 +283,84 @@
         position: fixed; top: 0; left: 0; height: 2px; background: var(--c-cyan);
         width: 0%; z-index: 100; transform-origin: left;
     }
+
+    /* ── MOBILE ─────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+        :root { --nav-height: 64px; }
+
+        body, html { cursor: auto; }
+
+        nav { padding: 0 5vw; }
+        .nav-links { display: none; }
+
+        section {
+            padding: calc(var(--nav-height) + 6vw) 6vw 12vw 6vw;
+            min-height: auto;
+        }
+        #s1 { height: auto; min-height: 100svh; padding-top: calc(var(--nav-height) + 8vw); }
+
+        h1 { font-size: clamp(3rem, 13vw, 5rem); margin-bottom: 1.5rem; }
+        h2 { font-size: clamp(2rem, 9vw, 3.5rem); }
+        h3 { font-size: clamp(1.2rem, 5vw, 1.8rem); }
+
+        p { font-size: 1rem; max-width: 100%; }
+
+        .btn { padding: 1rem 1.6rem; font-size: 0.7rem; }
+        .btn-group { flex-direction: column; align-items: flex-start; }
+
+        .trust-strip {
+            flex-direction: column; gap: 0.8rem; margin-top: 2.5rem;
+            font-size: 0.6rem;
+        }
+
+        /* Section 2 */
+        .split-grid { grid-template-columns: 1fr; gap: 3rem; }
+
+        /* Section 3 */
+        #s3 { padding-left: 4vw; padding-right: 4vw; }
+        .symmetrical-outcomes { grid-template-columns: 1fr; gap: 1.2rem; }
+        .outcome-card { padding: 2.5rem 1.8rem; }
+
+        /* Carousel */
+        .carousel-wrap { margin-top: 3rem; }
+        .carousel-arrow { width: 40px; height: 40px; font-size: 0.9rem; }
+        .carousel-arrow.prev { left: -18px; }
+        .carousel-arrow.next { right: -18px; }
+        .carousel-footer { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+        .carousel-site-desc { font-size: 0.9rem; }
+
+        /* Section 5 process */
+        .process-timeline { padding-left: 1.5rem; }
+        .process-step { padding-left: 2rem; margin-bottom: 3.5rem; }
+        .step-dot { left: -1.5rem; }
+
+        /* Section 6 fit grid */
+        .fit-grid { grid-template-columns: 1fr; gap: 3rem; }
+        .fit-divider { display: none; }
+        .fit-col { padding: 0; }
+        .fit-col.no-col { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3rem; }
+
+        /* Section 7 CTA */
+        #s7 h2 { font-size: clamp(2.2rem, 10vw, 4rem); }
+    }
+
+    @media (max-width: 480px) {
+        h1 { font-size: clamp(2.6rem, 14vw, 4rem); }
+        .mono-label { font-size: 0.65rem; }
+        .outcome-card { padding: 2rem 1.4rem; }
+        .carousel-arrow { display: none; }
+        .carousel-dots { gap: 0.8rem; }
+        .carousel-dot { width: 10px; height: 10px; }
+    }
 </style>
 </head>
 <body>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div class="solvus-cursor" id="solvusCursor"></div>
 <div class="progress-bar" id="progressBar"></div>
 
 <nav>
-    <div class="brand">Solvus</div>
+    <a href="#" class="brand" style="text-decoration:none;color:inherit;">Solvus</a>
 <div class="nav-links">
     <a href="/process" class="hover-target" style="color: inherit; text-decoration: none;">Process</a>
     <a href="/services" class="hover-target" style="color: inherit; text-decoration: none;">Services</a>
@@ -254,27 +411,25 @@
         <h2 style="margin-bottom: 6rem;">Four outcomes.<br><span class="outline-text">Every site. Every market.</span></h2>
         
         <div class="symmetrical-outcomes">
-            <div class="outcomes-divider"></div>
-
-            <div class="outcome-card hover-target float-y" data-speed="1.05">
+            <div class="outcome-card hover-target" >
                 <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">01 / LOCAL SERP #1</div>
                 <h3 style="font-size: clamp(2rem, 3.5vw, 3.5rem); margin-bottom: 1.5rem;">You show up when someone Googles "realtor in [your city]."</h3>
                 <p>Every Solvus site is built for local search from day one. Google Business Profile setup, city and neighborhood pages, schema markup, real reviews. You stop being invisible.</p>
             </div>
 
-            <div class="outcome-card hover-target float-y" data-speed="1.1">
+            <div class="outcome-card hover-target">
                 <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">02 / LOAD TIME 0.6s</div>
                 <h3 style="font-size: clamp(2rem, 3.5vw, 3.5rem); margin-bottom: 1.5rem;">Your listings load in under a second. On any phone.</h3>
                 <p>Most realtor sites take 4 to 6 seconds to load. Buyers leave at 3. We build with Astro and ship less than 100KB of JavaScript. Your site is faster than Zillow.</p>
             </div>
 
-            <div class="outcome-card hover-target float-y" data-speed="1.15">
+            <div class="outcome-card hover-target">
                 <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">03 / CONTACT RATE +340%</div>
                 <h3 style="font-size: clamp(2rem, 3.5vw, 3.5rem); margin-bottom: 1.5rem;">Buyers call you because the site tells them to.</h3>
                 <p>Click-to-call on every page. Contact forms that route to your email and CRM. Lead capture that works on mobile, where 75% of your traffic lives.</p>
             </div>
 
-            <div class="outcome-card hover-target float-y" data-speed="1.2">
+            <div class="outcome-card hover-target">
                 <div class="mono-label" style="border-color: var(--c-cyan); color: var(--c-cyan);">04 / TRANSFER DAY ONE</div>
                 <h3 style="font-size: clamp(2rem, 3.5vw, 3.5rem); margin-bottom: 1.5rem;">You own it. No subscriptions. No lock-in.</h3>
                 <p>On launch day, all files, hosting credentials, and the domain transfer to you. No monthly platform fees. No ransom if you stop paying. It is yours.</p>
@@ -290,33 +445,45 @@
             </div>
             <p style="margin-bottom: 2rem;">Solvus is pre-launch. The sites below are fully designed and coded concepts for fictional realtors, built to demonstrate our standard. Your site will be designed from scratch for your market.</p>
         </div>
-        
-        <div class="concepts-wrapper">
-            <div class="concept-card hover-target" style="background: linear-gradient(135deg, #1A1C23, #0A0C11);">
-                <div class="concept-inner">
-                    <h3 class="concept-title" style="color: #F8FAFC;">Finding<br>home,<br>precisely.</h3>
-                    <div>
-                        <h4 style="font-weight: 300; font-size: 1.5rem; margin: 0 0 0.5rem 0;">Chen Real Estate</h4>
-                        <div class="mono-label" style="border:none; padding:0; margin:0; color: var(--c-cyan);">LUXURY · AUSTIN · SOLO AGENT</div>
+
+        <div class="carousel-wrap">
+            <div class="carousel-stage">
+                <div class="browser-chrome">
+                    <div class="browser-dots">
+                        <span style="background:#FF5F57;"></span>
+                        <span style="background:#FFBD2E;"></span>
+                        <span style="background:#28C840;"></span>
+                    </div>
+                    <div class="browser-url-bar" id="carouselUrl">chenrealestate.com</div>
+                </div>
+                <div class="carousel-frames" data-lenis-prevent>
+                    <div class="carousel-frame active" id="frame-0">
+                        <iframe src="/concepts/chen" title="Chen Real Estate" loading="lazy"></iframe>
+                    </div>
+                    <div class="carousel-frame" id="frame-1">
+                        <iframe src="/concepts/rivera" title="Rivera Homes" loading="lazy"></iframe>
+                    </div>
+                    <div class="carousel-frame" id="frame-2">
+                        <iframe src="/concepts/mountain-west" title="Mountain West Realty" loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
-            <div class="concept-card hover-target" style="background: #E8DCCB; color: #1A1A1A;">
-                <div class="concept-inner">
-                    <h3 class="concept-title" style="color: #1A1A1A; font-family: Georgia, serif; font-style: italic;">The home<br>you grow<br>into.</h3>
-                    <div>
-                        <h4 style="font-weight: 300; font-size: 1.5rem; margin: 0 0 0.5rem 0;">Rivera Homes</h4>
-                        <div class="mono-label" style="border:none; padding:0; margin:0; color: #666;">FAMILY REALTOR · TAMPA · WARM BRAND</div>
-                    </div>
+
+            <button class="carousel-arrow prev" id="prevBtn" aria-label="Previous site">←</button>
+            <button class="carousel-arrow next" id="nextBtn" aria-label="Next site">→</button>
+
+            <div class="carousel-footer">
+                <div class="carousel-site-info">
+                    <div class="carousel-site-name" id="carouselLabel">Chen Real Estate</div>
+                    <div class="carousel-site-desc" id="carouselDesc">Luxury · Austin · Solo Agent</div>
                 </div>
-            </div>
-            <div class="concept-card hover-target" style="background: #000; border-color: #222;">
-                <div class="concept-inner">
-                    <h3 class="concept-title" style="color: #FFF; letter-spacing: 0.1em; text-transform: uppercase; font-size: 3rem;">Mountain<br>West<br>Realty</h3>
-                    <div>
-                        <h4 style="font-weight: 300; font-size: 1.5rem; margin: 0 0 0.5rem 0; color: #FFF;">Mountain West Realty</h4>
-                        <div class="mono-label" style="border:none; padding:0; margin:0; color: var(--c-muted);">TEAM BROKERAGE · DENVER · EDITORIAL</div>
+                <div style="display:flex; align-items:center; gap:1.5rem;">
+                    <div class="carousel-dots">
+                        <button class="carousel-dot active" data-index="0" aria-label="Site 1"></button>
+                        <button class="carousel-dot" data-index="1" aria-label="Site 2"></button>
+                        <button class="carousel-dot" data-index="2" aria-label="Site 3"></button>
                     </div>
+                    <div class="carousel-counter" id="carouselCounter">01 / 03</div>
                 </div>
             </div>
         </div>
@@ -359,39 +526,49 @@
         </div>
     </section>
 
-    <section id="s6" class="light-sec" style="padding-top: 5vw;">
-        <h2>Solvus is not for every realtor.<br><span style="color: var(--c-muted);">That is the point.</span></h2>
-        
-        <div class="fit-box-wrapper">
-            <div class="fit-box dark float-y" data-speed="1.05">
-                <h3 style="margin-bottom: 3rem; font-weight: 100; font-size: 3rem;">Built for you if...</h3>
-                <div class="fit-item">
-                    <div class="fit-icon" style="color: var(--c-cyan);">[+]</div>
-                    <div>You close <strong>10 or more deals a year</strong> and are serious about your business.</div>
+    <section id="s6" class="dark-sec" style="background: var(--c-navy-light); padding-top: 6vw;">
+        <div class="mono-label" style="color: var(--c-cyan); border-color: var(--c-cyan);">05 / Fit</div>
+        <h2 style="max-width: 700px;">Solvus is not for<br>every realtor.</h2>
+        <p style="opacity: 0.45; font-size: clamp(1rem, 1.4vw, 1.25rem); margin-bottom: 0;">That is the point.</p>
+
+        <div class="fit-grid">
+            <div class="fit-col yes-col">
+                <div class="fit-col-header">
+                    <span class="fit-col-tag yes">Right fit</span>
+                    <span class="fit-col-heading">Built for you if</span>
                 </div>
-                <div class="fit-item">
-                    <div class="fit-icon" style="color: var(--c-cyan);">[+]</div>
-                    <div>You have a <strong>real niche or farm area</strong> — a neighborhood, a price band, a buyer type.</div>
+                <div class="fit-row">
+                    <span class="fit-num">01</span>
+                    <p class="fit-text">You close <strong>10 or more deals a year</strong> and treat this like the business it is.</p>
                 </div>
-                <div class="fit-item">
-                    <div class="fit-icon" style="color: var(--c-cyan);">[+]</div>
-                    <div>You are tired of looking like <strong>every other agent</strong> on your MLS.</div>
+                <div class="fit-row">
+                    <span class="fit-num">02</span>
+                    <p class="fit-text">You have a <strong>real niche or farm area.</strong> A neighborhood, a price band, a buyer type.</p>
+                </div>
+                <div class="fit-row">
+                    <span class="fit-num">03</span>
+                    <p class="fit-text">You are tired of looking like <strong>every other agent</strong> on your MLS.</p>
                 </div>
             </div>
-            
-            <div class="fit-box float-y" data-speed="0.95" style="background: transparent; border: none; padding-top: 6rem;">
-                <h3 style="margin-bottom: 3rem; font-weight: 100; font-size: 3rem;">Not for you if...</h3>
-                <div class="fit-item">
-                    <div class="fit-icon">[-]</div>
-                    <div>You want the <strong>cheapest option</strong>. Fiverr exists and we will happily point you there.</div>
+
+            <div class="fit-divider"></div>
+
+            <div class="fit-col no-col">
+                <div class="fit-col-header">
+                    <span class="fit-col-tag no">Wrong fit</span>
+                    <span class="fit-col-heading">Not for you if</span>
                 </div>
-                <div class="fit-item">
-                    <div class="fit-icon">[-]</div>
-                    <div>You want to <strong>edit everything daily</strong> yourself. Use Squarespace.</div>
+                <div class="fit-row">
+                    <span class="fit-num">01</span>
+                    <p class="fit-text">You want the <strong>cheapest option.</strong> Fiverr exists and we will point you there.</p>
                 </div>
-                <div class="fit-item">
-                    <div class="fit-icon">[-]</div>
-                    <div>You think a website is a <strong>commodity</strong>. We cannot help you see otherwise in a sales call.</div>
+                <div class="fit-row">
+                    <span class="fit-num">02</span>
+                    <p class="fit-text">You want to <strong>edit everything daily</strong> yourself. Use Squarespace.</p>
+                </div>
+                <div class="fit-row">
+                    <span class="fit-num">03</span>
+                    <p class="fit-text">You think a website is a <strong>commodity.</strong> We cannot change that in a sales call.</p>
                 </div>
             </div>
         </div>
@@ -404,9 +581,9 @@
                 <span class="stagger-text"><span class="outline-text">No pitch. We tell</span></span>
                 <span class="stagger-text"><span>you if we are a fit.</span></span>
             </h2>
-            <p class="fade-up" style="margin: 0 auto 3rem auto; font-size: 1.5rem;">Or email hello@solvus.com if you prefer. We read every message.</p>
+            <p class="fade-up" style="margin: 0 auto 3rem auto; font-size: 1.5rem;">Or email solvus@aisolvus.com if you prefer. We read every message.</p>
             <div class="btn-group fade-up" style="justify-content: center;">
-                <a href="mailto:hello@solvus.com" class="btn btn-solid hover-target">Book the call ↗</a>
+                <a href="mailto:solvus@aisolvus.com" class="btn btn-solid hover-target">Book the call ↗</a>
             </div>
         </div>
     </section>
@@ -418,6 +595,23 @@
 
 <script is:inline>
     gsap.registerPlugin(ScrollTrigger);
+
+    if (window.matchMedia('(hover: hover)').matches) {
+        const dot = document.getElementById('solvusCursor');
+        if (dot) {
+            window.addEventListener('mousemove', (e) => {
+                dot.style.left    = e.clientX + 'px';
+                dot.style.top     = e.clientY + 'px';
+                dot.style.opacity = '1';
+            }, { passive: true });
+
+            const iframeArea = document.querySelector('.carousel-frames');
+            if (iframeArea) {
+                iframeArea.addEventListener('mouseenter', () => { dot.style.opacity = '0'; });
+                iframeArea.addEventListener('mouseleave', () => { dot.style.opacity = '1'; });
+            }
+        }
+    }
 
     const lenis = new Lenis({
         duration: 1.2,
@@ -520,6 +714,49 @@
     gsap.to("#tlProgress", {
         height: "100%", ease: "none",
         scrollTrigger: { trigger: ".process-timeline", start: "top center", end: "bottom center", scrub: 1 }
+    });
+
+    function scaleCarousel() {
+        const framesEl = document.querySelector('.carousel-frames');
+        if (!framesEl) return;
+        const containerW = framesEl.offsetWidth;
+        const scale = containerW / 1440;
+        framesEl.style.height = Math.round(900 * scale) + 'px';
+        framesEl.querySelectorAll('iframe').forEach(el => {
+            el.style.transform = `scale(${scale})`;
+        });
+    }
+    scaleCarousel();
+    window.addEventListener('resize', scaleCarousel);
+
+    const carouselData = [
+        { url: 'chenrealestate.com', name: 'Chen Real Estate', desc: 'Luxury · Austin · Solo Agent' },
+        { url: 'riverahomes.com',    name: 'Rivera Homes',     desc: 'Family Realtor · Tampa · Warm Brand' },
+        { url: 'mountainwestrealty.com', name: 'Mountain West Realty', desc: 'Team Brokerage · Denver · Editorial' },
+    ];
+    let currentSlide = 0;
+
+    function goToSlide(idx) {
+        document.getElementById('frame-' + currentSlide).classList.remove('active');
+        document.querySelectorAll('.carousel-dot')[currentSlide].classList.remove('active');
+        currentSlide = (idx + carouselData.length) % carouselData.length;
+        document.getElementById('frame-' + currentSlide).classList.add('active');
+        document.querySelectorAll('.carousel-dot')[currentSlide].classList.add('active');
+        document.getElementById('carouselUrl').textContent   = carouselData[currentSlide].url;
+        document.getElementById('carouselLabel').textContent = carouselData[currentSlide].name;
+        document.getElementById('carouselDesc').textContent  = carouselData[currentSlide].desc;
+        document.getElementById('carouselCounter').textContent = '0' + (currentSlide + 1) + ' / 03';
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => goToSlide(currentSlide - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goToSlide(currentSlide + 1));
+    document.querySelectorAll('.carousel-dot').forEach(dot => {
+        dot.addEventListener('click', () => goToSlide(+dot.dataset.index));
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft')  goToSlide(currentSlide - 1);
+        if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
     });
 
     const canvas = document.getElementById('webgl-canvas');

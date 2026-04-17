@@ -146,6 +146,24 @@ body {
   font-feature-settings: 'ss01', 'ss02', 'cv11';
 }
 
+@media (hover: hover) {
+  * { cursor: none !important; }
+}
+
+.solvus-cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: #00E5FF;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0;
+  margin-left: -4px;
+  margin-top: -4px;
+  transition: opacity 0.15s;
+  will-change: left, top;
+}
+
 img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;

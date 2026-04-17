@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mountain West Realty | Denver's Premier Brokerage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0A0A0A;
+    --white: #F5F5F5;
+    --red: #E8240A;
+    --red-dark: #C01E08;
+    --gray: #E0E0E0;
+    --mid-gray: #888;
+    --light-bg: #F5F5F5;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--black);
+    border-bottom: 4px solid var(--red);
+    padding: 0 4vw;
+    display: flex; justify-content: space-between; align-items: center;
+    height: 68px;
+  }
+  .nav-logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.1rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--white); text-decoration: none;
+  }
+  .nav-logo span { color: var(--red); }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(245,245,245,0.5); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--red); color: var(--white);
+    padding: 0.6rem 1.4rem; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--red-dark); }
+
+  /* MARQUEE */
+  .marquee-bar {
+    background: var(--red); overflow: hidden; padding: 0.55rem 0;
+    white-space: nowrap;
+  }
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 28s linear infinite;
+  }
+  .marquee-inner span {
+    font-family: 'Anton', sans-serif;
+    font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--white); margin-right: 4rem;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* HERO */
+  .hero {
+    display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh;
+  }
+  .hero-left {
+    background: var(--black); display: flex; flex-direction: column;
+    justify-content: space-between; padding: 5vw 4vw;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--red); border-left: 3px solid var(--red); padding-left: 1rem;
+  }
+  .hero-headline {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(5rem, 12vw, 14rem); line-height: 0.88;
+    color: var(--white); letter-spacing: 0.01em;
+  }
+  .hero-headline .red { color: var(--red); }
+  .hero-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-top: 1px solid rgba(245,245,245,0.1); padding-top: 2rem;
+  }
+  .hero-sub {
+    font-size: 0.85rem; line-height: 1.65; color: rgba(245,245,245,0.5);
+    max-width: 300px;
+  }
+  .hero-cta {
+    display: inline-block; background: var(--red); color: var(--white);
+    padding: 1rem 2rem; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .hero-cta:hover { background: var(--red-dark); transform: translateY(-3px); }
+
+  .hero-right {
+    background: var(--light-bg); display: grid;
+    grid-template-columns: 1fr 1fr; gap: 3px;
+  }
+  .hero-grid-cell {
+    background: var(--gray); position: relative; overflow: hidden;
+    min-height: 200px;
+  }
+  .hero-grid-cell:nth-child(1) { background: linear-gradient(145deg, #c8d0c0, #8090789); }
+  .hero-grid-cell:nth-child(2) { background: linear-gradient(145deg, #b0b8a8, #687060); }
+  .hero-grid-cell:nth-child(3) { background: linear-gradient(145deg, #a8b0a0, #607068); }
+  .hero-grid-cell:nth-child(4) { background: var(--black); }
+  .cell-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(10,10,10,0.85); padding: 0.8rem 1rem;
+  }
+  .cell-price {
+    font-family: 'Anton', sans-serif; font-size: 1.2rem;
+    color: var(--white); letter-spacing: 0.04em;
+  }
+  .cell-addr {
+    font-size: 0.65rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(245,245,245,0.5); margin-top: 0.15rem;
+  }
+  .cell-sold {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--red); color: var(--white);
+    font-family: 'Anton', sans-serif; font-size: 0.7rem; letter-spacing: 0.12em;
+    padding: 0.3rem 0.6rem;
+  }
+  .big-number-cell {
+    display: flex; flex-direction: column; justify-content: center;
+    align-items: center; text-align: center; padding: 2rem;
+  }
+  .big-number {
+    font-family: 'Anton', sans-serif; font-size: 3.5rem;
+    color: var(--red); line-height: 1; letter-spacing: 0.02em;
+  }
+  .big-number-label {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(245,245,245,0.5); margin-top: 0.5rem;
+  }
+
+  /* STATS BAND */
+  .stats-band {
+    background: var(--black); display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 4px solid var(--red);
+  }
+  .stat-block {
+    padding: 3rem 4vw; border-right: 1px solid rgba(245,245,245,0.08);
+  }
+  .stat-block:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 5rem); line-height: 1;
+    color: var(--white); letter-spacing: 0.02em; display: block;
+    margin-bottom: 0.5rem;
+  }
+  .stat-num .red { color: var(--red); }
+  .stat-desc {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--mid-gray);
+  }
+
+  /* LISTINGS */
+  .listings-section { padding: 6vw 4vw; background: var(--white); }
+  .section-header-row {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3rem; padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--black);
+  }
+  .section-tag {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--red); margin-bottom: 0.5rem;
+  }
+  .section-headline {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem); letter-spacing: 0.03em; text-transform: uppercase;
+    line-height: 1;
+  }
+  .all-link {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--black); text-decoration: none; border-bottom: 2px solid var(--red);
+    padding-bottom: 2px; transition: color 0.2s;
+  }
+  .all-link:hover { color: var(--red); }
+  .listings-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--black);
+  }
+  .listing-card {
+    background: var(--white); overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .listing-card:hover { transform: scale(1.01); z-index: 1; }
+  .listing-img {
+    height: 200px; position: relative; overflow: hidden;
+  }
+  .listing-img-bg {
+    width: 100%; height: 100%;
+    transition: transform 0.5s;
+  }
+  .listing-card:hover .listing-img-bg { transform: scale(1.05); }
+  .listing-card:nth-child(1) .listing-img-bg { background: linear-gradient(145deg, #a8b098, #606850); }
+  .listing-card:nth-child(2) .listing-img-bg { background: linear-gradient(145deg, #b0a890, #706050); }
+  .listing-card:nth-child(3) .listing-img-bg { background: linear-gradient(145deg, #989898, #505050); }
+  .listing-status {
+    position: absolute; top: 1rem; left: 1rem;
+    font-family: 'Anton', sans-serif; font-size: 0.65rem; letter-spacing: 0.12em;
+    padding: 0.3rem 0.6rem;
+  }
+  .status-active { background: #1a7a30; color: #fff; }
+  .status-pending { background: #d4920a; color: #fff; }
+  .status-sold { background: var(--red); color: #fff; }
+  .listing-body { padding: 1.5rem; border-top: 3px solid var(--black); }
+  .listing-price {
+    font-family: 'Anton', sans-serif; font-size: 1.6rem; letter-spacing: 0.02em;
+    margin-bottom: 0.3rem;
+  }
+  .listing-address {
+    font-size: 0.8rem; font-weight: 400; color: var(--mid-gray);
+    margin-bottom: 1rem; letter-spacing: 0.03em;
+  }
+  .listing-specs {
+    display: flex; gap: 1.2rem;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    border-top: 1px solid var(--gray); padding-top: 1rem;
+  }
+
+  /* TEAM */
+  .team-section { background: var(--light-bg); padding: 6vw 4vw; }
+  .team-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--black); margin-top: 3rem;
+  }
+  .team-card {
+    background: var(--white); overflow: hidden;
+    transition: background 0.3s;
+  }
+  .team-card:hover { background: var(--black); }
+  .team-photo {
+    height: 280px; filter: grayscale(100%);
+    transition: filter 0.4s;
+    background: linear-gradient(145deg, #999, #555);
+  }
+  .team-card:nth-child(2) .team-photo { background: linear-gradient(145deg, #888, #444); }
+  .team-card:nth-child(3) .team-photo { background: linear-gradient(145deg, #aaa, #666); }
+  .team-card:hover .team-photo { filter: grayscale(0%) sepia(20%); }
+  .team-body { padding: 1.5rem; border-top: 3px solid var(--black); transition: border-color 0.3s; }
+  .team-card:hover .team-body { border-color: var(--red); }
+  .team-name {
+    font-family: 'Anton', sans-serif; font-size: 1.3rem; letter-spacing: 0.04em;
+    text-transform: uppercase; margin-bottom: 0.2rem;
+    transition: color 0.3s;
+  }
+  .team-card:hover .team-name { color: var(--white); }
+  .team-role {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--red);
+  }
+  .team-stat {
+    margin-top: 1rem; font-size: 0.75rem; color: var(--mid-gray);
+    transition: color 0.3s;
+  }
+  .team-card:hover .team-stat { color: rgba(245,245,245,0.5); }
+
+  /* CTA */
+  .cta-section {
+    background: var(--black); padding: 8vw 4vw;
+    display: grid; grid-template-columns: 1fr auto; gap: 4vw; align-items: center;
+    border-top: 4px solid var(--red);
+  }
+  .cta-headline {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.9; letter-spacing: 0.02em;
+    color: var(--white); text-transform: uppercase;
+  }
+  .cta-headline .red { color: var(--red); }
+  .cta-right { display: flex; flex-direction: column; gap: 1.2rem; align-items: flex-end; }
+  .cta-sub {
+    font-size: 0.9rem; line-height: 1.65; color: rgba(245,245,245,0.5);
+    max-width: 300px; text-align: right;
+  }
+  .btn-red-big {
+    display: inline-block; background: var(--red); color: var(--white);
+    padding: 1.2rem 2.5rem; font-family: 'Anton', sans-serif;
+    font-size: 1rem; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; transition: background 0.2s, transform 0.2s;
+  }
+  .btn-red-big:hover { background: var(--red-dark); transform: translateY(-3px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); padding: 2rem 4vw;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(245,245,245,0.08);
+  }
+  .footer-logo {
+    font-family: 'Anton', sans-serif; font-size: 1rem;
+    color: var(--white); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-copy {
+    font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(245,245,245,0.3);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Mountain <span>West</span> Realty</a>
+  <ul class="nav-links">
+    <li><a href="#listings">Listings</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Schedule Now</a>
+</nav>
+
+<div class="marquee-bar">
+  <div class="marquee-inner">
+    <span>SOLD · $1.2M · HIGHLAND · 14 DAYS</span>
+    <span>SOLD · $875K · WASH PARK · 7 DAYS</span>
+    <span>SOLD · $2.1M · CHERRY CREEK · 22 DAYS</span>
+    <span>SOLD · $650K · PLATT PARK · 5 DAYS</span>
+    <span>SOLD · $1.4M · CONGRESS PARK · 11 DAYS</span>
+    <span>SOLD · $1.2M · HIGHLAND · 14 DAYS</span>
+    <span>SOLD · $875K · WASH PARK · 7 DAYS</span>
+    <span>SOLD · $2.1M · CHERRY CREEK · 22 DAYS</span>
+    <span>SOLD · $650K · PLATT PARK · 5 DAYS</span>
+    <span>SOLD · $1.4M · CONGRESS PARK · 11 DAYS</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Denver's #1 Team Brokerage · Est. 2006</div>
+    <div class="hero-headline">WE<br>SELL<br><span class="red">DEN</span>VER.</div>
+    <div class="hero-bottom">
+      <p class="hero-sub">847 homes sold. $2.4 billion in volume. 18 years dominating the Denver market. We don't dabble. We deliver.</p>
+      <a href="#listings" class="hero-cta">See Listings →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-grid-cell">
+      <div class="cell-sold">SOLD</div>
+      <div class="cell-label">
+        <div class="cell-price">$1,250,000</div>
+        <div class="cell-addr">Highland · 4 BD · 3 BA</div>
+      </div>
+    </div>
+    <div class="hero-grid-cell">
+      <div class="cell-sold">SOLD</div>
+      <div class="cell-label">
+        <div class="cell-price">$875,000</div>
+        <div class="cell-addr">Wash Park · 3 BD · 2 BA</div>
+      </div>
+    </div>
+    <div class="hero-grid-cell">
+      <div class="cell-sold">SOLD</div>
+      <div class="cell-label">
+        <div class="cell-price">$2,100,000</div>
+        <div class="cell-addr">Cherry Creek · 5 BD · 4 BA</div>
+      </div>
+    </div>
+    <div class="hero-grid-cell big-number-cell">
+      <div class="big-number">99<span style="font-size:2rem; color:rgba(245,245,245,0.3);">%</span></div>
+      <div class="big-number-label">List-to-Sale Ratio</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-band">
+  <div class="stat-block">
+    <span class="stat-num">847</span>
+    <div class="stat-desc">Homes Sold</div>
+  </div>
+  <div class="stat-block">
+    <span class="stat-num">$2.4<span class="red">B</span></span>
+    <div class="stat-desc">Sales Volume</div>
+  </div>
+  <div class="stat-block">
+    <span class="stat-num">18</span>
+    <div class="stat-desc">Years in Denver</div>
+  </div>
+  <div class="stat-block">
+    <span class="stat-num">TOP <span class="red">1%</span></span>
+    <div class="stat-desc">Colorado Agents</div>
+  </div>
+</div>
+
+<section id="listings" class="listings-section">
+  <div class="section-header-row">
+    <div>
+      <div class="section-tag">On the Market Now</div>
+      <div class="section-headline">Current Listings</div>
+    </div>
+    <a href="#" class="all-link">View All 24 Listings →</a>
+  </div>
+  <div class="listings-grid">
+    <div class="listing-card">
+      <div class="listing-img">
+        <div class="listing-img-bg"></div>
+        <div class="listing-status status-active">Active</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">$1,450,000</div>
+        <div class="listing-address">3421 Lowell Blvd, Denver CO 80211</div>
+        <div class="listing-specs">
+          <span>4 BD</span>
+          <span>3.5 BA</span>
+          <span>3,200 SF</span>
+          <span>Highland</span>
+        </div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="listing-img">
+        <div class="listing-img-bg"></div>
+        <div class="listing-status status-pending">Pending</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">$895,000</div>
+        <div class="listing-address">711 S. Downing St, Denver CO 80209</div>
+        <div class="listing-specs">
+          <span>3 BD</span>
+          <span>2 BA</span>
+          <span>2,100 SF</span>
+          <span>Wash Park</span>
+        </div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="listing-img">
+        <div class="listing-img-bg"></div>
+        <div class="listing-status status-active">Active</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">$2,250,000</div>
+        <div class="listing-address">245 Bellaire St, Denver CO 80220</div>
+        <div class="listing-specs">
+          <span>5 BD</span>
+          <span>4 BA</span>
+          <span>4,800 SF</span>
+          <span>Cherry Creek</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team" class="team-section">
+  <div class="section-tag">The People Behind the Numbers</div>
+  <div class="section-headline">Our Team</div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-photo"></div>
+      <div class="team-body">
+        <div class="team-name">Derek Walsh</div>
+        <div class="team-role">Founding Partner · Buyer Specialist</div>
+        <div class="team-stat">312 transactions · $890M volume</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"></div>
+      <div class="team-body">
+        <div class="team-name">Sarah Petrov</div>
+        <div class="team-role">Listing Director · Luxury Division</div>
+        <div class="team-stat">287 transactions · $1.1B volume</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"></div>
+      <div class="team-body">
+        <div class="team-name">Marcus Cole</div>
+        <div class="team-role">Investment & Multi-Family</div>
+        <div class="team-stat">248 transactions · $420M volume</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="cta-section">
+  <div class="cta-headline">
+    LET'S GET<br>YOU <span class="red">SOLD.</span>
+  </div>
+  <div class="cta-right">
+    <p class="cta-sub">20 minutes. We'll tell you what your home is worth, what it'll take to sell fast, and whether we're the right team for you.</p>
+    <a href="tel:+17205550100" class="btn-red-big">Schedule a Call</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Mountain <span>West</span> Realty</div>
+  <div class="footer-copy">© 2024 Mountain West Realty · Denver, CO · Equal Housing Opportunity</div>
+</footer>
+
+</body>
+</html>

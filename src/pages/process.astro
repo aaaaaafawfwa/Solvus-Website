@@ -22,7 +22,7 @@
     }
 
     * { box-sizing: border-box; }
-    
+
     html.lenis { height: auto; }
     .lenis.lenis-smooth { scroll-behavior: auto; }
     .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
@@ -33,21 +33,17 @@
         font-family: var(--font-sans);
         background-color: var(--c-navy);
         color: var(--c-white);
-        cursor: none;
         overflow-x: hidden;
     }
 
-    /* Custom Cursor */
-    .cursor-dot {
-        position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+    @media (hover: hover) { * { cursor: none !important; } }
+
+    .solvus-cursor {
+        position: fixed; width: 8px; height: 8px;
         background: var(--c-cyan); border-radius: 50%;
-        transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
-    }
-    .cursor-ring {
-        position: fixed; top: 0; left: 0; width: 40px; height: 40px;
-        border: 1px solid rgba(0, 229, 255, 0.5); border-radius: 50%;
-        transform: translate(-50%, -50%); pointer-events: none; z-index: 9998;
-        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+        pointer-events: none; z-index: 99999;
+        opacity: 0; margin-left: -4px; margin-top: -4px;
+        transition: opacity 0.15s; will-change: left, top;
     }
 
     #webgl-canvas {
@@ -58,11 +54,17 @@
     nav {
         position: fixed; top: 0; width: 100%; height: var(--nav-height);
         display: flex; justify-content: space-between; align-items: center;
-        padding: 0 4vw; z-index: 50; mix-blend-mode: difference; color: #fff;
+        padding: 0 4vw; z-index: 50;
+        background: rgba(3, 6, 12, 0.85);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        color: var(--c-white);
     }
-    .brand { font-weight: 200; letter-spacing: 4px; text-transform: uppercase; font-size: 1.2rem; text-decoration: none; color: inherit;}
+    .brand { font-weight: 200; letter-spacing: 4px; text-transform: uppercase; font-size: 1.2rem; text-decoration: none; color: inherit; }
     .nav-links { display: flex; gap: 3vw; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
-    .nav-links a { color: inherit; text-decoration: none; }
+    .nav-links a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--c-white); }
+    .nav-active { color: var(--c-cyan) !important; }
 
     main { position: relative; z-index: 10; }
 
@@ -72,11 +74,10 @@
         position: relative;
     }
 
-    /* Typography */
     h1 { font-size: clamp(3.5rem, 8vw, 9rem); font-weight: 100; letter-spacing: -0.05em; line-height: 0.85; margin: 0 0 2rem 0; }
     h2 { font-size: clamp(2.5rem, 5vw, 6rem); font-weight: 100; letter-spacing: -0.03em; line-height: 0.95; margin: 0 0 2rem 0; }
     h3 { font-weight: 200; font-size: clamp(1.5rem, 3vw, 2.5rem); margin: 0 0 1rem 0; letter-spacing: -0.02em; }
-    
+
     .mono-label {
         font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em;
         text-transform: uppercase; margin-bottom: 2rem; display: inline-block;
@@ -85,130 +86,230 @@
 
     p { font-size: clamp(1rem, 1.2vw, 1.3rem); line-height: 1.6; max-width: 650px; margin: 0 0 1.5rem 0; font-weight: 200; opacity: 0.8; }
 
-    /* Buttons */
     .btn {
-        display: inline-flex; align-items: center; gap: 1rem; padding: 1.2rem 2.5rem; border: 1px solid currentColor;
-        background: transparent; color: inherit; cursor: none; font-family: var(--font-mono); font-size: 0.75rem; 
-        text-transform: uppercase; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-decoration: none; 
-        letter-spacing: 2px; border-radius: 40px; position: relative; overflow: hidden;
+        display: inline-flex; align-items: center; gap: 1rem;
+        padding: 1.2rem 2.5rem; border: 1px solid var(--c-white);
+        background: transparent; color: var(--c-white);
+        font-family: var(--font-mono); font-size: 0.75rem;
+        text-transform: uppercase; text-decoration: none; letter-spacing: 2px;
+        border-radius: 40px;
+        transition: background 0.35s cubic-bezier(0.16,1,0.3,1), color 0.35s, border-color 0.35s;
     }
-    .btn::before { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%; background: currentColor; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: -1; }
-    .btn:hover::before { transform: translateY(-100%); }
-    .btn:hover { color: var(--c-navy) !important; }
-    .btn-solid { background: currentColor; color: var(--c-navy); }
-    .btn-solid::before { background: var(--c-navy); }
-    .btn-solid:hover { color: var(--c-white) !important; }
+    .btn:hover { background: var(--c-cyan); color: var(--c-navy) !important; border-color: var(--c-cyan); }
+    .btn-solid { background: var(--c-white); color: var(--c-navy); border-color: var(--c-white); }
+    .btn-solid:hover { background: var(--c-cyan); color: var(--c-navy) !important; border-color: var(--c-cyan); }
 
     .dark-sec { color: var(--c-white); background-color: transparent; }
     .light-sec { color: var(--c-navy); background-color: var(--c-white); }
-    .light-sec .btn:hover { color: var(--c-white) !important; }
-    .light-sec .btn-solid { color: var(--c-white); }
-    .light-sec .btn-solid:hover { color: var(--c-navy) !important; }
 
     .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
 
-    /* Component: Interactive Panels */
+    /* ── Interactive Panel Shell ──────────────────────────────── */
     .interactive-panel {
         width: 100%; height: 600px; border: 1px solid rgba(255,255,255,0.1);
         background: rgba(2, 6, 13, 0.4); backdrop-filter: blur(10px);
         border-radius: 8px; display: flex; flex-direction: column; overflow: hidden;
-        box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        transition: border-color 0.4s ease, box-shadow 0.4s ease;
     }
     .light-sec .interactive-panel {
-        background: rgba(255, 255, 255, 0.8); border-color: rgba(2,6,13,0.1);
+        background: rgba(255,255,255,0.8); border-color: rgba(2,6,13,0.1);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.06);
+    }
+
+    @keyframes panelCall {
+        0%   { transform: scale(1);      box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0  0px rgba(0,229,255,0);     border-color: rgba(255,255,255,0.1); }
+        30%  { transform: scale(1.016);  box-shadow: 0 38px 75px rgba(0,0,0,0.18), 0 0 45px rgba(0,229,255,0.2),  0 0 90px rgba(0,229,255,0.07); border-color: rgba(0,229,255,0.45); }
+        55%  { transform: scale(1.016);  box-shadow: 0 38px 75px rgba(0,0,0,0.18), 0 0 45px rgba(0,229,255,0.2),  0 0 90px rgba(0,229,255,0.07); border-color: rgba(0,229,255,0.45); }
+        100% { transform: scale(1);      box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0  0px rgba(0,229,255,0);     border-color: rgba(255,255,255,0.1); }
+    }
+    @keyframes panelCallLight {
+        0%   { transform: scale(1);      box-shadow: 0 30px 60px rgba(0,0,0,0.06), 0 0  0px rgba(0,229,255,0);     border-color: rgba(2,6,13,0.1); }
+        30%  { transform: scale(1.016);  box-shadow: 0 38px 75px rgba(0,0,0,0.09), 0 0 45px rgba(0,229,255,0.18), 0 0 90px rgba(0,229,255,0.06); border-color: rgba(0,200,230,0.4); }
+        55%  { transform: scale(1.016);  box-shadow: 0 38px 75px rgba(0,0,0,0.09), 0 0 45px rgba(0,229,255,0.18), 0 0 90px rgba(0,229,255,0.06); border-color: rgba(0,200,230,0.4); }
+        100% { transform: scale(1);      box-shadow: 0 30px 60px rgba(0,0,0,0.06), 0 0  0px rgba(0,229,255,0);     border-color: rgba(2,6,13,0.1); }
+    }
+
+    .panel-calling              { animation: panelCall      2.6s cubic-bezier(0.45, 0, 0.55, 1) 3 both; }
+    .light-sec .panel-calling   { animation: panelCallLight 2.6s cubic-bezier(0.45, 0, 0.55, 1) 3 both; }
+
+    /* smooth return to rest when interaction stops the pulse */
+    .panel-settling {
+        animation: none !important;
+        transition: transform 0.7s cubic-bezier(0.16,1,0.3,1),
+                    box-shadow 0.7s cubic-bezier(0.16,1,0.3,1),
+                    border-color 0.7s cubic-bezier(0.16,1,0.3,1) !important;
+        transform: scale(1) !important;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.15) !important;
+        border-color: rgba(255,255,255,0.1) !important;
+    }
+    .light-sec .panel-settling {
+        box-shadow: 0 30px 60px rgba(0,0,0,0.06) !important;
+        border-color: rgba(2,6,13,0.1) !important;
+    }
+
+    /* Interactive badge */
+    .interactive-badge {
+        display: flex; align-items: center; gap: 6px;
+        font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.15em;
+        text-transform: uppercase; padding: 5px 10px; border-radius: 40px;
+        background: rgba(0,229,255,0.1); color: var(--c-cyan);
+        border: 1px solid rgba(0,229,255,0.2); margin-left: auto; white-space: nowrap;
+        animation: badgePulse 2.5s ease-in-out infinite;
+    }
+    .interactive-badge::before {
+        content: ''; display: block; width: 5px; height: 5px; border-radius: 50%;
+        background: var(--c-cyan); flex-shrink: 0;
+        animation: dotBlink 2.5s ease-in-out infinite;
+    }
+    @keyframes badgePulse { 0%,100%{opacity:.55} 50%{opacity:1} }
+    @keyframes dotBlink   { 0%,100%{opacity:1}  50%{opacity:.2} }
+
+    .light-sec .interactive-badge {
+        background: rgba(0,229,255,0.08); border-color: rgba(0,180,200,0.25);
+    }
+
+    /* Hint strip */
+    .panel-hint {
+        display: flex; align-items: center; gap: 0.6rem;
+        font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em;
+        text-transform: uppercase; padding: 0.6rem 1.5rem;
+        background: rgba(0,229,255,0.04); border-bottom: 1px solid rgba(0,229,255,0.08);
+        color: rgba(0,229,255,0.55);
+        transition: opacity 0.5s ease, max-height 0.5s ease, padding 0.5s ease;
+        overflow: hidden; max-height: 60px;
+    }
+    .panel-hint svg { flex-shrink: 0; opacity: 0.7; }
+    .panel-hint.hidden { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; pointer-events: none; }
+    .light-sec .panel-hint {
+        background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06);
+        color: rgba(0,100,120,0.5);
     }
 
     .panel-header {
-        display: flex; gap: 1rem; padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);
+        display: flex; gap: 1rem; padding: 1.2rem 1.5rem; align-items: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
         background: rgba(255,255,255,0.02);
     }
     .light-sec .panel-header { border-color: rgba(2,6,13,0.1); background: rgba(2,6,13,0.02); }
-    
+
     .panel-btn {
         background: transparent; border: 1px solid currentColor; color: inherit;
-        font-family: var(--font-mono); font-size: 0.7rem; padding: 8px 16px; cursor: none;
-        border-radius: 40px; transition: all 0.3s; letter-spacing: 1px;
+        font-family: var(--font-mono); font-size: 0.7rem; padding: 8px 16px;
+        border-radius: 40px; transition: background 0.25s, color 0.25s, border-color 0.25s;
+        letter-spacing: 1px;
     }
-    .panel-btn:hover, .panel-btn.active { background: var(--c-cyan); color: var(--c-navy); border-color: var(--c-cyan); }
+    .panel-btn:hover, .panel-btn.active {
+        background: var(--c-cyan); color: var(--c-navy); border-color: var(--c-cyan);
+    }
 
-    .panel-body { flex: 1; padding: 2rem; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 1rem;}
+    .panel-body { flex: 1; padding: 2rem; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 1rem; }
 
-    /* specific: Wireframe Builder */
+    /* ── Wireframe Builder ──────────────────────────────────── */
     .wf-block {
         width: 100%; border: 1px dashed var(--c-cyan); border-radius: 4px;
         display: flex; align-items: center; justify-content: center;
         font-family: var(--font-mono); font-size: 0.75rem; color: var(--c-cyan);
-        opacity: 0; transform: scale(0.98); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        opacity: 0; transform: scale(0.98);
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         height: 0; padding: 0; margin: 0; overflow: hidden;
     }
     .wf-block.active { opacity: 1; transform: scale(1); margin-bottom: 1rem; }
     .wf-header { height: 60px; }
-    .wf-hero { height: 200px; }
+    .wf-hero   { height: 200px; }
     .wf-listings { height: 150px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; padding: 1rem; border: none; }
     .wf-listings div { border: 1px dashed var(--c-cyan); height: 100%; border-radius: 4px; }
-    .wf-about { height: 100px; }
+    .wf-about  { height: 100px; }
 
-    /* specific: Token System */
-    .token-view { display: none; height: 100%; animation: fadeIn 0.4s ease; flex-direction: column; gap: 2rem; justify-content: center;}
+    /* ── Token System ───────────────────────────────────────── */
+    .token-view { display: none; height: 100%; animation: fadeIn 0.4s ease; flex-direction: column; gap: 2rem; justify-content: center; }
     .token-view.active { display: flex; }
-    .type-row { display: flex; align-items: baseline; gap: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;}
-    .space-bar { height: 20px; background: var(--c-cyan); border-radius: 2px; display: flex; align-items: center; padding-left: 10px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--c-navy);}
+    .type-row { display: flex; align-items: baseline; gap: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem; }
+    .space-bar { height: 20px; background: var(--c-cyan); border-radius: 2px; display: flex; align-items: center; padding-left: 10px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--c-navy); }
     .color-grid { display: flex; gap: 1rem; }
-    .color-swatch { width: 80px; height: 80px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.6rem;}
+    .color-swatch { width: 80px; height: 80px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.6rem; text-align: center; }
 
-    /* specific: Code vs Render */
+    /* ── Code vs Render ─────────────────────────────────────── */
     .split-view-container { display: flex; height: 100%; width: 100%; }
-    .code-side { flex: 1; background: #0A111E; padding: 2rem; font-family: var(--font-mono); font-size: 0.8rem; color: #8AB4F8; overflow: hidden; border-right: 1px solid rgba(2,6,13,0.1);}
-    .render-side { flex: 1; padding: 2rem; display: flex; align-items: center; justify-content: center; background: #F8FAFC; color: #02060D;}
-    .slider-container { padding: 1.5rem; background: rgba(2,6,13,0.02); border-bottom: 1px solid rgba(2,6,13,0.1); display: flex; align-items: center; gap: 1rem;}
-    input[type=range] { flex: 1; cursor: none; accent-color: var(--c-cyan); }
+    .code-side { flex: 1; background: #0A111E; padding: 2rem; font-family: var(--font-mono); font-size: 0.8rem; color: #8AB4F8; overflow: hidden; border-right: 1px solid rgba(2,6,13,0.1); }
+    .render-side { flex: 1; padding: 2rem; display: flex; align-items: center; justify-content: center; background: #F8FAFC; color: #02060D; }
+    .slider-container { padding: 1.2rem 1.5rem; background: rgba(2,6,13,0.02); border-bottom: 1px solid rgba(2,6,13,0.1); display: flex; align-items: center; gap: 1rem; }
+    .slider-container span { font-family: var(--font-mono); font-size: 0.7rem; color: rgba(2,6,13,0.5); white-space: nowrap; }
+    input[type=range] { flex: 1; accent-color: var(--c-cyan); height: 4px; }
 
-    /* specific: Handover Manifest */
-    .manifest-list { list-style: none; padding: 0; margin: 0; font-family: var(--font-mono); font-size: 0.85rem;}
-    .manifest-list li { display: flex; gap: 1rem; align-items: center; padding: 1.25rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); opacity: 0.3; transition: opacity 0.3s; }
-    .manifest-list li.checked { opacity: 1; }
-    .checkbox { width: 20px; height: 20px; border: 1px solid currentColor; display: flex; align-items: center; justify-content: center; border-radius: 2px;}
-    .manifest-list li.checked .checkbox::after { content: '✓'; color: var(--c-cyan); }
+    /* ── Manifest ───────────────────────────────────────────── */
+    .manifest-list { list-style: none; padding: 0; margin: 0; font-family: var(--font-mono); font-size: 0.85rem; }
+    .manifest-list li {
+        display: flex; gap: 1rem; align-items: center;
+        padding: 1.25rem 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+        opacity: 0; transform: translateX(-12px);
+        transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1),
+                    color 0.3s ease, border-color 0.3s ease;
+    }
+    .manifest-list li.checked {
+        opacity: 1; transform: translateX(0);
+        color: var(--c-white); border-color: rgba(0,229,255,0.15);
+    }
+    .checkbox {
+        width: 20px; height: 20px; border: 1px solid rgba(255,255,255,0.3);
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 2px; flex-shrink: 0;
+        transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .manifest-list li.checked .checkbox {
+        border-color: var(--c-cyan); background: rgba(0,229,255,0.12);
+        box-shadow: 0 0 8px rgba(0,229,255,0.3);
+    }
+    .manifest-list li.checked .checkbox::after { content: '✓'; color: var(--c-cyan); font-size: 0.75rem; }
 
-    /* Engineering Grid */
+    /* ── Engineering Grid ───────────────────────────────────── */
     .eng-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
-    .eng-card { border: 1px solid rgba(2,6,13,0.1); padding: 2rem; border-radius: 4px; transition: transform 0.3s, border-color 0.3s;}
+    .eng-card { border: 1px solid rgba(2,6,13,0.1); padding: 2rem; border-radius: 4px; transition: transform 0.3s, border-color 0.3s; }
     .eng-card:hover { transform: translateY(-5px); border-color: var(--c-cyan); }
     .eng-card .mono-label { border: none; padding: 0; color: var(--c-navy); font-weight: bold; }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Legend */
-    .legend-block { font-family: var(--font-mono); font-size: 0.85rem; border: 1px solid var(--c-cyan); padding: 2rem; border-radius: 4px; display: inline-flex; flex-direction: column; gap: 1rem;}
-    .legend-item { display: flex; gap: 2rem; cursor: none; transition: color 0.3s; }
+    /* ── Legend / Nav block ─────────────────────────────────── */
+    .legend-block { font-family: var(--font-mono); font-size: 0.85rem; border: 1px solid var(--c-cyan); padding: 2rem; border-radius: 4px; display: inline-flex; flex-direction: column; gap: 1rem; }
+    .legend-item { display: flex; gap: 2rem; transition: color 0.3s; }
     .legend-item:hover { color: var(--c-cyan); }
 
     .stagger-text { overflow: hidden; display: block; }
     .stagger-text span { display: block; }
-    .outline-text { color: transparent; -webkit-text-stroke: 1px var(--c-muted); }
+    .outline-text { color: var(--c-cyan); }
+
     .bg-giant-text { position: absolute; top: 10%; left: -5%; font-size: 25vw; font-weight: 100; line-height: 0.8; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.02); pointer-events: none; z-index: -1; white-space: nowrap; }
     .light-sec .bg-giant-text { -webkit-text-stroke: 1px rgba(2,6,13,0.03); }
+
     .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--c-cyan); width: 0%; z-index: 100; transform-origin: left; }
+
+    @media (max-width: 768px) {
+        * { cursor: auto !important; }
+        .split-grid { grid-template-columns: 1fr; gap: 3rem; }
+        .interactive-panel { height: auto; min-height: 400px; }
+        .nav-links { display: none; }
+    }
 </style>
 </head>
 <body>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div class="solvus-cursor" id="solvusCursor"></div>
 <div class="progress-bar" id="progressBar"></div>
 
 <nav>
-    <a href="/" class="brand hover-target">Solvus</a>
+    <a href="/" class="brand">Solvus</a>
     <div class="nav-links">
-        <span style="color: var(--c-cyan);">Process</span>
-        <a href="/services" class="hover-target">Services</a>
-        <a href="/about" class="hover-target">About</a>
+        <span class="nav-active">Process</span>
+        <a href="/services">Services</a>
+        <a href="/about">About</a>
     </div>
 </nav>
 
 <canvas id="webgl-canvas"></canvas>
 
 <main>
+    <!-- S1: HERO -->
     <section id="s1" class="dark-sec">
         <div class="split-grid" style="height: 80vh;">
             <div>
@@ -218,38 +319,44 @@
                     <span class="stagger-text"><span class="outline-text">Solvus site</span></span>
                     <span class="stagger-text"><span>gets built.</span></span>
                 </h1>
-                <p class="fade-up">No case studies yet — Solvus is pre-launch. Instead, every decision and technique we use is documented below. If you want to see what we deliver, read this page. It's the honest version of a portfolio.</p>
+                <p class="fade-up">No case studies yet. Solvus is pre-launch. Instead, every decision and technique we use is documented below. If you want to see what we deliver, read this page. It is the honest version of a portfolio.</p>
             </div>
-            
+
             <div class="fade-up float-y" data-speed="1.1" style="display: flex; justify-content: flex-end;">
                 <div class="legend-block">
-                    <div style="color: var(--c-muted); margin-bottom: 1rem;">— PHASES OF WORK —</div>
-                    <div class="legend-item hover-target" onclick="lenis.scrollTo('#s2')"><span>01</span><span>STRUCTURE</span></div>
-                    <div class="legend-item hover-target" onclick="lenis.scrollTo('#s3')"><span>02</span><span>SYSTEM</span></div>
-                    <div class="legend-item hover-target" onclick="lenis.scrollTo('#s4')"><span>03</span><span>BUILD</span></div>
-                    <div class="legend-item hover-target" onclick="lenis.scrollTo('#s5')"><span>04</span><span>LAUNCH</span></div>
+                    <div style="color: var(--c-muted); margin-bottom: 1rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em;">PHASES OF WORK</div>
+                    <div class="legend-item" onclick="lenis.scrollTo('#s2')" style="cursor:pointer;"><span>01</span><span>STRUCTURE</span></div>
+                    <div class="legend-item" onclick="lenis.scrollTo('#s3')" style="cursor:pointer;"><span>02</span><span>SYSTEM</span></div>
+                    <div class="legend-item" onclick="lenis.scrollTo('#s4')" style="cursor:pointer;"><span>03</span><span>BUILD</span></div>
+                    <div class="legend-item" onclick="lenis.scrollTo('#s5')" style="cursor:pointer;"><span>04</span><span>LAUNCH</span></div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- S2: STRUCTURE — Wireframe Builder -->
     <section id="s2" class="light-sec">
         <div class="bg-giant-text para-text">STRUCTURE</div>
         <div class="split-grid">
             <div style="padding-right: 4vw;">
                 <div class="mono-label">PHASE 01 / STRUCTURE</div>
                 <h2>We start with the argument, not the visuals.</h2>
-                <p>Every site opens with a question: "what does this realtor need a visitor to do in the first 15 seconds?"</p>
-                <p>Before anything else, we map visitor intent → information hierarchy → page structure. This is wireframing, but done as a written argument first.</p>
+                <p>Every site opens with a question: what does this realtor need a visitor to do in the first 15 seconds?</p>
+                <p>Before anything else, we map visitor intent, information hierarchy, and page structure. This is wireframing, but done as a written argument first.</p>
             </div>
-            
+
             <div class="interactive-panel float-y" data-speed="1.05">
                 <div class="panel-header">
-                    <button class="panel-btn hover-target" onclick="toggleWf('wf-header', this)">HEADER</button>
-                    <button class="panel-btn hover-target" onclick="toggleWf('wf-hero', this)">HERO</button>
-                    <button class="panel-btn hover-target" onclick="toggleWf('wf-listings', this)">LISTINGS</button>
-                    <button class="panel-btn hover-target" onclick="toggleWf('wf-about', this)">ABOUT</button>
-                    <button class="panel-btn hover-target" onclick="resetWf()" style="margin-left: auto; border-color: rgba(2,6,13,0.2);">RESET</button>
+                    <button class="panel-btn" onclick="toggleWf('wf-header', this)">HEADER</button>
+                    <button class="panel-btn" onclick="toggleWf('wf-hero', this)">HERO</button>
+                    <button class="panel-btn" onclick="toggleWf('wf-listings', this)">LISTINGS</button>
+                    <button class="panel-btn" onclick="toggleWf('wf-about', this)">ABOUT</button>
+                    <button class="panel-btn" onclick="resetWf()" style="border-color: rgba(2,6,13,0.2);">RESET</button>
+                    <div class="interactive-badge">Interactive</div>
+                </div>
+                <div class="panel-hint" id="hint-wf">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M6 1l-3 3M6 1l3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    Click the buttons above to build the page
                 </div>
                 <div class="panel-body" style="background: var(--c-white);">
                     <div id="wf-header" class="wf-block wf-header">NAV: 80PX / BRAND / CTA</div>
@@ -261,6 +368,7 @@
         </div>
     </section>
 
+    <!-- S3: SYSTEM — Token Tabs -->
     <section id="s3" class="dark-sec">
         <div class="bg-giant-text para-text">TOKENS</div>
         <div class="split-grid">
@@ -269,18 +377,23 @@
                 <h2>Design tokens before components. Components before pages.</h2>
                 <p>Every Solvus build starts with a type scale, a spacing scale, and a colour palette. Locked before any visual design. Then components. Then pages. Never the other way around.</p>
             </div>
-            
+
             <div class="interactive-panel float-y" data-speed="0.95">
                 <div class="panel-header">
-                    <button class="panel-btn active hover-target" onclick="switchTab('tab-type', this)">TYPE</button>
-                    <button class="panel-btn hover-target" onclick="switchTab('tab-space', this)">SPACE</button>
-                    <button class="panel-btn hover-target" onclick="switchTab('tab-color', this)">COLOUR</button>
+                    <button class="panel-btn active" onclick="switchTab('tab-type', this)">TYPE</button>
+                    <button class="panel-btn" onclick="switchTab('tab-space', this)">SPACE</button>
+                    <button class="panel-btn" onclick="switchTab('tab-color', this)">COLOUR</button>
+                    <div class="interactive-badge">Interactive</div>
+                </div>
+                <div class="panel-hint" id="hint-tabs">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M8 4l2 2-2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Select a tab to explore the system
                 </div>
                 <div class="panel-body">
                     <div id="tab-type" class="token-view active">
-                        <div class="type-row"><span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--c-muted); width: 80px;">H1 - 8rem</span><span style="font-size: 4rem; font-weight: 100; line-height: 1;">Display</span></div>
-                        <div class="type-row"><span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--c-muted); width: 80px;">H2 - 4rem</span><span style="font-size: 2.5rem; font-weight: 100; line-height: 1;">Heading</span></div>
-                        <div class="type-row"><span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--c-muted); width: 80px;">Body - 1rem</span><span style="font-size: 1rem; font-weight: 300;">Standard paragraph text used for long-form reading.</span></div>
+                        <div class="type-row"><span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--c-muted); width: 80px;">H1 / 8rem</span><span style="font-size: 4rem; font-weight: 100; line-height: 1;">Display</span></div>
+                        <div class="type-row"><span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--c-muted); width: 80px;">H2 / 4rem</span><span style="font-size: 2.5rem; font-weight: 100; line-height: 1;">Heading</span></div>
+                        <div class="type-row"><span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--c-muted); width: 80px;">Body / 1rem</span><span style="font-size: 1rem; font-weight: 300;">Standard paragraph text used for long-form reading.</span></div>
                     </div>
                     <div id="tab-space" class="token-view">
                         <div class="space-bar" style="width: 100%;">--space-xl (128px)</div>
@@ -290,9 +403,9 @@
                     </div>
                     <div id="tab-color" class="token-view">
                         <div class="color-grid">
-                            <div class="color-swatch hover-target" style="background: #02060D; color: #FFF; border-color: #333;">#02060D<br>Navy Base</div>
-                            <div class="color-swatch hover-target" style="background: #00E5FF; color: #000;">#00E5FF<br>Cyan Accent</div>
-                            <div class="color-swatch hover-target" style="background: #F8FAFC; color: #000;">#F8FAFC<br>Paper White</div>
+                            <div class="color-swatch" style="background: #02060D; color: #FFF; border-color: #333;">#02060D<br>Navy</div>
+                            <div class="color-swatch" style="background: #00E5FF; color: #000;">#00E5FF<br>Cyan</div>
+                            <div class="color-swatch" style="background: #F8FAFC; color: #000;">#F8FAFC<br>White</div>
                         </div>
                     </div>
                 </div>
@@ -300,20 +413,29 @@
         </div>
     </section>
 
+    <!-- S4: BUILD — Code/Render Slider -->
     <section id="s4" class="light-sec">
         <div class="split-grid">
             <div style="padding-right: 4vw;">
                 <div class="mono-label">PHASE 03 / BUILD</div>
                 <h2>Hand-coded.<br>Every time.</h2>
                 <p>We do not use page builders. They are bloated, slow, unmaintainable, and locked to specific platforms.</p>
-                <p>Hand-coding gives you sub-1s load times, intentional placement of every DOM element, and zero hidden tracking scripts. This is progressive enhancement.</p>
+                <p>Hand-coding gives you sub-1s load times, intentional placement of every DOM element, and zero hidden tracking scripts.</p>
             </div>
-            
+
             <div class="interactive-panel float-y" data-speed="1.1" style="background: var(--c-white);">
+                <div class="panel-header">
+                    <span style="font-family: var(--font-mono); font-size: 0.7rem; color: rgba(2,6,13,0.5);">MARKUP</span>
+                    <div class="interactive-badge">Interactive</div>
+                </div>
+                <div class="panel-hint" id="hint-slider">
+                    <svg width="14" height="12" viewBox="0 0 14 12" fill="none"><path d="M1 6h12M4 3l-3 3 3 3M10 3l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Drag the slider to see how code becomes design
+                </div>
                 <div class="slider-container">
-                    <span style="font-family: var(--font-mono); font-size: 0.7rem;">MARKUP</span>
-                    <input type="range" min="0" max="2" value="0" class="hover-target" id="codeSlider" oninput="updateSplitView()">
-                    <span style="font-family: var(--font-mono); font-size: 0.7rem;">INTERACTIVE</span>
+                    <span>RAW HTML</span>
+                    <input type="range" min="0" max="2" value="0" id="codeSlider" oninput="onSliderInput()">
+                    <span>INTERACTIVE</span>
                 </div>
                 <div class="split-view-container">
                     <div class="code-side" id="codeView">
@@ -322,43 +444,50 @@
 &lt;/button&gt;
                     </div>
                     <div class="render-side">
-                        <button id="renderBtn" style="font-family: serif; background: #eee; border: 1px solid #ccc; padding: 5px;">Book Call</button>
+                        <button id="renderBtn" style="font-family: serif; background: #eee; border: 1px solid #ccc; padding: 5px; color: black; border-radius:0; transition:none;">Book Call</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- S5: LAUNCH — Manifest Checklist -->
     <section id="s5" class="dark-sec">
         <div class="split-grid" style="align-items: start;">
             <div style="padding-right: 4vw;">
                 <div class="mono-label">PHASE 04 / LAUNCH</div>
                 <h2>Launch is a handover, not a delivery.</h2>
-                <p>On launch day, you get source code, hosting credentials, domain ownership, documentation, and a 30-minute training call. No ongoing dependency. You can fire Solvus forever and your site keeps running.</p>
+                <p>On launch day, you get source code, hosting credentials, domain ownership, documentation, and a 30-minute training call. No ongoing dependency. You can end the engagement at any time and your site keeps running.</p>
             </div>
-            
+
             <div class="interactive-panel float-y" data-speed="0.95" style="height: auto; min-height: 500px;">
                 <div class="panel-header">
-                    <div class="mono-label" style="border:none; padding:0; margin:0; color: var(--c-cyan);">HANDOVER MANIFEST / SOLVUS → CLIENT</div>
+                    <div class="mono-label" style="border:none; padding:0; margin:0; color: var(--c-cyan); font-size: 0.65rem;">HANDOVER MANIFEST / SOLVUS TO CLIENT</div>
+                    <div class="interactive-badge">Scroll to trigger</div>
+                </div>
+                <div class="panel-hint" id="hint-manifest">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M6 11l-3-3M6 11l3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    Scroll down to trigger the handover sequence
                 </div>
                 <div class="panel-body" style="padding-top: 0;">
                     <ul class="manifest-list" id="manifestList">
                         <li><div class="checkbox"></div> Source code (Git repository, full history)</li>
                         <li><div class="checkbox"></div> Hosting account credentials</li>
                         <li><div class="checkbox"></div> Domain registrar access</li>
-                        <li><div class="checkbox"></div> CMS/content admin access</li>
+                        <li><div class="checkbox"></div> CMS / content admin access</li>
                         <li><div class="checkbox"></div> Google Business Profile ownership</li>
                         <li><div class="checkbox"></div> Analytics ownership transfer</li>
                         <li><div class="checkbox"></div> Documentation (maintenance guidelines)</li>
                         <li><div class="checkbox"></div> 30-min training session recording</li>
                         <li><div class="checkbox"></div> 30-day support window activated</li>
                     </ul>
-                    <div id="manifestComplete" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--c-cyan); text-align: right; margin-top: 2rem; opacity: 0;">— HANDOVER COMPLETE —</div>
+                    <div id="manifestComplete" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--c-cyan); text-align: right; margin-top: 2rem; opacity: 0; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1); letter-spacing: 0.15em;">HANDOVER COMPLETE</div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- S6: ENGINEERING SPEC -->
     <section id="s6" class="light-sec" style="padding-top: 6vw;">
         <div style="text-align: center; max-width: 800px; margin: 0 auto;">
             <div class="mono-label">SPECIFICATION / ENGINEERING</div>
@@ -367,41 +496,18 @@
         </div>
 
         <div class="eng-grid">
-            <div class="eng-card hover-target">
-                <div class="mono-label">LIGHTHOUSE TARGET</div>
-                <p style="margin:0; font-size: 1rem;">Minimum 95/100 on mobile. Measured on every push.</p>
-            </div>
-            <div class="eng-card hover-target">
-                <div class="mono-label">LCP BUDGET</div>
-                <p style="margin:0; font-size: 1rem;">Under 1.5s on 4G. Under 2.5s on slow 3G.</p>
-            </div>
-            <div class="eng-card hover-target">
-                <div class="mono-label">CLS BUDGET</div>
-                <p style="margin:0; font-size: 1rem;">Under 0.05. Below Google's "good" threshold.</p>
-            </div>
-            <div class="eng-card hover-target">
-                <div class="mono-label">WCAG LEVEL</div>
-                <p style="margin:0; font-size: 1rem;">AA minimum, AAA on text contrast for legibility.</p>
-            </div>
-            <div class="eng-card hover-target">
-                <div class="mono-label">SEMANTIC HTML</div>
-                <p style="margin:0; font-size: 1rem;">Used correctly. Nav, main, article, real headings in order.</p>
-            </div>
-            <div class="eng-card hover-target">
-                <div class="mono-label">SCHEMA MARKUP</div>
-                <p style="margin:0; font-size: 1rem;">LocalBusiness + RealEstateAgent injected as JSON-LD.</p>
-            </div>
-            <div class="eng-card hover-target">
-                <div class="mono-label">IMAGE STRATEGY</div>
-                <p style="margin:0; font-size: 1rem;">Modern formats (WebP/AVIF), responsive srcset, lazy-loaded.</p>
-            </div>
-            <div class="eng-card hover-target">
-                <div class="mono-label">PROGRESSIVE ENHANCEMENT</div>
-                <p style="margin:0; font-size: 1rem;">Site works without JS for core content.</p>
-            </div>
+            <div class="eng-card"><div class="mono-label">LIGHTHOUSE TARGET</div><p style="margin:0; font-size: 1rem;">Minimum 95/100 on mobile. Measured on every push.</p></div>
+            <div class="eng-card"><div class="mono-label">LCP BUDGET</div><p style="margin:0; font-size: 1rem;">Under 1.5s on 4G. Under 2.5s on slow 3G.</p></div>
+            <div class="eng-card"><div class="mono-label">CLS BUDGET</div><p style="margin:0; font-size: 1rem;">Under 0.05. Below Google's good threshold.</p></div>
+            <div class="eng-card"><div class="mono-label">WCAG LEVEL</div><p style="margin:0; font-size: 1rem;">AA minimum, AAA on text contrast for legibility.</p></div>
+            <div class="eng-card"><div class="mono-label">SEMANTIC HTML</div><p style="margin:0; font-size: 1rem;">Used correctly. Nav, main, article, real headings in order.</p></div>
+            <div class="eng-card"><div class="mono-label">SCHEMA MARKUP</div><p style="margin:0; font-size: 1rem;">LocalBusiness and RealEstateAgent injected as JSON-LD.</p></div>
+            <div class="eng-card"><div class="mono-label">IMAGE STRATEGY</div><p style="margin:0; font-size: 1rem;">Modern formats (WebP/AVIF), responsive srcset, lazy-loaded.</p></div>
+            <div class="eng-card"><div class="mono-label">PROGRESSIVE ENHANCEMENT</div><p style="margin:0; font-size: 1rem;">Site works without JS for core content.</p></div>
         </div>
     </section>
 
+    <!-- S7: CTA -->
     <section id="s7" class="dark-sec" style="background-color: var(--c-navy); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh;">
         <div style="max-width: 900px; z-index: 2;">
             <div class="mono-label" style="color: var(--c-cyan); border-color: var(--c-cyan);">END SHEET 03 / BOOK CALL</div>
@@ -409,10 +515,10 @@
                 <span class="stagger-text"><span>Want this level of</span></span>
                 <span class="stagger-text"><span class="outline-text">work for your site?</span></span>
             </h2>
-            <div class="btn-group fade-up" style="justify-content: center; margin-bottom: 2rem;">
-                <a href="#book" class="btn btn-solid hover-target">Book a 20-minute call ↗</a>
+            <div class="btn-group fade-up" style="justify-content: center; margin-bottom: 2rem; display: flex;">
+                <a href="mailto:solvus@aisolvus.com" class="btn btn-solid">Book a 20-minute call ↗</a>
             </div>
-            <div class="mono-label fade-up" style="border:none; color: var(--c-muted);">OR EMAIL HELLO@SOLVUS.COM</div>
+            <div class="mono-label fade-up" style="border:none; color: var(--c-muted);">OR EMAIL SOLVUS@AISOLVUS.COM</div>
         </div>
     </section>
 </main>
@@ -424,43 +530,36 @@
 <script is:inline>
     gsap.registerPlugin(ScrollTrigger);
 
-    // Lenis Smooth Scroll
+    // Cursor
+    if (window.matchMedia('(hover: hover)').matches) {
+        const dot = document.getElementById('solvusCursor');
+        if (dot) {
+            window.addEventListener('mousemove', (e) => {
+                dot.style.left    = e.clientX + 'px';
+                dot.style.top     = e.clientY + 'px';
+                dot.style.opacity = '1';
+            }, { passive: true });
+        }
+    }
+
+    // Lenis
     const lenis = new Lenis({
-        duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical',
-        gestureDirection: 'vertical', smooth: true, mouseMultiplier: 1, smoothTouch: false,
-        touchMultiplier: 2, infinite: false,
+        duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical', smooth: true, mouseMultiplier: 1,
+        smoothTouch: false, touchMultiplier: 2, infinite: false,
     });
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
 
-    // Custom Cursor
-    const cursorDot = document.getElementById('cursorDot');
-    const cursorRing = document.getElementById('cursorRing');
-    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    let ringX = mouseX, ringY = mouseY;
+    // Hint dismissal
+    function dismissHint(id) {
+        const h = document.getElementById(id);
+        if (h) h.classList.add('hidden');
+    }
 
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX; mouseY = e.clientY;
-        gsap.to(cursorDot, { x: mouseX, y: mouseY, duration: 0 });
-    });
-    gsap.ticker.add(() => {
-        ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15;
-        gsap.set(cursorRing, { x: ringX, y: ringY });
-    });
-
-    document.querySelectorAll('.hover-target').forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            gsap.to(cursorRing, { width: 60, height: 60, backgroundColor: 'rgba(0, 229, 255, 0.1)', duration: 0.3 });
-            gsap.to(cursorDot, { scale: 0, duration: 0.2 });
-        });
-        link.addEventListener('mouseleave', () => {
-            gsap.to(cursorRing, { width: 40, height: 40, backgroundColor: 'transparent', duration: 0.3 });
-            gsap.to(cursorDot, { scale: 1, duration: 0.2 });
-        });
-    });
-
-    // Wireframe Builder Logic
+    // ── Wireframe Builder ──────────────────────────────────────────
     function toggleWf(id, btn) {
+        dismissHint('hint-wf');
         btn.classList.toggle('active');
         const block = document.getElementById(id);
         if (block.classList.contains('active')) {
@@ -469,73 +568,120 @@
         } else {
             block.classList.add('active');
             let h = 0;
-            if(id === 'wf-header') h = 60;
-            if(id === 'wf-hero') h = 200;
-            if(id === 'wf-listings') h = 150;
-            if(id === 'wf-about') h = 100;
+            if (id === 'wf-header')   h = 60;
+            if (id === 'wf-hero')     h = 200;
+            if (id === 'wf-listings') h = 150;
+            if (id === 'wf-about')    h = 100;
             gsap.to(block, { height: h, opacity: 1, duration: 0.4, ease: "power2.inOut" });
         }
     }
     function resetWf() {
+        dismissHint('hint-wf');
         document.querySelectorAll('.wf-block').forEach(block => {
             block.classList.remove('active');
             gsap.to(block, { height: 0, padding: 0, opacity: 0, duration: 0.4 });
         });
-        document.querySelectorAll('.panel-header button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('#s2 .panel-btn').forEach(b => b.classList.remove('active'));
     }
 
-    // Token Tabs Logic
+    // ── Token Tabs ─────────────────────────────────────────────────
     function switchTab(id, btn) {
+        dismissHint('hint-tabs');
         document.querySelectorAll('#s3 .panel-header button').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         document.querySelectorAll('.token-view').forEach(v => v.classList.remove('active'));
         document.getElementById(id).classList.add('active');
     }
 
-    // Code vs Render Slider Logic
+    // ── Code/Render Slider ─────────────────────────────────────────
+    function onSliderInput() {
+        dismissHint('hint-slider');
+        updateSplitView();
+    }
+
     function updateSplitView() {
         const val = document.getElementById('codeSlider').value;
-        const codeView = document.getElementById('codeView');
+        const codeView  = document.getElementById('codeView');
         const renderBtn = document.getElementById('renderBtn');
-        
+
         if (val == 0) {
             codeView.innerHTML = '&lt;button class="btn"&gt;<br>&nbsp;&nbsp;Book Call<br>&lt;/button&gt;';
-            renderBtn.style = "font-family: serif; background: #eee; border: 1px solid #ccc; padding: 5px; color: black; border-radius:0; cursor:default; transform:none; transition:none;";
+            renderBtn.style.cssText = "font-family: serif; background: #eee; border: 1px solid #ccc; padding: 5px; color: black; border-radius:0; transition:none;";
+            renderBtn.onmouseover = null; renderBtn.onmouseout = null;
         } else if (val == 1) {
             codeView.innerHTML = '.btn {<br>&nbsp;&nbsp;padding: 1rem 2rem;<br>&nbsp;&nbsp;border: 1px solid #000;<br>&nbsp;&nbsp;border-radius: 40px;<br>&nbsp;&nbsp;font-family: monospace;<br>}';
-            renderBtn.style = "font-family: 'Space Mono', monospace; background: transparent; border: 1px solid #02060D; padding: 1rem 2rem; color: #02060D; border-radius: 40px; cursor:default; transform:none; transition:none;";
+            renderBtn.style.cssText = "font-family: 'Space Mono', monospace; background: transparent; border: 1px solid #02060D; padding: 1rem 2rem; color: #02060D; border-radius: 40px; transition:none;";
+            renderBtn.onmouseover = null; renderBtn.onmouseout = null;
         } else {
-            codeView.innerHTML = 'btn.addEventListener("hover", () => {<br>&nbsp;&nbsp;gsap.to(btn, {<br>&nbsp;&nbsp;&nbsp;&nbsp;backgroundColor: "#00E5FF",<br>&nbsp;&nbsp;&nbsp;&nbsp;scale: 1.05<br>&nbsp;&nbsp;});<br>});';
-            renderBtn.style = "font-family: 'Space Mono', monospace; background: transparent; border: 1px solid #02060D; padding: 1rem 2rem; color: #02060D; border-radius: 40px; cursor: none; transition: all 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.1);";
-            // simulated hover state style for position 2
+            codeView.innerHTML = 'btn.addEventListener("mouseover", () => {<br>&nbsp;&nbsp;btn.style.background = "#00E5FF";<br>&nbsp;&nbsp;btn.style.transform = "scale(1.05)";<br>});';
+            renderBtn.style.cssText = "font-family: 'Space Mono', monospace; background: transparent; border: 1px solid #02060D; padding: 1rem 2rem; color: #02060D; border-radius: 40px; transition: all 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.1);";
             renderBtn.onmouseover = () => { renderBtn.style.backgroundColor = "#00E5FF"; renderBtn.style.transform = "scale(1.05)"; };
-            renderBtn.onmouseout = () => { renderBtn.style.backgroundColor = "transparent"; renderBtn.style.transform = "scale(1)"; };
+            renderBtn.onmouseout  = () => { renderBtn.style.backgroundColor = "transparent"; renderBtn.style.transform = "scale(1)"; };
         }
     }
 
-    // Manifest Checklist Animation
-    ScrollTrigger.create({
-        trigger: "#manifestList",
-        start: "top 70%",
-        once: true,
-        onEnter: () => {
-            const items = document.querySelectorAll('#manifestList li');
-            gsap.to(items, {
-                className: "+=checked",
-                stagger: 0.15,
-                duration: 0.1,
-                onComplete: () => {
-                    gsap.to("#manifestComplete", { opacity: 1, duration: 0.5, y: -10 });
+    // Animate slider on load to hint it can be dragged
+    window.addEventListener('load', () => {
+        const slider = document.getElementById('codeSlider');
+        if (!slider) return;
+        let dir = 1, val = 0;
+        const hint = setInterval(() => {
+            val += dir * 0.04;
+            if (val >= 0.6) dir = -1;
+            if (val <= 0)   { clearInterval(hint); val = 0; }
+            slider.value = val;
+            updateSplitView();
+        }, 30);
+    });
+
+    // ── Panel call-out animation ───────────────────────────────────
+    document.querySelectorAll('.interactive-panel').forEach(panel => {
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => panel.classList.add('panel-calling'), 350);
+                    obs.disconnect();
                 }
             });
+        }, { threshold: 0.4 });
+        obs.observe(panel);
+
+        const stop = () => {
+            if (!panel.classList.contains('panel-calling')) return;
+            panel.classList.remove('panel-calling');
+            panel.classList.add('panel-settling');
+            setTimeout(() => panel.classList.remove('panel-settling'), 750);
+        };
+        panel.addEventListener('click',      stop, { once: true });
+        panel.addEventListener('input',      stop, { once: true });
+        panel.addEventListener('mouseenter', stop, { once: true });
+    });
+
+    // ── Manifest Checklist ─────────────────────────────────────────
+    ScrollTrigger.create({
+        trigger: "#manifestList",
+        start: "top 78%",
+        once: true,
+        onEnter: () => {
+            dismissHint('hint-manifest');
+            const items = document.querySelectorAll('#manifestList li');
+            items.forEach((item, i) => {
+                setTimeout(() => {
+                    item.classList.add('checked');
+                }, i * 160);
+            });
+            setTimeout(() => {
+                const done = document.getElementById('manifestComplete');
+                if (done) { done.style.opacity = '1'; done.style.transform = 'translateY(-8px)'; }
+            }, items.length * 160 + 200);
         }
     });
 
-    // Universal Scroll Animations
+    // ── Scroll Animations ──────────────────────────────────────────
     gsap.to("#progressBar", { scaleX: 1, ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 0.3 } });
 
     document.querySelectorAll('.stagger-wrap').forEach(wrap => {
-        gsap.fromTo(wrap.querySelectorAll('.stagger-text span'), 
+        gsap.fromTo(wrap.querySelectorAll('.stagger-text span'),
             { y: "110%" }, { y: "0%", duration: 1.2, stagger: 0.1, ease: "power4.out", scrollTrigger: { trigger: wrap, start: "top 85%" } }
         );
     });
@@ -550,10 +696,10 @@
         gsap.to(elem, { y: -100 * speed, ease: "none", scrollTrigger: { trigger: elem.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
     });
 
-    // --- THREE.JS BACKGROUND ---
+    // ── Three.js Background ────────────────────────────────────────
     const canvas = document.getElementById('webgl-canvas');
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x03060C, 0.002);
+    const scene  = new THREE.Scene();
+    scene.fog    = new THREE.FogExp2(0x03060C, 0.002);
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 60;
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
@@ -563,32 +709,30 @@
     const particleGeo = new THREE.BufferGeometry();
     const pCount = 3000;
     const pArray = new Float32Array(pCount * 3);
-    for(let i=0; i<pCount*3; i++) pArray[i] = (Math.random() - 0.5) * 200;
+    for (let i = 0; i < pCount * 3; i++) pArray[i] = (Math.random() - 0.5) * 200;
     particleGeo.setAttribute('position', new THREE.BufferAttribute(pArray, 3));
-    
+
     const colorCyan = new THREE.Color(0x00E5FF);
     const colorNavy = new THREE.Color(0x03060C);
-    
     const particleMat = new THREE.PointsMaterial({ size: 0.15, color: colorCyan, transparent: true, opacity: 0.3 });
-    const particles = new THREE.Points(particleGeo, particleMat);
+    const particles   = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
     const geoGroup = new THREE.Group();
     scene.add(geoGroup);
     const matWire = new THREE.LineBasicMaterial({ color: colorCyan, transparent: true, opacity: 0.1 });
-    
-    for(let i=0; i<5; i++) {
-        const geo = i % 2 === 0 ? new THREE.IcosahedronGeometry(20, 1) : new THREE.OctahedronGeometry(25, 2);
+    for (let i = 0; i < 5; i++) {
+        const geo  = i % 2 === 0 ? new THREE.IcosahedronGeometry(20, 1) : new THREE.OctahedronGeometry(25, 2);
         const mesh = new THREE.LineSegments(new THREE.EdgesGeometry(geo), matWire);
         mesh.position.set((Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40, -i * 50);
         mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
         geoGroup.add(mesh);
     }
 
-    let targetRotationX = 0, targetRotationY = 0;
+    let targetRotX = 0, targetRotY = 0;
     window.addEventListener('mousemove', (e) => {
-        targetRotationY = ((e.clientX / window.innerWidth) - 0.5) * 0.5;
-        targetRotationX = ((e.clientY / window.innerHeight) - 0.5) * 0.5;
+        targetRotY = ((e.clientX / window.innerWidth)  - 0.5) * 0.5;
+        targetRotX = ((e.clientY / window.innerHeight) - 0.5) * 0.5;
     });
 
     ScrollTrigger.create({
@@ -596,16 +740,12 @@
         onUpdate: (self) => {
             camera.position.z = 60 - (self.progress * 250);
             camera.rotation.z = self.progress * 0.5;
-            
-            // 7 Sections total. Even sections (2, 4, 6) are light.
-            const currentSection = Math.floor(self.progress * 7);
-            if (currentSection === 1 || currentSection === 3 || currentSection === 5) {
-                // Light sections (S2, S4, S6)
+            const sec = Math.floor(self.progress * 7);
+            if (sec === 1 || sec === 3 || sec === 5) {
                 particleMat.color.lerp(colorNavy, 0.1);
                 matWire.color.lerp(colorNavy, 0.1);
                 scene.fog.color.lerp(new THREE.Color(0xF8FAFC), 0.1);
             } else {
-                // Dark sections (S1, S3, S5, S7)
                 particleMat.color.lerp(colorCyan, 0.1);
                 matWire.color.lerp(colorCyan, 0.1);
                 scene.fog.color.lerp(colorNavy, 0.1);
@@ -617,12 +757,12 @@
     function animate() {
         requestAnimationFrame(animate);
         const t = clock.getElapsedTime();
-        geoGroup.rotation.x += 0.05 * (targetRotationX + (Math.sin(t*0.5)*0.1) - geoGroup.rotation.x);
-        geoGroup.rotation.y += 0.05 * (targetRotationY + (t*0.1) - geoGroup.rotation.y);
-        particles.position.y = Math.sin(t * 0.2) * 5;
-        particles.rotation.y = t * 0.02;
-        geoGroup.children.forEach((child, index) => {
-            child.rotation.x += 0.002 * (index % 2 === 0 ? 1 : -1);
+        geoGroup.rotation.x += 0.05 * (targetRotX + Math.sin(t * 0.5) * 0.1 - geoGroup.rotation.x);
+        geoGroup.rotation.y += 0.05 * (targetRotY + t * 0.1 - geoGroup.rotation.y);
+        particles.position.y  = Math.sin(t * 0.2) * 5;
+        particles.rotation.y  = t * 0.02;
+        geoGroup.children.forEach((child, i) => {
+            child.rotation.x += 0.002 * (i % 2 === 0 ? 1 : -1);
             child.rotation.y += 0.003;
         });
         renderer.render(scene, camera);
