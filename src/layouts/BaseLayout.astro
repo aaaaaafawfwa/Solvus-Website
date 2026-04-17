@@ -16,14 +16,9 @@ export interface Props {
 const {
   title,
   description,
-  canonical,
   noindex = false,
   ogImage = '/og-default.png',
 } = Astro.props;
-
-const canonicalURL = canonical
-  ? new URL(canonical, Astro.site)
-  : new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -35,31 +30,23 @@ const canonicalURL = canonical
     <meta name="generator" content={Astro.generator} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonicalURL} />
 
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <title>{title}</title>
     <meta name="description" content={description} />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Solvus" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:image" content={ogImage} />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+    <meta name="twitter:image" content={ogImage} />
 
-    <!-- Preconnect (if we swap to hosted fonts later) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-
-    <!-- Structured data slot -->
     <slot name="structured-data" />
   </head>
   <body>
@@ -74,7 +61,6 @@ const canonicalURL = canonical
     <SiteFooter />
 
     <script>
-      // Sticky header state on scroll
       const header = document.querySelector('[data-site-header]');
       if (header) {
         const onScroll = () => {
