@@ -20,7 +20,7 @@
     --light-bg: #F5F5F5;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; overflow-y: auto; }
 
   body {
     background: var(--white);
@@ -123,9 +123,9 @@
     background: var(--gray); position: relative; overflow: hidden;
     min-height: 200px;
   }
-  .hero-grid-cell:nth-child(1) { background: linear-gradient(145deg, #c8d0c0, #8090789); }
-  .hero-grid-cell:nth-child(2) { background: linear-gradient(145deg, #b0b8a8, #687060); }
-  .hero-grid-cell:nth-child(3) { background: linear-gradient(145deg, #a8b0a0, #607068); }
+  .hero-grid-cell:nth-child(1) { background: linear-gradient(145deg, #c8d0c0, #809078); background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=700&q=80'); background-size: cover; background-position: center; }
+  .hero-grid-cell:nth-child(2) { background: linear-gradient(145deg, #b0b8a8, #687060); background-image: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=700&q=80'); background-size: cover; background-position: center; }
+  .hero-grid-cell:nth-child(3) { background: linear-gradient(145deg, #a8b0a0, #607068); background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=700&q=80'); background-size: cover; background-position: center; }
   .hero-grid-cell:nth-child(4) { background: var(--black); }
   .cell-label {
     position: absolute; bottom: 0; left: 0; right: 0;
@@ -218,9 +218,10 @@
     transition: transform 0.5s;
   }
   .listing-card:hover .listing-img-bg { transform: scale(1.05); }
-  .listing-card:nth-child(1) .listing-img-bg { background: linear-gradient(145deg, #a8b098, #606850); }
-  .listing-card:nth-child(2) .listing-img-bg { background: linear-gradient(145deg, #b0a890, #706050); }
-  .listing-card:nth-child(3) .listing-img-bg { background: linear-gradient(145deg, #989898, #505050); }
+  .listing-img-bg { background-size: cover; background-position: center; }
+  .listing-card:nth-child(1) .listing-img-bg { background: linear-gradient(145deg, #a8b098, #606850); background-image: url('https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=700&q=80'); background-size: cover; background-position: center; }
+  .listing-card:nth-child(2) .listing-img-bg { background: linear-gradient(145deg, #b0a890, #706050); background-image: url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=700&q=80'); background-size: cover; background-position: center; }
+  .listing-card:nth-child(3) .listing-img-bg { background: linear-gradient(145deg, #989898, #505050); background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=80'); background-size: cover; background-position: center; }
   .listing-status {
     position: absolute; top: 1rem; left: 1rem;
     font-family: 'Anton', sans-serif; font-size: 0.65rem; letter-spacing: 0.12em;
@@ -259,9 +260,11 @@
     height: 280px; filter: grayscale(100%);
     transition: filter 0.4s;
     background: linear-gradient(145deg, #999, #555);
+    background-size: cover; background-position: center top;
   }
-  .team-card:nth-child(2) .team-photo { background: linear-gradient(145deg, #888, #444); }
-  .team-card:nth-child(3) .team-photo { background: linear-gradient(145deg, #aaa, #666); }
+  .team-card:nth-child(1) .team-photo { background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80'); background-size: cover; background-position: center top; }
+  .team-card:nth-child(2) .team-photo { background: linear-gradient(145deg, #888, #444); background-image: url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=500&q=80'); background-size: cover; background-position: center top; }
+  .team-card:nth-child(3) .team-photo { background: linear-gradient(145deg, #aaa, #666); background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80'); background-size: cover; background-position: center top; }
   .team-card:hover .team-photo { filter: grayscale(0%) sepia(20%); }
   .team-body { padding: 1.5rem; border-top: 3px solid var(--black); transition: border-color 0.3s; }
   .team-card:hover .team-body { border-color: var(--red); }

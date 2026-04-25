@@ -3,474 +3,485 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chen Real Estate | Luxury Austin Properties</title>
+<title>Sarah Chen · Real Estate · Austin TX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --black: #050505;
-    --off-black: #0E0E0E;
-    --card-bg: #111111;
-    --gold: #C9A96E;
-    --gold-light: #E4C99A;
-    --cream: #F0EBE3;
-    --muted: #888;
-    --border: rgba(201,169,110,0.15);
+    --bg:    #F8F5F1;
+    --white: #FFFFFF;
+    --ink:   #0C0B0A;
+    --mid:   #7A6E64;
+    --faint: #C4BDB6;
+    --stone: #9B8B7A;
+    --dark:  #141210;
+    --serif: 'Cormorant Garamond', serif;
+    --sans:  'DM Sans', sans-serif;
+    --nav:   68px;
   }
 
-  html { scroll-behavior: smooth; }
-
+  /* Scroll fix — overflow-x: clip does NOT suppress overflow-y */
+  html {
+    overflow-x: clip;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
   body {
-    background: var(--black);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
     font-weight: 300;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
-  /* NAV */
+  /* ── NAV ─────────────────────────────────────────────── */
   nav {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1.4rem 5vw;
-    background: rgba(5,5,5,0.92);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--nav); z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid rgba(12,11,10,.09);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
   }
   .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem; font-weight: 400; letter-spacing: 0.12em;
-    color: var(--cream); text-decoration: none;
+    font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
   }
-  .nav-logo span { color: var(--gold); }
-  .nav-links {
-    display: flex; gap: 2.5rem; list-style: none;
-  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a {
-    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none;
-    transition: color 0.3s;
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--mid); text-decoration: none; transition: color .25s;
   }
-  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover { color: var(--ink); }
   .nav-cta {
-    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--black); background: var(--gold);
-    padding: 0.65rem 1.4rem; text-decoration: none;
-    transition: background 0.3s;
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid var(--ink); padding-bottom: 1px;
+    transition: color .25s, border-color .25s;
   }
-  .nav-cta:hover { background: var(--gold-light); }
+  .nav-cta:hover { color: var(--stone); border-color: var(--stone); }
 
-  /* HERO */
+  /* ── HERO ────────────────────────────────────────────── */
   .hero {
-    min-height: 100vh; display: flex; flex-direction: column;
-    justify-content: center; padding: 8vw 5vw 5vw;
-    position: relative; overflow: hidden;
+    padding-top: var(--nav);
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
   }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(201,169,110,0.06) 0%, transparent 70%);
-    pointer-events: none;
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 7vw 5vw 7vw 5vw;
   }
-  .hero-eyebrow {
-    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 2.5rem;
+  .hero-kicker {
+    font-size: 0.67rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--stone); margin-bottom: 3rem;
     display: flex; align-items: center; gap: 1rem;
   }
-  .hero-eyebrow::before {
-    content: ''; display: block; width: 40px; height: 1px; background: var(--gold);
+  .hero-kicker::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--stone);
   }
-  .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3.5rem, 9vw, 9rem);
-    font-weight: 300; line-height: 0.9;
-    letter-spacing: -0.02em;
-    margin-bottom: 3rem; max-width: 900px;
+  .hero-h1 {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(3.2rem, 6.5vw, 7rem);
+    line-height: 1.0; letter-spacing: -0.02em;
+    margin-bottom: 3rem;
   }
-  .hero h1 em {
-    font-style: italic; color: var(--gold);
-  }
+  .hero-h1 i { font-style: italic; color: var(--stone); }
   .hero-sub {
-    max-width: 480px; font-size: 1.05rem; line-height: 1.7;
-    color: rgba(240,235,227,0.6); margin-bottom: 3.5rem;
-    font-weight: 300;
+    font-size: 0.95rem; line-height: 1.8; color: var(--mid);
+    max-width: 370px; margin-bottom: 3.5rem;
   }
-  .hero-actions {
-    display: flex; gap: 1.2rem; align-items: center;
+  .hero-btns { display: flex; align-items: center; gap: 2.5rem; }
+  .btn-solid {
+    display: inline-block; padding: 0.85rem 2rem;
+    background: var(--ink); color: var(--white);
+    font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+    text-decoration: none; transition: background .3s;
   }
-  .btn-primary {
-    padding: 1rem 2.2rem; background: var(--gold); color: var(--black);
-    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-    text-decoration: none; font-weight: 500;
-    transition: background 0.3s, transform 0.3s;
+  .btn-solid:hover { background: var(--stone); }
+  .btn-ghost-text {
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--mid); text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color .25s, border-color .25s;
   }
-  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
-  .btn-ghost {
-    padding: 1rem 2.2rem; border: 1px solid var(--border); color: var(--cream);
-    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-    text-decoration: none; font-weight: 400;
-    transition: border-color 0.3s, transform 0.3s;
-  }
-  .btn-ghost:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .btn-ghost-text:hover { color: var(--ink); border-color: var(--ink); }
 
-  .hero-scroll-hint {
-    position: absolute; bottom: 3rem; left: 5vw;
-    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--muted); display: flex; align-items: center; gap: 0.8rem;
+  .hero-right {
+    position: relative; overflow: clip;
+    background: #D6CFC7;
   }
-  .scroll-line {
-    display: block; width: 1px; height: 48px; background: var(--gold); opacity: 0.4;
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.7; }
-  }
-
-  /* STATS BAR */
-  .stats-bar {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .stat-item {
-    padding: 2.5rem 5vw; border-right: 1px solid var(--border);
-  }
-  .stat-item:last-child { border-right: none; }
-  .stat-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300;
-    color: var(--gold); line-height: 1; display: block; margin-bottom: 0.5rem;
-  }
-  .stat-label {
-    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  /* FEATURED */
-  .section { padding: 7vw 5vw; }
-  .section-header {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    margin-bottom: 4rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border);
-  }
-  .section-eyebrow {
-    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 0.8rem;
-  }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.1;
-  }
-  .section-link {
-    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--gold); text-decoration: none;
-    display: flex; align-items: center; gap: 0.5rem;
-    transition: gap 0.3s;
-  }
-  .section-link:hover { gap: 1rem; }
-
-  .properties-grid {
-    display: grid; grid-template-columns: 1.4fr 1fr; gap: 1.5px;
-  }
-  .property-card {
-    background: var(--card-bg); overflow: hidden; cursor: pointer;
-    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
-  }
-  .property-card:hover { transform: scale(1.01); }
-  .property-image {
-    height: 320px; position: relative; overflow: hidden;
-  }
-  .property-card:first-child .property-image { height: 420px; }
-  .property-image-bg {
+  .hero-right img {
+    position: absolute; inset: 0;
     width: 100%; height: 100%;
-    transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    object-fit: cover; object-position: center;
+    display: block;
   }
-  .property-card:hover .property-image-bg { transform: scale(1.04); }
-  .property-badge {
-    position: absolute; top: 1.2rem; left: 1.2rem;
-    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-    background: var(--gold); color: var(--black);
-    padding: 0.35rem 0.75rem; font-weight: 500;
-  }
-  .property-body { padding: 2rem; }
-  .property-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem; font-weight: 400; color: var(--gold);
-    margin-bottom: 0.4rem;
-  }
-  .property-address {
-    font-size: 0.85rem; color: var(--cream); margin-bottom: 1.2rem;
-    letter-spacing: 0.02em;
-  }
-  .property-specs {
-    display: flex; gap: 1.5rem;
-    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--muted); border-top: 1px solid var(--border); padding-top: 1.2rem;
+  .hero-caption {
+    position: absolute; bottom: 2.5rem; left: 2.5rem;
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    text-shadow: 0 1px 6px rgba(0,0,0,.4);
   }
 
-  /* ABOUT */
-  .about-section {
-    padding: 7vw 5vw; background: var(--off-black);
-    display: grid; grid-template-columns: 1fr 1fr; gap: 6vw; align-items: center;
+  /* ── NUMBERS ─────────────────────────────────────────── */
+  .numbers {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(12,11,10,.08);
+    border-bottom: 1px solid rgba(12,11,10,.08);
   }
-  .about-image-frame {
-    position: relative;
+  .num-item {
+    padding: 2.8rem 5vw;
+    border-right: 1px solid rgba(12,11,10,.08);
   }
-  .about-image {
-    width: 100%; aspect-ratio: 3/4;
-    background: linear-gradient(160deg, #1a1a1a 0%, #0d0d0d 100%);
-    position: relative; overflow: hidden;
+  .num-item:last-child { border-right: none; }
+  .num-val {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    color: var(--ink); line-height: 1; display: block; margin-bottom: .5rem;
   }
-  .about-image::after {
-    content: 'S C';
-    position: absolute; bottom: 2rem; right: 2rem;
-    font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300;
-    color: rgba(201,169,110,0.15); letter-spacing: 0.3em;
-  }
-  .about-image-accent {
-    position: absolute; top: 1.5rem; right: -1.5rem; bottom: -1.5rem; left: 1.5rem;
-    border: 1px solid var(--border); z-index: -1;
-  }
-  .about-eyebrow {
-    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 1.5rem;
-  }
-  .about-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.15;
-    margin-bottom: 2rem;
-  }
-  .about-title em { font-style: italic; color: var(--gold); }
-  .about-text {
-    font-size: 0.95rem; line-height: 1.8; color: rgba(240,235,227,0.65);
-    margin-bottom: 1.5rem;
-  }
-  .about-credentials {
-    display: flex; flex-direction: column; gap: 0.6rem; margin-top: 2.5rem;
-  }
-  .credential {
-    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--muted); display: flex; align-items: center; gap: 0.8rem;
-  }
-  .credential::before {
-    content: ''; display: block; width: 20px; height: 1px; background: var(--gold);
+  .num-label {
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--faint);
   }
 
-  /* TESTIMONIAL */
-  .testimonial-section {
-    padding: 8vw 5vw; text-align: center; position: relative;
+  /* ── LISTINGS ────────────────────────────────────────── */
+  .listings { padding: 8vw 5vw; background: var(--white); }
+  .sec-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 5rem;
   }
-  .quote-mark {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 8rem; line-height: 1; color: var(--gold); opacity: 0.3;
-    position: absolute; top: 4vw; left: 50%; transform: translateX(-50%);
-    font-style: italic;
+  .sec-label {
+    font-size: 0.65rem; letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--stone); margin-bottom: .9rem;
   }
-  .testimonial-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.4rem, 2.5vw, 2.2rem); font-weight: 300; font-style: italic;
-    line-height: 1.5; max-width: 800px; margin: 0 auto 2.5rem;
-    color: var(--cream); position: relative; z-index: 1;
+  .sec-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(1.8rem, 3.5vw, 3rem); line-height: 1.1;
   }
-  .testimonial-author {
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--gold);
+  .sec-link {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mid); text-decoration: none;
+    border-bottom: 1px solid var(--faint); padding-bottom: 2px;
+    transition: color .25s, border-color .25s; white-space: nowrap;
   }
-  .testimonial-divider {
-    width: 40px; height: 1px; background: var(--gold); margin: 0 auto 1.5rem;
+  .sec-link:hover { color: var(--ink); border-color: var(--ink); }
+
+  .listings-stack { display: flex; flex-direction: column; gap: 1px; }
+  .listing-row {
+    display: grid; grid-template-columns: 7fr 3fr;
+    background: var(--bg); transition: background .4s;
+  }
+  .listing-row:hover { background: #EFEBE5; }
+  .listing-img {
+    height: 400px; overflow: clip; position: relative;
+  }
+  .listing-img img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    display: block;
+    transition: transform .9s cubic-bezier(.16,1,.3,1);
+  }
+  .listing-row:hover .listing-img img { transform: scale(1.04); }
+  .listing-tag {
+    position: absolute; top: 1.5rem; left: 1.5rem;
+    font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: .3rem .8rem; background: var(--ink); color: var(--white);
+  }
+  .listing-info {
+    padding: 3rem; display: flex; flex-direction: column; justify-content: center;
+    border-left: 1px solid rgba(12,11,10,.07);
+  }
+  .listing-price {
+    font-family: var(--serif); font-size: 1.9rem; font-weight: 400;
+    color: var(--ink); margin-bottom: .5rem;
+  }
+  .listing-addr {
+    font-size: .82rem; line-height: 1.55; color: var(--mid); margin-bottom: 2rem;
+  }
+  .listing-specs {
+    display: flex; flex-direction: column; gap: .4rem;
+    border-top: 1px solid rgba(12,11,10,.08); padding-top: 1.8rem;
+  }
+  .spec-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.67rem; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .spec-row span:first-child { color: var(--faint); }
+  .spec-row span:last-child  { color: var(--ink); font-weight: 400; }
+
+  /* ── AGENT ───────────────────────────────────────────── */
+  .agent {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 85vh; background: var(--dark);
+  }
+  .agent-photo { position: relative; overflow: clip; }
+  .agent-photo img {
+    width: 100%; height: 100%; object-fit: cover;
+    object-position: center top; display: block;
+    filter: grayscale(10%);
+  }
+  .agent-copy {
+    padding: 7vw 5vw; display: flex; flex-direction: column; justify-content: center;
+  }
+  .agent-label {
+    font-size: 0.65rem; letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--stone); margin-bottom: 3rem;
+  }
+  .agent-h2 {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2rem, 3.5vw, 3.5rem); line-height: 1.1;
+    color: var(--white); margin-bottom: 2.5rem;
+  }
+  .agent-h2 i { font-style: italic; color: var(--stone); }
+  .agent-bio {
+    font-size: .92rem; line-height: 1.85;
+    color: rgba(248,245,241,.45); margin-bottom: 1.2rem; max-width: 480px;
+  }
+  .agent-creds {
+    margin-top: 3rem; padding-top: 2.5rem;
+    border-top: 1px solid rgba(255,255,255,.08);
+    display: flex; flex-direction: column; gap: .7rem;
+  }
+  .cred {
+    font-size: 0.68rem; letter-spacing: .1em; text-transform: uppercase;
+    color: rgba(248,245,241,.35); display: flex; align-items: center; gap: .8rem;
+  }
+  .cred::before { content: ''; }
+
+  /* ── TESTIMONIAL ─────────────────────────────────────── */
+  .testimonial {
+    padding: 10vw 5vw; background: var(--white);
+    display: grid; grid-template-columns: 200px 1fr; gap: 6vw; align-items: start;
+  }
+  .t-meta {
+    padding-top: .4rem;
+  }
+  .t-label {
+    font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--stone); display: block; margin-bottom: 1rem;
+  }
+  .t-year {
+    font-family: var(--serif); font-size: 3rem; font-weight: 300;
+    color: var(--faint); line-height: 1;
+  }
+  .t-quote {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: clamp(1.5rem, 2.2vw, 2.1rem); line-height: 1.5;
+    color: var(--ink); margin-bottom: 2rem;
+  }
+  .t-author {
+    font-size: 0.7rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--faint); border-top: 1px solid rgba(12,11,10,.1);
+    padding-top: 1.5rem;
   }
 
-  /* CONTACT */
-  .contact-section {
-    padding: 7vw 5vw; background: var(--off-black);
-    display: grid; grid-template-columns: 1fr 1fr; gap: 6vw; align-items: start;
+  /* ── CONTACT ─────────────────────────────────────────── */
+  .contact {
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: var(--bg);
   }
-  .contact-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.1;
-    margin-bottom: 1.5rem;
+  .contact-left {
+    padding: 7vw 5vw; border-right: 1px solid rgba(12,11,10,.08);
+    display: flex; flex-direction: column; justify-content: space-between;
   }
-  .contact-title em { font-style: italic; color: var(--gold); }
-  .contact-text {
-    font-size: 0.9rem; line-height: 1.8; color: rgba(240,235,227,0.6);
-    margin-bottom: 2rem;
+  .contact-h2 {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2rem, 3.5vw, 3.2rem); line-height: 1.1; margin-bottom: 2rem;
+  }
+  .contact-h2 i { font-style: italic; color: var(--stone); }
+  .contact-body {
+    font-size: .9rem; line-height: 1.8; color: var(--mid); margin-bottom: 3rem;
   }
   .contact-detail {
-    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 0.6rem;
+    font-size: .78rem; color: var(--mid); margin-bottom: .5rem;
   }
-  .contact-detail a { color: var(--gold); text-decoration: none; }
-  .form-group { margin-bottom: 1.2rem; }
+  .contact-detail a {
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color .25s;
+  }
+  .contact-detail a:hover { border-color: var(--ink); }
+  .contact-right { padding: 7vw 5vw; }
+  .form-group { margin-bottom: 1.8rem; }
   .form-group input, .form-group textarea {
-    width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-    padding: 1rem 1.2rem; color: var(--cream); font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem; font-weight: 300; outline: none;
-    transition: border-color 0.3s;
+    width: 100%; background: transparent; border: none;
+    border-bottom: 1px solid rgba(12,11,10,.18);
+    padding: .75rem 0; color: var(--ink); font-family: var(--sans);
+    font-size: .88rem; font-weight: 300; outline: none;
+    transition: border-color .3s;
   }
-  .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); }
-  .form-group textarea { height: 120px; resize: none; }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--faint); }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--ink); }
+  .form-group textarea { height: 96px; resize: none; }
   .form-submit {
-    width: 100%; padding: 1rem; background: var(--gold); color: var(--black);
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-    font-weight: 500; font-family: 'DM Sans', sans-serif;
-    border: none; cursor: pointer; transition: background 0.3s;
+    width: 100%; padding: 1rem; background: var(--ink); color: var(--white);
+    font-family: var(--sans); font-size: 0.7rem; letter-spacing: .18em;
+    text-transform: uppercase; font-weight: 500; border: none; cursor: pointer;
+    transition: background .3s;
   }
-  .form-submit:hover { background: var(--gold-light); }
+  .form-submit:hover { background: var(--stone); }
 
-  /* FOOTER */
+  /* ── FOOTER ──────────────────────────────────────────── */
   footer {
-    padding: 3rem 5vw; border-top: 1px solid var(--border);
+    padding: 2.5rem 5vw; background: var(--bg);
+    border-top: 1px solid rgba(12,11,10,.08);
     display: flex; justify-content: space-between; align-items: center;
   }
-  .footer-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem; color: var(--cream); letter-spacing: 0.1em;
+  .footer-brand {
+    font-family: var(--serif); font-size: 1rem;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--ink);
   }
-  .footer-logo span { color: var(--gold); }
   .footer-copy {
-    font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted);
+    font-size: 0.62rem; letter-spacing: .1em; color: var(--faint);
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">Chen <span>·</span> Real Estate</a>
+  <a href="#" class="nav-logo">Sarah Chen</a>
   <ul class="nav-links">
     <li><a href="#listings">Listings</a></li>
-    <li><a href="#about">About</a></li>
+    <li><a href="#agent">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Inquire</a>
+  <a href="#contact" class="nav-cta">Inquire ↗</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-eyebrow">Austin Luxury Real Estate · Est. 2013</div>
-  <h1>The art of<br>the <em>perfect</em><br>match.</h1>
-  <p class="hero-sub">Austin's premier luxury specialist. Eleven years of quietly placing exceptional buyers into exceptional homes. No pressure. Just precision.</p>
-  <div class="hero-actions">
-    <a href="#listings" class="btn-primary">View Current Listings</a>
-    <a href="#about" class="btn-ghost">Meet Sarah Chen</a>
+  <div class="hero-left">
+    <div class="hero-kicker">Austin Luxury Real Estate · Est. 2013</div>
+    <h1 class="hero-h1">Eleven years.<br>No wasted<br><i>time.</i></h1>
+    <p class="hero-sub">Austin's most selective luxury specialist handles fewer than twelve transactions per year. Not a limitation. A commitment to precision.</p>
+    <div class="hero-btns">
+      <a href="#listings" class="btn-solid">View Listings</a>
+      <a href="#agent" class="btn-ghost-text">Meet Sarah →</a>
+    </div>
   </div>
-  <div class="hero-scroll-hint">
-    <span class="scroll-line"></span>
-    Scroll
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=85" alt="Austin luxury property">
+    <div class="hero-caption">Westlake Hills · Austin TX</div>
   </div>
 </section>
 
-<div class="stats-bar">
-  <div class="stat-item">
-    <span class="stat-number">142</span>
-    <span class="stat-label">Transactions Closed</span>
+<div class="numbers">
+  <div class="num-item">
+    <span class="num-val">142</span>
+    <span class="num-label">Transactions Closed</span>
   </div>
-  <div class="stat-item">
-    <span class="stat-number">$2.1B</span>
-    <span class="stat-label">Total Sales Volume</span>
+  <div class="num-item">
+    <span class="num-val">$2.1B</span>
+    <span class="num-label">Total Sales Volume</span>
   </div>
-  <div class="stat-item">
-    <span class="stat-number">11</span>
-    <span class="stat-label">Years in Austin Luxury</span>
+  <div class="num-item">
+    <span class="num-val">11</span>
+    <span class="num-label">Years in Austin Luxury</span>
   </div>
-  <div class="stat-item">
-    <span class="stat-number">4.9★</span>
-    <span class="stat-label">Client Satisfaction</span>
+  <div class="num-item">
+    <span class="num-val">4.9</span>
+    <span class="num-label">Client Rating</span>
   </div>
 </div>
 
-<section id="listings" class="section">
-  <div class="section-header">
+<section id="listings" class="listings">
+  <div class="sec-header">
     <div>
-      <div class="section-eyebrow">Currently Available</div>
-      <h2 class="section-title">Featured<br>Properties</h2>
+      <div class="sec-label">Currently Available</div>
+      <h2 class="sec-title">Featured<br>Properties</h2>
     </div>
-    <a href="#" class="section-link">All Listings →</a>
+    <a href="#" class="sec-link">All Listings →</a>
   </div>
-
-  <div class="properties-grid">
-    <div class="property-card">
-      <div class="property-image">
-        <div class="property-image-bg" style="background: linear-gradient(145deg, #1c1612 0%, #2a1f14 40%, #1a140d 100%);"></div>
-        <span class="property-badge">Active</span>
+  <div class="listings-stack">
+    <div class="listing-row">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=85" alt="3812 Westlake Drive">
+        <span class="listing-tag">Active</span>
       </div>
-      <div class="property-body">
-        <div class="property-price">$4,750,000</div>
-        <div class="property-address">3812 Westlake Drive, Austin TX 78746</div>
-        <div class="property-specs">
-          <span>5 Beds</span>
-          <span>6 Baths</span>
-          <span>6,240 Sq Ft</span>
-          <span>Lakefront</span>
+      <div class="listing-info">
+        <div class="listing-price">$4,750,000</div>
+        <div class="listing-addr">3812 Westlake Drive<br>Austin TX 78746</div>
+        <div class="listing-specs">
+          <div class="spec-row"><span>Bedrooms</span><span>5</span></div>
+          <div class="spec-row"><span>Bathrooms</span><span>6</span></div>
+          <div class="spec-row"><span>Square Feet</span><span>6,240</span></div>
+          <div class="spec-row"><span>Setting</span><span>Lakefront</span></div>
         </div>
       </div>
     </div>
-    <div class="property-card">
-      <div class="property-image">
-        <div class="property-image-bg" style="background: linear-gradient(145deg, #141820 0%, #1e2530 40%, #111820 100%);"></div>
-        <span class="property-badge">Coming Soon</span>
+    <div class="listing-row">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85" alt="507 Tarrytown Road">
+        <span class="listing-tag" style="background: var(--stone);">Coming Soon</span>
       </div>
-      <div class="property-body">
-        <div class="property-price">$2,895,000</div>
-        <div class="property-address">507 Tarrytown Road, Austin TX 78703</div>
-        <div class="property-specs">
-          <span>4 Beds</span>
-          <span>4.5 Baths</span>
-          <span>4,100 Sq Ft</span>
-          <span>Tarrytown</span>
+      <div class="listing-info">
+        <div class="listing-price">$2,895,000</div>
+        <div class="listing-addr">507 Tarrytown Road<br>Austin TX 78703</div>
+        <div class="listing-specs">
+          <div class="spec-row"><span>Bedrooms</span><span>4</span></div>
+          <div class="spec-row"><span>Bathrooms</span><span>4.5</span></div>
+          <div class="spec-row"><span>Square Feet</span><span>4,100</span></div>
+          <div class="spec-row"><span>Setting</span><span>Tarrytown</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="about" class="about-section">
-  <div class="about-image-frame">
-    <div class="about-image"></div>
-    <div class="about-image-accent"></div>
+<section id="agent" class="agent">
+  <div class="agent-photo">
+    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=900&q=85" alt="Sarah Chen">
   </div>
-  <div>
-    <div class="about-eyebrow">The Agent</div>
-    <h2 class="about-title">Quietly relentless.<br><em>Exceptionally precise.</em></h2>
-    <p class="about-text">Sarah Chen entered Austin real estate in 2013 with a background in architecture and a conviction that most agents were solving the wrong problem. Her clients don't need someone to open doors. They need someone who has already read every disclosure, walked every comparable, and knows which three streets in Tarrytown will appreciate fastest over the next decade.</p>
-    <p class="about-text">She handles a maximum of twelve transactions per year. By choice.</p>
-    <div class="about-credentials">
-      <span class="credential">Top 1% Austin Board of Realtors, 2019–2024</span>
-      <span class="credential">Certified Luxury Home Marketing Specialist</span>
-      <span class="credential">Architecture, UT Austin B.Arch 2008</span>
-      <span class="credential">Fluent in Mandarin, Spanish</span>
+  <div class="agent-copy">
+    <div class="agent-label">The Agent</div>
+    <h2 class="agent-h2">Quietly relentless.<br><i>Exceptionally precise.</i></h2>
+    <p class="agent-bio">Sarah Chen entered Austin real estate in 2013 with a background in architecture and a conviction that most agents were solving the wrong problem. Her clients don't need someone to open doors. They need someone who has already read every disclosure, walked every comparable, and knows which three streets in Tarrytown will appreciate fastest over the next decade.</p>
+    <p class="agent-bio">She handles a maximum of twelve transactions per year. By choice.</p>
+    <div class="agent-creds">
+      <span class="cred">Top 1% Austin Board of Realtors, 2019–2024</span>
+      <span class="cred">Certified Luxury Home Marketing Specialist</span>
+      <span class="cred">Architecture, UT Austin B.Arch 2008</span>
+      <span class="cred">Fluent in Mandarin and Spanish</span>
     </div>
   </div>
 </section>
 
-<section class="testimonial-section">
-  <div class="quote-mark">"</div>
-  <p class="testimonial-text">"Sarah found us a home we didn't know existed. Three weeks after our first call, we were under contract on a property that had never officially hit the market. That's not luck. That's access."</p>
-  <div class="testimonial-divider"></div>
-  <div class="testimonial-author">Marcus & Elena Whitfield · Westlake Hills, 2023</div>
-</section>
-
-<section id="contact" class="contact-section">
-  <div>
-    <h2 class="contact-title">Begin your<br><em>search.</em></h2>
-    <p class="contact-text">Introductions are by appointment. Share a little about what you're looking for and Sarah will reach out within one business day.</p>
-    <div class="contact-detail">Direct: <a href="tel:+15124080291">(512) 408-0291</a></div>
-    <div class="contact-detail">Email: <a href="mailto:sarah@chenrealestate.com">sarah@chenrealestate.com</a></div>
-    <div class="contact-detail" style="margin-top:1.5rem;">Available Mon – Fri, 9am – 6pm CT</div>
+<section class="testimonial">
+  <div class="t-meta">
+    <span class="t-label">Client Review</span>
+    <div class="t-year">2023</div>
   </div>
   <div>
+    <p class="t-quote">"Sarah found us a home we didn't know existed. Three weeks after our first call, we were under contract on a property that had never officially hit the market. That's not luck. That's access."</p>
+    <div class="t-author">Marcus & Elena Whitfield · Westlake Hills</div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="contact-left">
+    <div>
+      <h2 class="contact-h2">Begin your<br><i>search.</i></h2>
+      <p class="contact-body">Introductions are by appointment. Share a little about what you're looking for and Sarah will reach out within one business day.</p>
+    </div>
+    <div>
+      <div class="contact-detail">Direct: <a href="tel:+15124080291">(512) 408-0291</a></div>
+      <div class="contact-detail">Email: <a href="mailto:sarah@chenrealestate.com">sarah@chenrealestate.com</a></div>
+      <div class="contact-detail" style="margin-top:1rem; font-size:.75rem; color:var(--faint);">Mon – Fri · 9am – 6pm CT</div>
+    </div>
+  </div>
+  <div class="contact-right">
     <div class="form-group"><input type="text" placeholder="Full Name"></div>
     <div class="form-group"><input type="email" placeholder="Email Address"></div>
     <div class="form-group"><input type="text" placeholder="Budget Range"></div>
     <div class="form-group"><textarea placeholder="Tell Sarah what you're looking for…"></textarea></div>
-    <button class="form-submit">Send Inquiry →</button>
+    <button class="form-submit">Send Inquiry</button>
   </div>
 </section>
 
 <footer>
-  <div class="footer-logo">Chen <span>·</span> Real Estate</div>
-  <div class="footer-copy">© 2024 Chen Real Estate. Austin, Texas. All rights reserved.</div>
+  <div class="footer-brand">Sarah Chen · Real Estate</div>
+  <div class="footer-copy">© 2024 Sarah Chen Real Estate. Austin, Texas. Equal Housing Opportunity.</div>
 </footer>
 
 </body>

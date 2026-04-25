@@ -68,7 +68,7 @@
     main { position: relative; z-index: 10; }
 
     section {
-        min-height: 100vh; width: 100vw;
+        min-height: 100vh; width: 100%;
         padding: calc(var(--nav-height) + 4vw) 5vw 8vw 5vw;
         position: relative;
     }
@@ -178,10 +178,64 @@
 
     @media (max-width: 768px) {
         * { cursor: auto !important; }
-        .split-grid { grid-template-columns: 1fr; gap: 3rem; }
+        :root { --nav-height: 64px; }
+        nav { padding: 0 5vw; }
+        .brand { font-size: 1rem; letter-spacing: 2px; }
         .nav-links { display: none; }
+        section { padding: calc(var(--nav-height) + 6vw) 6vw 10vw 6vw; min-height: auto; }
+        #s1 .split-grid { height: auto !important; min-height: 80svh; }
+        .split-grid { grid-template-columns: 1fr; gap: 2rem; height: auto !important; }
+        h1 { font-size: clamp(3rem, 13vw, 5rem); }
+        h2 { font-size: clamp(2rem, 9vw, 3.5rem); }
+        h3 { font-size: clamp(1.2rem, 5vw, 1.8rem); }
+        p { font-size: 1rem; max-width: 100%; }
         .lh-scores { grid-template-columns: repeat(2, 1fr); }
         .spec-list { grid-template-columns: 1fr; }
+        .spec-card { padding: 1.5rem !important; }
+        .serp-title { font-size: 1.1rem !important; }
+        .exclusions-list li { font-size: 1.1rem !important; margin-bottom: 1rem !important; }
+        .lh-score svg { width: 56px; height: 56px; }
+        .serp-container { margin-top: 2.5rem; }
+    }
+
+    .nav-hamburger { /* base — must come before the show rule below */
+        display: none; flex-direction: column; gap: 5px;
+        width: 36px; height: 36px; align-items: center; justify-content: center;
+        background: none; border: none; cursor: pointer; color: inherit; padding: 0;
+    }
+    .nav-hamburger span {
+        width: 20px; height: 1.5px; background: currentColor; display: block;
+        transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(3.25px) rotate(45deg); }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(2) { transform: translateY(-3.25px) rotate(-45deg); }
+
+    .mobile-nav {
+        position: fixed; inset: 0; background: var(--c-navy); z-index: 49;
+        transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        display: flex; flex-direction: column;
+        padding: calc(var(--nav-height) + 2rem) 6vw 5rem; overflow-y: auto;
+    }
+    .mobile-nav[data-open="true"] { transform: translateX(0); }
+    .mobile-nav__list { list-style: none; flex: 1; margin: 0; padding: 0; }
+    .mobile-nav__link {
+        display: flex; align-items: center; justify-content: space-between;
+        font-family: var(--font-mono); font-size: 0.85rem;
+        letter-spacing: 0.2em; text-transform: uppercase;
+        color: rgba(248,250,252,0.75); text-decoration: none;
+        padding: 1.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: color 0.2s;
+    }
+    .mobile-nav__link::after { content: '→'; font-size: 0.8rem; opacity: 0.3; transition: opacity 0.2s; }
+    .mobile-nav__link:hover { color: var(--c-cyan); }
+    .mobile-nav__link:hover::after { opacity: 1; }
+    .mobile-nav__cta {
+        display: block; text-align: center; padding: 1.1rem;
+        background: var(--c-cyan); color: var(--c-navy); font-family: var(--font-mono);
+        font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+        text-decoration: none; border-radius: 40px; font-weight: 500; margin-top: 2rem;
+    }
+    @media (max-width: 768px) {
+        .nav-hamburger { display: flex; }
     }
 </style>
 </head>
@@ -197,7 +251,20 @@
         <span class="nav-active">Services</span>
         <a href="/about">About</a>
     </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+    </button>
 </nav>
+
+<div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <ul class="mobile-nav__list">
+        <li><a href="/" class="mobile-nav__link">Home</a></li>
+        <li><a href="/process" class="mobile-nav__link">Process</a></li>
+        <li><a href="/services" class="mobile-nav__link">Services</a></li>
+        <li><a href="/about" class="mobile-nav__link">About</a></li>
+    </ul>
+    <a href="mailto:solvus@aisolvus.com" class="mobile-nav__cta">Book a call ↗</a>
+</div>
 
 <canvas id="webgl-canvas"></canvas>
 
@@ -206,7 +273,7 @@
     <section id="s1" class="dark-sec">
         <div class="split-grid" style="height: 80vh;">
             <div>
-                <div class="mono-label fade-up" style="color: var(--c-cyan); border-color: var(--c-cyan);">SHEET 02 / SERVICES</div>
+                <div class="mono-label fade-up" style="color: var(--c-cyan); border-color: var(--c-cyan);">SHEET 03 / SERVICES</div>
                 <h1 class="stagger-wrap">
                     <span class="stagger-text"><span>One package.</span></span>
                     <span class="stagger-text"><span class="outline-text">Everything</span></span>
@@ -416,7 +483,7 @@
     <!-- S5: CTA -->
     <section id="s5" class="dark-sec" style="background-color: var(--c-navy); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh;">
         <div style="max-width: 900px; z-index: 2;">
-            <div class="mono-label" style="color: var(--c-cyan); border-color: var(--c-cyan);">END SHEET 02 / BOOK CALL</div>
+            <div class="mono-label" style="color: var(--c-cyan); border-color: var(--c-cyan);">END SHEET 03 / BOOK CALL</div>
             <h2 class="stagger-wrap" style="font-size: clamp(3rem, 7vw, 8rem); margin-bottom: 2rem;">
                 <span class="stagger-text"><span>Twenty minutes.</span></span>
                 <span class="stagger-text"><span class="outline-text">No pitch. We tell</span></span>
@@ -441,7 +508,10 @@
     if (window.matchMedia('(hover: hover)').matches) {
         const dot = document.getElementById('solvusCursor');
         if (dot) {
+            let usingTouch = false;
+            window.addEventListener('touchstart', () => { usingTouch = true; dot.style.opacity = '0'; }, { passive: true });
             window.addEventListener('mousemove', (e) => {
+                if (usingTouch) { usingTouch = false; return; }
                 dot.style.left    = e.clientX + 'px';
                 dot.style.top     = e.clientY + 'px';
                 dot.style.opacity = '1';
@@ -500,10 +570,12 @@
     document.querySelectorAll('.para-text').forEach(text => {
         gsap.to(text, { xPercent: -20, ease: "none", scrollTrigger: { trigger: text.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
     });
-    document.querySelectorAll('.float-y').forEach(elem => {
-        const speed = elem.getAttribute('data-speed') || 1;
-        gsap.to(elem, { y: -100 * speed, ease: "none", scrollTrigger: { trigger: elem.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
-    });
+    if (window.innerWidth > 768) {
+        document.querySelectorAll('.float-y').forEach(elem => {
+            const speed = elem.getAttribute('data-speed') || 1;
+            gsap.to(elem, { y: -100 * speed, ease: "none", scrollTrigger: { trigger: elem.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
+        });
+    }
 
     // Three.js background
     const canvas = document.getElementById('webgl-canvas');
@@ -583,6 +655,27 @@
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
+
+    // Hamburger menu
+    const hamburger = document.getElementById('navHamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    if (hamburger && mobileNav) {
+        hamburger.addEventListener('click', () => {
+            const next = hamburger.getAttribute('aria-expanded') !== 'true';
+            hamburger.setAttribute('aria-expanded', String(next));
+            mobileNav.setAttribute('data-open', String(next));
+            mobileNav.setAttribute('aria-hidden', String(!next));
+            document.body.style.overflow = next ? 'hidden' : '';
+        });
+        mobileNav.querySelectorAll('.mobile-nav__link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.setAttribute('aria-expanded', 'false');
+                mobileNav.setAttribute('data-open', 'false');
+                mobileNav.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            });
+        });
+    }
 </script>
 </body>
 </html>

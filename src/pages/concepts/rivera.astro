@@ -23,7 +23,7 @@
     --white: #FDFAF6;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; overflow-y: auto; }
 
   body {
     background: var(--cream);
@@ -123,6 +123,8 @@
   }
   .hero-img-top {
     background: linear-gradient(135deg, #c4a07a 0%, #a07850 50%, #7a5830 100%);
+    background-image: url('https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=900&q=80');
+    background-size: cover; background-position: center;
     position: relative; overflow: hidden;
   }
   .hero-img-top::after {
@@ -130,16 +132,21 @@
     position: absolute; bottom: 1.5rem; left: 1.5rem;
     font-family: 'Playfair Display', serif; font-style: italic;
     font-size: 1.1rem; color: rgba(247,240,230,0.7);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
   }
   .hero-img-bottom {
     display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
   }
   .hero-img-sm {
     background: linear-gradient(135deg, #b89070 0%, #8a6040 100%);
+    background-image: url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=600&q=80');
+    background-size: cover; background-position: center;
     position: relative;
   }
   .hero-img-sm:nth-child(2) {
     background: linear-gradient(135deg, #d4b080 0%, #b08050 100%);
+    background-image: url('https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=600&q=80');
+    background-size: cover; background-position: center;
   }
   .hero-stat-overlay {
     position: absolute; bottom: 1rem; left: 1rem; right: 1rem;
@@ -197,12 +204,18 @@
   .neighborhood-img {
     height: 220px; position: relative;
     background: linear-gradient(145deg, #c4a07a, #8a5030);
+    background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=700&q=80');
+    background-size: cover; background-position: center;
   }
   .neighborhood-card:nth-child(2) .neighborhood-img {
     background: linear-gradient(145deg, #b8905a, #7a4830);
+    background-image: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=700&q=80');
+    background-size: cover; background-position: center;
   }
   .neighborhood-card:nth-child(3) .neighborhood-img {
     background: linear-gradient(145deg, #d4b888, #9a7040);
+    background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=80');
+    background-size: cover; background-position: center;
   }
   .neighborhood-overlay {
     position: absolute; inset: 0;
@@ -367,7 +380,7 @@
 <section id="neighborhoods" class="neighborhoods">
   <div class="sec-label">Where We Work</div>
   <h2 class="sec-title">Every neighborhood<br>has its <em>own story.</em></h2>
-  <p class="sec-sub">From South Tampa's walkable streets to the waterfront calm of Carrollwood — we know every pocket of this market the way a neighbor does.</p>
+  <p class="sec-sub">From South Tampa's walkable streets to the waterfront calm of Carrollwood. We know every pocket of this market the way a neighbor does.</p>
 
   <div class="neighborhoods-grid">
     <div class="neighborhood-card">
@@ -455,7 +468,7 @@
 
 <section id="contact" class="cta-section">
   <h2>Ready to find<br>your <em>next home?</em></h2>
-  <p>A 20-minute call is all it takes to get started. No commitment, no pressure — just a conversation about what you're looking for.</p>
+  <p>A 20-minute call is all it takes to get started. No commitment, no pressure. Just a conversation about what you're looking for.</p>
   <a href="tel:+18138240012" class="btn-white">Call (813) 824-0012</a>
 </section>
 
